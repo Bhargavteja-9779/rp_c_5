@@ -271,7 +271,7 @@ def fig_compute(scen: pd.DataFrame, out: Path):
 def make_figures(results: Path, figures: Path, cfg: dict, raw_dir: Path, log) -> None:
     _style()
     scen = pd.read_csv(results / "scenario_results.csv")
-    raw = pd.concat([pd.read_csv(f) for f in sorted(results.glob("raw_main.csv"))], ignore_index=True)
+    raw = pd.concat([pd.read_csv(f) for f in sorted(results.glob("raw_main.csv*"))], ignore_index=True)
     fig_workflow(figures)
     fig_spectra(raw_dir, figures)
     fig_main(scen, figures)

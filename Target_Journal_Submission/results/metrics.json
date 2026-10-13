@@ -1,0 +1,97 @@
+{
+  "n_raw_rows": 684900,
+  "n_scenarios_main_alpha0.1": 60,
+  "main_alpha0.1": {
+    "gauss_td": {
+      "mean_coverage": 0.8904833333333333,
+      "frac_scenarios_valid": 0.7333333333333333,
+      "median_is_norm": 4.772601125586355,
+      "median_width_norm": 3.356688148024718,
+      "mean_frac_infinite": 0.0
+    },
+    "leverage": {
+      "mean_coverage": 0.6147174999999999,
+      "frac_scenarios_valid": 0.03333333333333333,
+      "median_is_norm": 5.586034291570215,
+      "median_width_norm": 1.8536624314438508,
+      "mean_frac_infinite": 0.0
+    },
+    "naive_cp": {
+      "mean_coverage": 0.534865,
+      "frac_scenarios_valid": 0.03333333333333333,
+      "median_is_norm": 6.613749945895624,
+      "median_width_norm": 1.3625465120315081,
+      "mean_frac_infinite": 0.0
+    },
+    "naive_cp_primary_test": {
+      "mean_coverage": 0.9003066666666667,
+      "frac_scenarios_valid": 0.9333333333333333,
+      "median_is_norm": 1.6978410799802146,
+      "median_width_norm": 1.3625465120315081,
+      "mean_frac_infinite": 0.0
+    },
+    "pooled_cp": {
+      "mean_coverage": 0.6798608333333334,
+      "frac_scenarios_valid": 0.016666666666666666,
+      "median_is_norm": 5.4125763005996586,
+      "median_width_norm": 2.1002952177223873,
+      "mean_frac_infinite": 0.0
+    },
+    "target_cp": {
+      "mean_coverage": 0.9079016666666665,
+      "frac_scenarios_valid": 0.9,
+      "median_is_norm": 5.301601944730405,
+      "median_width_norm": 3.864322140504803,
+      "mean_frac_infinite": 0.0
+    },
+    "target_cp_plus": {
+      "mean_coverage": 0.9339774999999999,
+      "frac_scenarios_valid": 1.0,
+      "median_is_norm": 5.069492806527791,
+      "median_width_norm": 4.381526960998819,
+      "mean_frac_infinite": 0.0
+    },
+    "td_cp": {
+      "mean_coverage": 0.8887675000000002,
+      "frac_scenarios_valid": 0.6833333333333333,
+      "median_is_norm": 4.964932011257591,
+      "median_width_norm": 3.5508854671940933,
+      "mean_frac_infinite": 0.0
+    },
+    "td_cp_abs": {
+      "mean_coverage": 0.9041124999999999,
+      "frac_scenarios_valid": 0.8333333333333334,
+      "median_is_norm": 5.026796895363262,
+      "median_width_norm": 3.6590375089302896,
+      "mean_frac_infinite": 0.0
+    },
+    "td_cp_insample": {
+      "mean_coverage": 0.6927199999999999,
+      "frac_scenarios_valid": 0.03333333333333333,
+      "median_is_norm": 6.515851963583847,
+      "median_width_norm": 2.144240554663659,
+      "mean_frac_infinite": 0.0
+    },
+    "td_cp_plus": {
+      "mean_coverage": 0.9329466666666667,
+      "frac_scenarios_valid": 1.0,
+      "median_is_norm": 4.8637232676786475,
+      "median_width_norm": 4.116693893973155,
+      "mean_frac_infinite": 0.0
+    },
+    "td_sum": {
+      "mean_coverage": 0.9634833333333332,
+      "frac_scenarios_valid": 0.9666666666666667,
+      "median_is_norm": 5.911463093302297,
+      "median_width_norm": 5.48641288755017,
+      "mean_frac_infinite": 0.0
+    },
+    "weighted_cp": {
+      "mean_coverage": 0.7262783333333334,
+      "frac_scenarios_valid": 0.016666666666666666,
+      "median_is_norm": Infinity,
+      "median_width_norm": Infinity,
+      "mean_frac_infinite": 0.2773591666666666
+    }
+  }
+}

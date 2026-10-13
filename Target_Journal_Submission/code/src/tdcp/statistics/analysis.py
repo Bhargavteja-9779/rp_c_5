@@ -19,7 +19,8 @@ BIG = 1e6  # finite stand-in for +inf in rank-based tests (only ranks are used)
 
 
 def load_raw(results: Path) -> pd.DataFrame:
-    frames = [pd.read_csv(f) for f in sorted(results.glob("raw_*.csv"))]
+    files = sorted(set(results.glob("raw_*.csv")) | set(results.glob("raw_*.csv.gz")))
+    frames = [pd.read_csv(f) for f in files if f.name != "raw_results.csv.gz"]
     df = pd.concat(frames, ignore_index=True)
     df["is_norm"] = df["interval_score"] / df["sd_y"]
     df["width_norm"] = df["width"] / df["sd_y"]
@@ -148,6 +149,4 @@ def analyse(results: Path, cfg: dict, log) -> None:
                   "effect_size": "matched-pairs rank-biserial correlation (negative => reference smaller)",
                   "ci": f"percentile bootstrap of the median paired difference, B={st['bootstrap_resamples']}"}
     (results / "statistics.json").write_text(json.dumps(statistics, indent=2))
-    # compact raw file required by the submission manifest
-    df.to_csv(results / "raw_results.csv.gz", index=False, compression="gzip")
     log.info("analysis: %d scenario rows, %d tests", len(scen), len(tdf))

@@ -56,12 +56,12 @@ def run_experiments(cfg: dict, mode: str, results_dir: Path, only: list[str] | N
     for exp, jobs in plan.items():
         if only and exp not in only:
             continue
-        out = results_dir / f"raw_{exp}.csv"
+        out = results_dir / f"raw_{exp}.csv.gz"
         t0 = time.time()
         chunks = [jobs[i : i + 20] for i in range(0, len(jobs), 20)]
         res = Parallel(n_jobs=n_jobs, verbose=0)(delayed(_run_chunk)(c, datasets, cfg) for c in chunks)
         df = pd.DataFrame([r for chunk in res for r in chunk])
-        df.to_csv(out, index=False)
+        df.to_csv(out, index=False, compression="gzip")
         log.info("experiment %-20s jobs=%5d rows=%6d time=%.1fs -> %s", exp, len(jobs), len(df), time.time() - t0, out.name)
 
 

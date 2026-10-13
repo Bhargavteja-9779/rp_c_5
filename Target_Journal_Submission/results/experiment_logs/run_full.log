@@ -1,3 +1,21 @@
 2026-10-13 08:45:03,148 mode=full hardware={"cpu_count": 4, "platform": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39", "python": "3.13.16", "numpy": "2.5.3", "cuda": false, "mps": false}
 2026-10-13 08:49:50,185 experiment main                 jobs= 6000 rows=198000 time=286.8s -> raw_main.csv
 2026-10-13 08:55:39,801 mode=full hardware={"cpu_count": 4, "platform": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39", "python": "3.13.16", "numpy": "2.5.3", "cuda": false, "mps": false}
+2026-10-13 09:01:05,690 experiment main                 jobs= 6000 rows=234000 time=325.7s -> raw_main.csv
+2026-10-13 09:14:25,198 experiment k_sensitivity        jobs=15000 rows=195000 time=799.5s -> raw_k_sensitivity.csv
+2026-10-13 09:19:26,015 experiment kennard_stone        jobs= 6000 rows= 78000 time=300.8s -> raw_kennard_stone.csv
+2026-10-13 09:21:53,203 experiment preprocessing        jobs= 3000 rows= 39000 time=147.2s -> raw_preprocessing.csv
+2026-10-13 09:26:56,284 experiment ridge_model          jobs= 1500 rows= 18000 time=303.1s -> raw_ridge_model.csv
+2026-10-13 09:30:11,836 experiment noise                jobs= 4500 rows= 58500 time=195.6s -> raw_noise.csv
+2026-10-13 09:31:05,654 experiment no_standardisation   jobs= 1500 rows= 19500 time=53.8s -> raw_no_standardisation.csv
+2026-10-13 09:32:48,658 experiment official_split       jobs= 1200 rows= 15600 time=103.0s -> raw_official_split.csv
+2026-10-13 09:35:19,871 experiment simulated            jobs= 2100 rows= 27300 time=151.2s -> raw_simulated.csv
+2026-10-13 09:35:33,453 analysis: 10422 scenario rows, 42 tests
+2026-10-13 09:35:34,049 tables written to /home/user/rp_c_5/Target_Journal_Submission/tables
+2026-10-13 09:35:53,962 figures written to /home/user/rp_c_5/Target_Journal_Submission/figures
+2026-10-13 09:35:53,962 done
+2026-10-13 13:00:40,932 mode=full hardware={"cpu_count": 4, "platform": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39", "python": "3.13.16", "numpy": "2.5.3", "cuda": false, "mps": false}
+2026-10-13 13:00:59,485 analysis: 10422 scenario rows, 42 tests
+2026-10-13 13:01:00,417 tables written to /home/user/rp_c_5/Target_Journal_Submission/tables
+2026-10-13 13:01:23,398 figures written to /home/user/rp_c_5/Target_Journal_Submission/figures
+2026-10-13 13:01:23,399 done

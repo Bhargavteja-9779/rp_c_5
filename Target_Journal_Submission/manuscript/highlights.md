@@ -1,0 +1,5 @@
+- Intervals calibrated on the primary NIR instrument under-cover after transfer
+- Cross-fitted discrepancies on transfer standards need no reference values
+- TD-CP+ restores near-nominal coverage across 30 instrument-pair scenarios
+- Benchmark: 2 public datasets, PDS and DS, 100 splits per scenario
+- Open code regenerates every number, table and figure

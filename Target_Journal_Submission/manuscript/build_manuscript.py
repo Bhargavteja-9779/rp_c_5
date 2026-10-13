@@ -62,7 +62,25 @@ def number_citations(blocks):
     return new, order
 
 
+PH = re.compile(r"(?<![\^_])\{([A-Za-z][A-Za-z0-9_]*)\}")
+
+
+def _sub(text: str, V: dict) -> str:
+    def rep(m):
+        k = m.group(1)
+        if k not in V:
+            raise KeyError(f"placeholder {k!r} not found in results")
+        return str(V[k])
+    return PH.sub(rep, text)
+
+
+class _Fmt(str):
+    def format(self, **V):  # noqa: A003 - placeholder substitution that leaves ^{...}/_{...} markup alone
+        return _sub(str(self), V)
+
+
 def fill(blocks, V):
+    blocks = [tuple(_Fmt(x) if isinstance(x, str) else ([_Fmt(y) for y in x] if isinstance(x, list) else x) for x in b) for b in blocks]
     out = []
     for b in blocks:
         if b[0] in ("p", "h1", "h2", "h3", "center", "title"):
@@ -152,7 +170,7 @@ def main():
     build_docx(body, HERE / "Final_Manuscript.docx", tmp)
     (HERE / "highlights.md").write_text("\n".join("- " + h for h in F.HIGHLIGHTS) + "\n")
     assert all(len(h) <= 85 for h in F.HIGHLIGHTS), [len(h) for h in F.HIGHLIGHTS]
-    n_words = len(" ".join(F.ABSTRACT.values()).format(**V).split())
+    n_words = len(_sub(" ".join(F.ABSTRACT.values()), V).split())
     print(f"abstract words: {n_words}; references: {len(refs)}; verified but uncited: {unused}")
     assert n_words <= 250, n_words
     try:

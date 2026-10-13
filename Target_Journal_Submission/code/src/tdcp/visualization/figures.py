@@ -52,20 +52,20 @@ def fig_workflow(out: Path):
     fig, ax = plt.subplots(figsize=(7.2, 2.9))
     ax.set_axis_off(); ax.set_xlim(0, 10); ax.set_ylim(0, 4)
     boxes = [
-        (0.1, 2.5, 2.3, 1.2, "Primary instrument P\nlabelled master set\n{(x_i^P, y_i)}", "#dbe8f8"),
-        (0.1, 0.4, 2.3, 1.2, "Transfer standards\nmeasured on P and S\n{(x_j^P, x_j^S)}  (no y needed)", "#fde3d6"),
-        (3.0, 2.5, 2.4, 1.2, "Calibration f (PLS)\nout-of-fold residuals\nr_i = y_i − f₋ᵢ(x_i^P)", "#dbe8f8"),
-        (3.0, 0.4, 2.4, 1.2, "Cross-fitted transfer T₋ⱼ (PDS/DS)\ndiscrepancies\nδ_j = f(x_j^P) − f(T₋ⱼ(x_j^S))", "#fde3d6"),
-        (6.0, 1.45, 1.9, 1.2, "Signed convolution\n{r_i + δ_j}\n(n+1)-corrected\nquantiles L, U", "#e9e6f8"),
-        (8.3, 1.45, 1.6, 1.2, "New secondary\nspectrum x^S:\n[f(T(x^S)) + L,\n f(T(x^S)) + U]", "#e1f2ea"),
+        (0.1, 2.5, 2.3, 1.2, "Primary instrument P\nlabelled master set\n$\\{(x_i^P,\\, y_i)\\}_{i=1}^{n}$", "#dbe8f8"),
+        (0.1, 0.4, 2.3, 1.2, "Transfer standards\nmeasured on P and S\n$\\{(x_j^P,\\, x_j^S)\\}_{j=1}^{k}$  (no y)", "#fde3d6"),
+        (3.0, 2.5, 2.4, 1.2, "PLS calibration $f$\nout-of-fold residuals\n$r_i = y_i - f_{-\\kappa(i)}(x_i^P)$", "#dbe8f8"),
+        (3.0, 0.4, 2.4, 1.2, "Cross-fitted maps $T_{-j}$\nreference-free discrepancies\n$\\delta_j = f(x_j^P) - f(T_{-j}(x_j^S))$", "#fde3d6"),
+        (6.0, 1.45, 1.9, 1.2, "Combine radii\n$|r_i + \\delta_j|$\n(n+1)-corrected\norder statistics", "#e9e6f8"),
+        (8.3, 1.45, 1.6, 1.2, "New spectrum $x^S$:\nTD-CP+ interval\naround $f(T_{-j}(x^S))$", "#e1f2ea"),
     ]
     for x, y, w, h, txt, c in boxes:
         ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.03,rounding_size=0.08", fc=c, ec=MUTED, lw=0.6))
-        ax.text(x + w / 2, y + h / 2, txt, ha="center", va="center", fontsize=7, color=INK)
+        ax.text(x + w / 2, y + h / 2, txt, ha="center", va="center", fontsize=6.6, color=INK)
     arrows = [((2.4, 3.1), (3.0, 3.1)), ((2.4, 1.0), (3.0, 1.0)), ((5.4, 3.1), (6.0, 2.3)), ((5.4, 1.0), (6.0, 1.8)), ((7.9, 2.05), (8.3, 2.05))]
     for a, b in arrows:
         ax.annotate("", xy=b, xytext=a, arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=0.8))
-    ax.text(5.0, 3.85, "y − f(T(x^S)) = [y − f(x^P)] + [f(x^P) − f(T(x^S))] = r + δ", ha="center", fontsize=8, color=INK)
+    ax.text(5.0, 3.85, "$y - f(T(x^S)) = [y - f(x^P)] + [f(x^P) - f(T(x^S))] = r + \\delta$", ha="center", fontsize=8.5, color=INK)
     _save(fig, out, "fig1_workflow")
 
 

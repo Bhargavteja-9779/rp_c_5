@@ -36,13 +36,12 @@ ABSTRACT = {
         "standards), intervals calibrated on the primary instrument covered only {naive_cov_pds} (PDS) and "
         "{naive_cov_ds} (DS) of secondary-instrument samples at a nominal 0.90. TD-CP+ reached {plus_cov_pds} "
         "and {plus_cov_ds}, was within 0.02 of nominal or above in {plus_valid_pds} and {plus_valid_ds} of "
-        "scenarios, and matched an oracle-like method that requires reference values for all standards. "
+        "scenarios, and had a lower interval score than a comparator requiring reference values for all ten standards. "
         "The pre-registered signed TD-CP fell short of its validity criterion with DS."),
     "Significance": (
         "Transferred calibrations can be accompanied by sample-wise intervals with near-nominal coverage at "
         "no extra reference-analysis cost, whereas the common practice of reusing primary-instrument intervals "
-        "is markedly over-confident. The method is model-agnostic, adds milliseconds per prediction and is "
-        "released as open code."),
+        "is markedly over-confident. The method is model-agnostic, computationally negligible and openly released."),
 }
 
 INTRO = [
@@ -93,8 +92,8 @@ THEORY = [
           "without reference values for the transfer standards."),
     ("h2", "2.2. Error decomposition"),
     ("p", "For any sample the prediction error decomposes exactly as"),
-    ("eq", r"y-f(T(x^{S}))=\underbrace{[\,y-f(x^{P})\,]}_{r\ \mathrm{(calibration\ residual)}}+\underbrace{[\,f(x^{P})-f(T(x^{S}))\,]}_{\delta\ \mathrm{(transfer\ discrepancy)}}", 1),
-    ("p", "The residual *r* is observable on the labelled master set. We use out-of-fold residuals from *K*-fold "
+    ("eq", r"y-f(T(x^{S}))=[\,y-f(x^{P})\,]+[\,f(x^{P})-f(T(x^{S}))\,]=r+\delta", 1),
+    ("p", "where *r* is the calibration residual and δ the transfer discrepancy. The residual *r* is observable on the labelled master set. We use out-of-fold residuals from *K*-fold "
           "cross-validation so that no master sample is sacrificed,"),
     ("eq", r"r_{i}=y_{i}-f^{(-\kappa(i))}(x_{i}^{P}),\quad i=1,\ldots,n", 2),
     ("p", "where *f*^{(−κ(i))} is fitted without the fold containing sample *i*. The discrepancy δ requires no reference "
@@ -106,8 +105,8 @@ THEORY = [
     ("h2", "2.3. Transfer-discrepancy conformal prediction (TD-CP)"),
     ("p", "TD-CP combines the two empirical distributions through the *nk* sums *r*_{i} + δ_{j}. The pre-registered "
           "signed version sets *U* to the ⌈(1 − α/2)(*n* + 1)*k*⌉-th smallest sum and *L* to the mirrored order statistic, "
-          "so that systematic transfer bias shifts the interval. The absolute-score version uses"),
-    ("eq", r"\hat{q}=\mathrm{the}\ \lceil(1-\alpha)(n+1)k\rceil\mathrm{\!-th\ smallest\ of}\ \{|r_{i}+\delta_{j}|\},\qquad C(x^{S})=[\hat{y}-\hat{q},\ \hat{y}+\hat{q}]", 4),
+          "so that systematic transfer bias shifts the interval. The absolute-score version uses the *m*-th smallest of the *nk* values |*r*_{i} + δ_{j}|, denoted |*r* + δ|_{(m)}:"),
+    ("eq", r"\hat{q}=|r+\delta|_{(m)},\ \ m=\lceil(1-\alpha)(n+1)k\rceil,\qquad C(x^{S})=[\hat{y}-\hat{q},\ \hat{y}+\hat{q}]", 4),
     ("p", "The (*n* + 1) factor is the usual finite-sample correction of split CP; if the index exceeds *nk* the interval is "
           "unbounded. Under exchangeable residuals (A1), independence between residuals and discrepancies (A2) and "
           "i.i.d. discrepancies with cdf *F*_{δ} (A3), the coverage conditional on the standards satisfies"),
@@ -166,7 +165,7 @@ EXPERIMENTAL = [
     ("h2", "3.4. Performance measures and statistical analysis"),
     ("p", "For every split we computed empirical coverage, mean interval width and the interval (Winkler) score "
           "[@gneiting2007]"),
-    ("eq", r"\mathrm{IS}_{\alpha}=(u-l)+\frac{2}{\alpha}(l-y)\,\mathbb{1}\{y<l\}+\frac{2}{\alpha}(y-u)\,\mathbb{1}\{y>u\}", 7),
+    ("eq", r"\mathrm{IS}_{\alpha}=(u-l)+\frac{2}{\alpha}(l-y)\,\mathbf{1}\{y<l\}+\frac{2}{\alpha}(y-u)\,\mathbf{1}\{y>u\}", 7),
     ("p", "which rewards narrow intervals and penalises misses (lower is better). Width and IS were divided by the standard "
           "deviation of the property to pool scenarios. Because repetitions within a scenario share samples, the scenario "
           "mean was the unit of analysis. A scenario was called *valid* if its mean coverage was at least 1 − α − 0.02; the "
@@ -177,7 +176,7 @@ EXPERIMENTAL = [
           "median paired difference (10,000 resamples). Infinite intervals were ranked as worst."),
     ("h2", "3.5. Robustness and generalisation experiments"),
     ("p", "Additional experiments (50 repetitions unless noted) varied one factor at a time: the number of standards "
-          "*k* ∈ {{5, 8, 10, 15, 20, 30}}; Kennard–Stone instead of random selection of standards [@kennard1969] (100 repetitions); "
+          "*k* ∈ {5, 8, 10, 15, 20, 30}; Kennard–Stone instead of random selection of standards [@kennard1969] (100 repetitions); "
           "SNV followed by a Savitzky–Golay first derivative (11 points, second order) [@barnes1989;@savitzky1964]; ridge "
           "regression instead of PLS; Gaussian noise added to secondary spectra (0.5, 1 and 2% of the mean channel standard "
           "deviation); no standardisation at all; the official IDRC calibration/validation/test partition of the tablets "

@@ -34,6 +34,23 @@ def check_claims(V: dict) -> list[str]:
     claim("in-sample PDS discrepancies smaller than cross-fitted", R["dsd_in_ratio_pds"] < 0.9)
     claim("cross-fitted discrepancy SD close to held-out", 0.8 <= R["dsd_ratio_median"] <= 1.3)
     claim("weak r-delta dependence on average", abs(R["spearman_mean"]) < 0.2)
+    g = R["t_td_cp_plus_gauss_td_IS"]
+    claim("Gaussian TD has significantly lower IS than TD-CP+ (stated as such)", g["p_holm"] < 0.05 and g["rank_biserial"] > 0)
+    tp = R["t_td_cp_plus_target_cp_plus_IS"]
+    claim("TD-CP+ IS significantly lower than Target CP+", tp["p_holm"] < 0.05 and tp["rank_biserial"] < 0)
+    for c in ("naive_cp", "leverage", "weighted_cp"):
+        x = R[f"t_td_cp_plus_{c}_gap"]
+        claim(f"TD-CP+ smaller coverage gap than {c}", x["p_holm"] < 0.05 and x["rank_biserial"] < 0)
+    x = R["t_td_cp_plus_naive_cp_IS"]
+    claim("TD-CP+ lower IS than naive", x["p_holm"] < 0.05 and x["rank_biserial"] < 0)
+    x = R["t_td_cp_plus_gauss_td_gap"]
+    claim("TD-CP+ larger |gap| than Gaussian (over-coverage)", x["rank_biserial"] > 0)
+    for k in ("ks", "snv", "ridge", "noise5", "noise10", "noise20", "nostd", "official", "sim1", "sim2", "sim3", "k5", "k8", "k15", "k20", "k30"):
+        for tr in ("pds", "ds", "none"):
+            a, b = R.get(f"{k}_td_cp_plus_{tr}"), R.get(f"{k}_td_cp_{tr}")
+            if a and b:
+                claim(f"confirmatory: TD-CP+ validity >= signed TD-CP ({k},{tr})", a["valid"] >= b["valid"])
+    claim("no-standardisation: TD-CP+ much less efficient than signed", R["nostd_td_cp_plus_none"]["IS"] > 1.5 * R["nostd_td_cp_none"]["IS"])
     bad = [t for t, ok in checks if not ok]
     for t, ok in checks:
         print(("OK   " if ok else "FAIL ") + t)

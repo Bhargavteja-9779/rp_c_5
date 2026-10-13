@@ -34,6 +34,9 @@ def results_blocks(V, T, root: Path):
                 {"metric": "Metric", "comparator": "Comparator", "n_scenarios": "n", "median_ref": "Median TD-CP+",
                  "median_comp": "Median comp.", "ci95_low": "CI low", "ci95_high": "CI high", "rank_biserial": "r_rb", "p_holm": "p (Holm)"},
                 {"r_rb": 2}, query=lambda d: d[d.reference == "td_cp_plus"] if "reference" in d else d)
+    for c in ("Median TD-CP+", "Median comp.", "CI low", "CI high"):
+        tab3[c] = [("∞" if float(v) > 1e5 else ("−∞" if float(v) < -1e5 else v)) if v not in ("∞",) else v for v in tab3[c]]
+    tab3.loc[tab3["Median comp."] == "∞", ["CI low", "CI high"]] = "−∞"
     tab3["Metric"] = tab3["Metric"].map({"abs_gap": "|coverage gap|", "is_norm": "IS/SD"})
     tab3["p (Holm)"] = [("<0.001" if float(p) < 0.001 else p) for p in tab3["p (Holm)"]]
     tab6 = _tbl(t / "table6_robustness.csv", {"experiment": "Experiment", "condition": "Condition", "transfer": "Transfer", "method": "Method",
@@ -91,9 +94,11 @@ def results_blocks(V, T, root: Path):
                 "absolute coverage gap than naive CP (Holm-adjusted *p* = {t_td_cp_plus_naive_cp_gap_p}, rank-biserial "
                 "*r* = {t_td_cp_plus_naive_cp_gap_rb}), the leverage interval (*p* = {t_td_cp_plus_leverage_gap_p}) and weighted CP "
                 "(*p* = {t_td_cp_plus_weighted_cp_gap_p}), and a lower interval score than naive CP (*p* = {t_td_cp_plus_naive_cp_IS_p}, "
-                "*r* = {t_td_cp_plus_naive_cp_IS_rb}). Against the Gaussian combination the interval-score difference was not "
-                "statistically significant after adjustment (*p* = {t_td_cp_plus_gauss_td_IS_p}, *r* = {t_td_cp_plus_gauss_td_IS_rb}); "
-                "the advantage of TD-CP+ over it lies in validity under DS rather than in efficiency. Note that the absolute "
+                "*r* = {t_td_cp_plus_naive_cp_IS_rb}) and than the labelled target CP+ (*p* = {t_td_cp_plus_target_cp_plus_IS_p}, "
+                "*r* = {t_td_cp_plus_target_cp_plus_IS_rb}). The Gaussian combination, in contrast, had a slightly *lower* interval "
+                "score than TD-CP+ (median paired difference {t_td_cp_plus_gauss_td_IS_md} SD units, 95% CI "
+                "{t_td_cp_plus_gauss_td_IS_ci}, *p* = {t_td_cp_plus_gauss_td_IS_p}, *r* = {t_td_cp_plus_gauss_td_IS_rb}); the "
+                "advantage of TD-CP+ over it lies in validity under DS, not in efficiency. Note that the absolute "
                 "coverage gap penalises over-coverage too, so the slightly conservative TD-CP+ is not favoured by this metric "
                 "relative to methods centred on nominal coverage (e.g., *p* = {t_td_cp_plus_gauss_td_gap_p} against the Gaussian "
                 "combination, *r* = {t_td_cp_plus_gauss_td_gap_rb}).")]
@@ -132,8 +137,11 @@ def results_blocks(V, T, root: Path):
                 "preprocessing it covered {snv_td_cp_plus_pds_cov} and {snv_td_cp_plus_ds_cov}; with a ridge-regression calibration "
                 "{ridge_td_cp_plus_pds_cov} (PDS). Added secondary-instrument noise (2% of the channel SD) gave {noise20_td_cp_plus_pds_cov}, "
                 "versus {noise20_naive_cp_pds_cov} for naive CP. Without any standardisation, the transfer discrepancy dominates the "
-                "error, and TD-CP+ still covered {nostd_td_cp_plus_none_cov}, albeit with wide intervals (IS/SD {nostd_td_cp_plus_none_IS} "
-                "vs. {nostd_naive_cp_none_IS} for naive CP at coverage {nostd_naive_cp_none_cov}). On the official IDRC partition of the "
+                "error, and TD-CP+ still covered {nostd_td_cp_plus_none_cov} (naive CP: {nostd_naive_cp_none_cov}). Here, however, the "
+                "symmetric TD-CP+ interval was much less efficient (IS/SD {nostd_td_cp_plus_none_IS}) than the signed TD-CP "
+                "({nostd_td_cp_none_IS}, coverage {nostd_td_cp_none_cov}) or the Gaussian combination ({nostd_gauss_td_none_IS}), because "
+                "an uncorrected instrument difference produces a large systematic bias that only the signed constructions can shift "
+                "the interval to absorb. When the discrepancies are strongly one-sided, the signed TD-CP is preferable. On the official IDRC partition of the "
                 "tablets it covered {official_td_cp_plus_pds_cov} (PDS) and {official_td_cp_plus_ds_cov} (DS). For virtual secondary "
                 "instruments of increasing severity, naive coverage fell from {sim1_naive_cp_pds_cov} to {sim3_naive_cp_pds_cov} (PDS), "
                 "while TD-CP+ covered {sim1_td_cp_plus_pds_cov}–{sim3_td_cp_plus_pds_cov}.")]

@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+Target_Journal_Submission/code/data/raw/*.zip
+Target_Journal_Submission/results/quick/
+Target_Journal_Submission/tables/quick/
+Target_Journal_Submission/figures/quick/
+Target_Journal_Submission/results/raw_*.csv

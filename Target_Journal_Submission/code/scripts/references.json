@@ -1,0 +1,217 @@
+[
+{
+"key": "wang1991",
+"doi": "10.1021/ac00023a016",
+"expect": {
+"first_author": "Wang",
+"year": "1991"
+}
+},
+{
+"key": "feudale2002",
+"doi": "10.1016/S0169-7439(02)00085-0",
+"expect": {
+"first_author": "Feudale"
+}
+},
+{
+"key": "workman2018",
+"doi": "10.1177/0003702817736064",
+"expect": {
+"first_author": "Workman"
+}
+},
+{
+"key": "fearn2001",
+"doi": "10.1255/jnirs.309",
+"expect": {
+"first_author": "Fearn"
+}
+},
+{
+"key": "bouveresse1996",
+"doi": "10.1016/0169-7439(95)00074-7",
+"expect": {
+"first_author": "Bouveresse"
+}
+},
+{
+"key": "malli2017",
+"doi": "10.1016/j.chemolab.2016.12.008",
+"expect": {
+"first_author": "Malli"
+}
+},
+{
+"key": "haggam2026",
+"doi": "10.1016/j.chemolab.2026.105848",
+"expect": {
+"first_author": "Haggam"
+}
+},
+{
+"key": "aca_filter2024",
+"doi": "10.1016/j.aca.2024.342404"
+},
+{
+"key": "aca_uct2026",
+"doi": "10.1016/j.aca.2026.346104"
+},
+{
+"key": "aca_pdsft2026",
+"doi": "10.1016/j.aca.2026.345485"
+},
+{
+"key": "aca_plselm2025",
+"doi": "10.1016/j.aca.2025.344728"
+},
+{
+"key": "vovk2005",
+"doi": "10.1007/b106715"
+},
+{
+"key": "papadopoulos2002",
+"doi": "10.1007/3-540-36755-1_29",
+"expect": {
+"first_author": "Papadopoulos"
+}
+},
+{
+"key": "lei2018",
+"doi": "10.1080/01621459.2017.1307116",
+"expect": {
+"first_author": "Lei"
+}
+},
+{
+"key": "tibshirani2019",
+"arxiv": "1904.06019"
+},
+{
+"key": "barber2021",
+"doi": "10.1214/20-AOS1965",
+"expect": {
+"first_author": "Barber"
+}
+},
+{
+"key": "angelopoulos2023",
+"doi": "10.1561/2200000101",
+"expect": {
+"first_author": "Angelopoulos"
+}
+},
+{
+"key": "vovk2012",
+"arxiv": "1209.2673"
+},
+{
+"key": "gneiting2007",
+"doi": "10.1198/016214506000001437",
+"expect": {
+"first_author": "Gneiting"
+}
+},
+{
+"key": "foodchem2025",
+"doi": "10.1016/j.foodchem.2025.145387"
+},
+{
+"key": "analchem2026",
+"doi": "10.1021/acs.analchem.5c04616"
+},
+{
+"key": "duma2025",
+"arxiv": "2512.23444"
+},
+{
+"key": "doula2026",
+"arxiv": "2609.10737"
+},
+{
+"key": "faber1997",
+"doi": "10.1002/(SICI)1099-128X(199705)11:3<181::AID-CEM459>3.0.CO;2-7",
+"expect": {
+"first_author": "Faber"
+}
+},
+{
+"key": "faber2003",
+"doi": "10.1016/s0165-9936(03)00503-x",
+"expect": {
+"first_author": "Faber"
+}
+},
+{
+"key": "kennard1969",
+"doi": "10.1080/00401706.1969.10490666",
+"expect": {
+"first_author": "Kennard"
+}
+},
+{
+"key": "wold2001",
+"doi": "10.1016/S0169-7439(01)00155-1",
+"expect": {
+"first_author": "Wold"
+}
+},
+{
+"key": "massart1990",
+"doi": "10.1214/aop/1176990746",
+"expect": {
+"first_author": "Massart"
+}
+},
+{
+"key": "dkw1956",
+"doi": "10.1214/aoms/1177728174",
+"expect": {
+"first_author": "Dvoretzky"
+}
+},
+{
+"key": "savitzky1964",
+"doi": "10.1021/ac60214a047",
+"expect": {
+"first_author": "Savitzky"
+}
+},
+{
+"key": "barnes1989",
+"doi": "10.1366/0003702894202201",
+"expect": {
+"first_author": "Barnes"
+}
+},
+{
+"key": "wilcoxon1945",
+"doi": "10.2307/3001968",
+"expect": {
+"first_author": "Wilcoxon"
+}
+},
+{
+"key": "kerby2014",
+"doi": "10.2466/11.IT.3.1",
+"expect": {
+"first_author": "Kerby"
+}
+},
+{
+"key": "holm1979",
+"title": "Holm S. A simple sequentially rejective multiple test procedure. Scand. J. Stat. 6 (1979) 65-70 (JSTOR 4615733; no DOI)"
+},
+{
+"key": "astm_e1655",
+"title": "ASTM E1655-17, Standard Practices for Infrared Multivariate Quantitative Analysis, ASTM International"
+},
+{
+"key": "ich_q2r2",
+"title": "ICH Q2(R2) Validation of Analytical Procedures, International Council for Harmonisation, adopted 2023"
+},
+{
+"key": "eigenvector_data",
+"title": "Eigenvector Research, Data sets (corn; NIR shootout 2002), https://eigenvector.com/resources/data-sets/ (accessed 13 Oct 2026)"
+}
+]

@@ -1,0 +1,11 @@
+# Versions used to produce the reported results (Python 3.13.16, Linux x86_64, CPU only)
+numpy==2.5.3
+scipy==1.18.1
+scikit-learn==1.9.1
+pandas==3.0.5
+matplotlib==3.11.2
+pyyaml==6.0.1
+joblib==1.6.0
+pytest
+# manuscript build only
+python-docx==1.2.0

@@ -1,0 +1,42 @@
+# Pre-registered configuration (see supplementary/S1_topic_selection_and_preregistration.md)
+raw_dir: data/raw
+results_dir: ../results
+figures_dir: ../figures
+tables_dir: ../tables
+
+cv_folds: 10
+max_components: {corn: 15, tablets: 20}
+pds_half_window: 2
+pds_ridge: 1.0e-6
+ds_rcond: 1.0e-6
+
+datasets:
+  corn:
+    pairs: [[m5, mp5], [m5, mp6], [mp5, mp6], [mp5, m5], [mp6, m5], [mp6, mp5]]
+    properties: [0, 1, 2, 3]
+    n_test: 25
+  tablets:
+    pairs: [[inst1, inst2], [inst2, inst1]]
+    properties: [0, 1, 2]
+    n_test: 200
+
+main:
+  transfers: [pds, ds]
+  alphas: [0.05, 0.1, 0.2]
+  k: 10
+  reps: {quick: 5, full: 100}
+
+experiments:
+  k_sensitivity: {k: [5, 8, 15, 20, 30], transfers: [pds, ds], reps: {quick: 2, full: 50}}
+  kennard_stone: {transfers: [pds, ds], reps: {quick: 2, full: 100}}
+  preprocessing: {preprocess: snv_sg1, transfers: [pds, ds], reps: {quick: 2, full: 50}}
+  ridge_model: {model: ridge, transfers: [pds], reps: {quick: 2, full: 50}}
+  noise: {levels: [0.005, 0.01, 0.02], transfers: [pds], reps: {quick: 2, full: 50}}
+  no_standardisation: {transfers: [none], reps: {quick: 2, full: 50}}
+  official_split: {transfers: [pds, ds], reps: {quick: 2, full: 100}}
+  simulated: {primary: {corn: m5, tablets: inst1}, severities: [1, 2, 3], transfers: [pds, ds], reps: {quick: 2, full: 50}}
+
+statistics:
+  bootstrap_resamples: 10000
+  bootstrap_seed: 12345
+  validity_tolerance: 0.02

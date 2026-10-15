@@ -31,7 +31,7 @@ def main():
         f"primary instrument become strongly over-confident after transfer: at a nominal 90% level they covered only "
         f"{V['naive_cov_pds']} (PDS) and {V['naive_cov_ds']} (DS) of secondary-instrument samples across 30 public "
         "benchmark scenarios. We introduce transfer-discrepancy conformal prediction, which uses the transfer standards "
-        "that PDS/DS already require — without any additional reference analyses — to produce sample-wise intervals. Its "
+        "that PDS/DS already require — without needing their reference values — to produce sample-wise intervals. Its "
         f"jackknife+ form (TD-CP+) reached {V['plus_cov_pds']} and {V['plus_cov_ds']} coverage, being valid in "
         f"{V['plus_valid_pds']} and {V['plus_valid_ds']} of scenarios.",
         "We believe the work fits the journal's scope in chemometrics and data treatment: it introduces a new principle "

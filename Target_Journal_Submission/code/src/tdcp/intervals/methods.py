@@ -92,6 +92,15 @@ def target_cp(e, n_test, alpha):
     return _const(n_test, -q, q)
 
 
+def target_t(e, n_test, alpha):
+    """M7: classical secondary-instrument validation interval (requires reference values):
+    bias-corrected  mean(e) +/- t_{1-alpha/2, k-1} * SD(e) * sqrt(1 + 1/k)  (SEP-based, ASTM E1655-type)."""
+    e = np.asarray(e, dtype=float)
+    k = e.size
+    half = stats.t.ppf(1 - alpha / 2, k - 1) * e.std(ddof=1) * np.sqrt(1 + 1 / k)
+    return _const(n_test, e.mean() - half, e.mean() + half)
+
+
 def pooled_cp(r, e, n_test, alpha):
     """M6: pooled primary + labelled target residuals (requires reference values)."""
     q = conformal_quantile(np.abs(np.r_[r, e]), 1 - alpha)
@@ -168,7 +177,7 @@ def target_cp_plus(e, yhat_loo, yhat, alpha):
 
 
 LABEL_FREE = ["naive_cp", "leverage", "weighted_cp", "gauss_td", "td_cp", "td_cp_abs", "td_cp_plus"]
-LABELLED = ["target_cp", "pooled_cp", "target_cp_plus"]
+LABELLED = ["target_cp", "pooled_cp", "target_cp_plus", "target_t"]
 ABLATIONS = ["td_cp_insample", "td_sum"]
 ALL_METHODS = LABEL_FREE + LABELLED + ABLATIONS
 
@@ -184,6 +193,7 @@ def all_intervals(ctx: dict, alpha: float) -> dict[str, tuple[np.ndarray, np.nda
         "td_cp": td_cp(r, d, n_test, alpha),
         "target_cp": target_cp(e, n_test, alpha),
         "pooled_cp": pooled_cp(r, e, n_test, alpha),
+        "target_t": target_t(e, n_test, alpha),
         "td_cp_insample": td_cp(r, d_in, n_test, alpha),
         "td_cp_abs": td_cp_abs(r, d, n_test, alpha),
         "td_sum": td_sum(r, d, n_test, alpha),

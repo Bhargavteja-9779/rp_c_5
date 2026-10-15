@@ -16,7 +16,7 @@ def _f(x, nd=3):
         return "n/a"
     if np.isinf(x):
         return "∞"
-    return f"{x:.{nd}f}"
+    return f"{x:.{nd}f}".replace("-", "−")
 
 
 def _pct(x):
@@ -24,7 +24,7 @@ def _pct(x):
 
 
 def _p(p):
-    return "<0.001" if p < 0.001 else f"{p:.3f}"
+    return "< 0.001" if p < 0.001 else f"= {p:.3f}"
 
 
 def compute_values(root: Path):
@@ -86,6 +86,7 @@ def compute_values(root: Path):
         key = f"t_{r.reference}_{r.comparator}_{'gap' if r.metric == 'abs_gap' else 'IS'}"
         raw[key] = r.to_dict()
         V[key + "_p"] = _p(r.p_holm)
+        V[key + "_praw"] = _p(r.p_value)
         V[key + "_rb"] = _f(r.rank_biserial, 2)
         V[key + "_md"] = _f(r.median_diff, 3)
         V[key + "_ci"] = f"[{_f(r.ci95_low, 3)}, {_f(r.ci95_high, 3)}]"
@@ -142,6 +143,19 @@ def compute_values(root: Path):
         V[key + "_a"] = f"{100 * r.frac_valid:.0f}%"
     st = pd.read_csv(res / "stratum_consistency.csv")
     raw["strata"] = st
+    mm = main[main.alpha == 0.1].pivot_table(index=["dataset", "primary", "secondary", "prop", "transfer"], columns="method",
+                                              values="is_norm").reset_index()
+    for tr, g in mm.groupby("transfer"):
+        d = g["td_cp_plus"] - g["target_t"]
+        raw[f"pair_t_{tr}"] = dict(frac=float((d < 0).mean()), med=float(d.median()))
+        V[f"pair_t_{tr}"] = f"{100 * (d < 0).mean():.0f}%"
+    sc = pd.read_csv(res / "scaling.csv")
+    for _, r in sc.iterrows():
+        tag = "plus" if "plus" in r.method else "signed"
+        V[f"scal_{tag}_{int(r.n)}_{int(r.k)}"] = f"{r.ms_per_test_sample:.2f}" if r.ms_per_test_sample >= 0.01 else f"{r.ms_per_test_sample:.4f}"
+    b = raw.get("biased_td_cp_plus_ds")
+    if b:
+        V["biased_td_cp_plus_ds_valid_inv"] = f"{100 * (1 - b['valid']):.0f}%"
     metrics = json.loads((res / "metrics.json").read_text())
     V["n_raw_rows"] = f"{metrics['n_raw_rows']:,}"
     V["_raw"] = raw

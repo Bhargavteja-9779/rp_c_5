@@ -22,12 +22,12 @@ from tdcp.reporting.tables import METHOD_LABELS  # noqa: E402
 COLORS = {
     "td_cp_plus": "#2a78d6", "td_cp": "#9fbbe0", "target_cp_plus": "#5fa35f", "naive_cp": "#eb6834", "leverage": "#1baf7a", "weighted_cp": "#eda100",
     "gauss_td": "#e87ba4", "target_cp": "#008300", "pooled_cp": "#6250d6", "td_cp_insample": "#e34948",
-    "td_cp_abs": "#1a4f8f", "td_sum": "#8c8a83",
+    "td_cp_abs": "#1a4f8f", "td_sum": "#8c8a83", "target_t": "#6b8e23",
 }
 SHORT = {
     "naive_cp": "Naive CP", "leverage": "Leverage PI", "weighted_cp": "Weighted CP", "gauss_td": "Gauss-TD",
     "td_cp": "TD-CP\nsigned", "target_cp": "Target CP*", "pooled_cp": "Pooled CP*", "td_cp_insample": "TD-CP\nno cross-fit",
-    "td_cp_abs": "TD-CP\nabs.", "td_sum": "TD-sum", "td_cp_plus": "TD-CP+", "target_cp_plus": "Target CP+*",
+    "td_cp_abs": "TD-CP\nabs.", "td_sum": "TD-sum", "td_cp_plus": "TD-CP+", "target_cp_plus": "Target CP+*", "target_t": "Target t*",
 }
 INK, MUTED = "#0b0b0b", "#52514e"
 
@@ -151,7 +151,7 @@ def _line_panel(ax, g, xcol, methods, ycol, ref=None):
 
 
 def fig_k(scen: pd.DataFrame, out: Path):
-    methods = ["naive_cp", "gauss_td", "td_cp", "td_cp_plus", "target_cp", "target_cp_plus"]
+    methods = ["naive_cp", "gauss_td", "td_cp", "td_cp_plus", "target_cp", "target_cp_plus", "target_t"]
     g = scen[(scen.alpha == 0.1) & ((scen.experiment == "k_sensitivity") | (scen.experiment == "main"))]
     fig, axes = plt.subplots(2, 2, figsize=(7.2, 4.8), sharex=True)
     for c, tr in enumerate(["pds", "ds"]):
@@ -170,24 +170,25 @@ def fig_k(scen: pd.DataFrame, out: Path):
 def fig_robust(scen: pd.DataFrame, out: Path):
     methods = ["naive_cp", "gauss_td", "td_cp", "td_cp_plus", "target_cp_plus"]
     s = scen[scen.alpha == 0.1]
-    fig, axes = plt.subplots(1, 3, figsize=(7.2, 2.7), sharey=True)
+    fig, axes = plt.subplots(1, 3, figsize=(7.2, 3.2), sharey=True)
     sim = s[s.experiment == "simulated"].assign(sev=lambda d: d.secondary.str[3:].astype(int))
     _line_panel(axes[0], sim, "sev", methods, "coverage", ref=0.9)
     axes[0].set_xlabel("Simulated shift severity"); axes[0].set_ylabel("Mean coverage"); axes[0].set_title("Virtual secondary instruments")
     noi = pd.concat([s[(s.experiment == "main") & (s.transfer == "pds")], s[s.experiment == "noise"]])
     _line_panel(axes[1], noi, "noise", methods, "coverage", ref=0.9)
     axes[1].set_xlabel("Added noise (× mean channel SD)"); axes[1].set_title("Noise on secondary (PDS)")
-    other = s[s.experiment.isin(["main", "kennard_stone", "preprocessing", "ridge_model", "no_standardisation", "official_split"]) & s.method.isin(methods)]
-    other = other[~((other.experiment == "main") & (other.transfer != "pds"))]
-    labels = {"main": "random\n(main)", "kennard_stone": "KS\nselection", "preprocessing": "SNV+SG1",
-              "ridge_model": "ridge\nmodel", "no_standardisation": "no\ntransfer", "official_split": "IDRC\nofficial"}
+    labels = {"main": "random (main)", "kennard_stone": "Kennard–Stone", "biased_standards": "low-y standards",
+              "preprocessing": "SNV+SG1", "parsimonious_pls": "PLS 1-SE rule", "ridge_model": "ridge model",
+              "no_standardisation": "no transfer", "official_split": "IDRC official"}
     order = list(labels)
+    other = s[s.experiment.isin(order) & s.method.isin(methods)]
+    other = other[other.transfer.isin(["pds", "none"])]
     for i, m in enumerate(methods):
         means = [other[(other.experiment == e) & (other.method == m)].coverage.mean() for e in order]
-        axes[2].scatter(np.arange(len(order)) + (i - 2) * 0.13, means, color=COLORS[m], s=18, label=SHORT[m], zorder=3)
+        axes[2].scatter(np.arange(len(order)) + (i - 2) * 0.13, means, color=COLORS[m], s=16, label=SHORT[m], zorder=3)
     axes[2].axhline(0.9, color=INK, lw=0.8, ls="--")
-    axes[2].set_xticks(range(len(order)), [labels[e] for e in order], fontsize=6.5)
-    axes[2].set_title("Other conditions (mean over scenarios)")
+    axes[2].set_xticks(range(len(order)), [labels[e] for e in order], fontsize=6.2, rotation=55, ha="right")
+    axes[2].set_title("Other conditions (PDS; mean over scenarios)")
     axes[0].legend(fontsize=6.5)
     fig.tight_layout()
     _save(fig, out, "fig6_robustness")
@@ -215,7 +216,8 @@ def fig_error(scen: pd.DataFrame, raw: pd.DataFrame, out: Path):
         vals = [h[c].mean() for c in ["cov_ylow", "cov_ymid", "cov_yhigh"]]
         axes[0].bar(np.arange(3) + (i - 2.5) * w, vals, width=w * 0.9, color=COLORS[m], label=SHORT[m])
     axes[0].axhline(0.9, color=INK, lw=0.8, ls="--"); axes[0].set_xticks(range(3), ["low y", "mid y", "high y"])
-    axes[0].set_ylabel("Conditional coverage"); axes[0].set_title("By reference-value tertile"); axes[0].legend(fontsize=6)
+    axes[0].set_ylabel("Conditional coverage"); axes[0].set_title("By reference-value tertile")
+    fig.legend(*axes[0].get_legend_handles_labels(), loc="lower center", ncol=6, fontsize=6, bbox_to_anchor=(0.5, -0.02))
     for i, m in enumerate(methods):
         h = main[main.method == m]
         vals = [h[c].mean() for c in ["cov_levlow", "cov_levmid", "cov_levhigh"]]
@@ -230,7 +232,7 @@ def fig_error(scen: pd.DataFrame, raw: pd.DataFrame, out: Path):
     axes[2].plot(lim, lim, color=INK, lw=0.8, ls="--")
     axes[2].set_xlabel("SD(δ) on test samples / RMSECV"); axes[2].set_ylabel("SD(δ) cross-fitted / RMSECV")
     axes[2].set_title("Discrepancy estimate vs truth"); axes[2].legend(fontsize=6.5)
-    fig.tight_layout()
+    fig.tight_layout(rect=(0, 0.07, 1, 1))
     _save(fig, out, "fig8_error_analysis")
 
 
@@ -276,14 +278,15 @@ def graphical_abstract(scen: pd.DataFrame, out: Path):
     x = np.arange(len(methods)); w = 0.38
     for i, (tr, hatch) in enumerate([("pds", None), ("ds", "//")]):
         vals = [main[(main.transfer == tr) & (main.method == m)].coverage.mean() for m in methods]
-        ax.bar(x + (i - 0.5) * w, vals, width=w * 0.92, color=[COLORS[m] for m in methods], hatch=hatch, edgecolor="white", lw=0.4,
-               label=tr.upper())
-    ax.axhline(0.9, color=INK, lw=0.8, ls="--"); ax.text(len(methods) - 0.45, 0.915, "nominal 0.90", fontsize=6, ha="right")
+        ax.bar(x + (i - 0.5) * w, vals, width=w * 0.92, color=[COLORS[m] for m in methods], hatch=hatch, edgecolor="white", lw=0.4)
+        ax.bar([np.nan], [np.nan], color="#b5b3ad", hatch=hatch, edgecolor="white", label=tr.upper())
+    ax.axhline(0.9, color=INK, lw=0.8, ls="--"); ax.text(-0.45, 0.93, "nominal 0.90", fontsize=6, ha="left")
     ax.set_xticks(x, [SHORT[m].replace("\n", " ") for m in methods], fontsize=6)
     ax.set_ylabel("Coverage on secondary\ninstrument (30 scenarios)", fontsize=6.5); ax.set_ylim(0, 1.05)
-    ax.legend(fontsize=6, ncol=2, loc="upper left", title="plain: PDS, hatched: DS", title_fontsize=5.5)
-    ax.set_title("Primary-instrument intervals under-cover after calibration transfer; TD-CP+ restores coverage "
-                 "without reference values", fontsize=6.5)
+    ax.set_ylim(0, 1.18)
+    ax.legend(fontsize=6, ncol=2, loc="upper right", frameon=False)
+    ax.set_title("Reused primary-instrument intervals under-cover after transfer;\n"
+                 "TD-CP+ restores coverage without reference values (* needs reference values)", fontsize=6.5)
     fig.tight_layout()
     fig.savefig(out / "graphical_abstract.png", dpi=600); fig.savefig(out / "graphical_abstract.pdf"); plt.close(fig)
 

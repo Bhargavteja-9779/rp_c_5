@@ -113,7 +113,7 @@ def analyse(results: Path, cfg: dict, log) -> None:
     st = cfg["statistics"]
     main = scen[(scen.experiment == "main") & (scen.alpha == 0.1)]
     comparators = ["naive_cp", "leverage", "weighted_cp", "gauss_td", "td_cp", "td_cp_abs", "td_cp_insample", "td_sum",
-                   "target_cp", "target_cp_plus", "pooled_cp"]
+                   "target_cp", "target_cp_plus", "target_t", "pooled_cp"]
     tests = []
     for ref in ("td_cp_plus", "td_cp"):  # recommended (post hoc, see S2) and pre-specified TD-CP
         for metric in ("abs_gap", "is_norm"):
@@ -149,7 +149,7 @@ def analyse(results: Path, cfg: dict, log) -> None:
     (results / "metrics.json").write_text(json.dumps(metrics, indent=2))
 
     # --- added in internal review round 3 -------------------------------------------------
-    focus = ["naive_cp", "leverage", "gauss_td", "td_cp", "td_cp_plus", "target_cp", "target_cp_plus", "naive_cp_primary_test"]
+    focus = ["naive_cp", "leverage", "gauss_td", "td_cp", "td_cp_plus", "target_cp", "target_cp_plus", "target_t", "naive_cp_primary_test"]
     sl = df[(df.experiment == "main") & (df.alpha == 0.1) & df.method.isin(focus)]
     split_level = (sl.groupby(["dataset", "transfer", "method"])
                    .agg(splits=("coverage", "size"), median_cov=("coverage", "median"),
@@ -166,7 +166,7 @@ def analyse(results: Path, cfg: dict, log) -> None:
     wide_gap = main.pivot_table(index=keys, columns="method", values="abs_gap").reset_index()
     wide_is = main.pivot_table(index=keys, columns="method", values="is_norm").reset_index()
     strata = []
-    for comp in ["naive_cp", "leverage", "weighted_cp", "gauss_td", "td_cp", "target_cp_plus"]:
+    for comp in ["naive_cp", "leverage", "weighted_cp", "gauss_td", "td_cp", "target_cp_plus", "target_t"]:
         for (ds, tr), g in wide_gap.groupby(["dataset", "transfer"]):
             h = wide_is[(wide_is.dataset == ds) & (wide_is.transfer == tr)]
             strata.append(dict(dataset=ds, transfer=tr, comparator=comp, scenarios=len(g),

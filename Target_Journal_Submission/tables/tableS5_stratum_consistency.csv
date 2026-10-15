@@ -23,3 +23,7 @@ corn,ds,Target CP+ (k labelled),24,0.5,1.0
 corn,pds,Target CP+ (k labelled),24,0.625,1.0
 tablets,ds,Target CP+ (k labelled),6,0.5,1.0
 tablets,pds,Target CP+ (k labelled),6,1.0,1.0
+corn,ds,Target t-interval (k labelled),24,0.2083333333333333,0.9166666666666666
+corn,pds,Target t-interval (k labelled),24,0.0,0.375
+tablets,ds,Target t-interval (k labelled),6,0.3333333333333333,0.6666666666666666
+tablets,pds,Target t-interval (k labelled),6,0.0,1.0

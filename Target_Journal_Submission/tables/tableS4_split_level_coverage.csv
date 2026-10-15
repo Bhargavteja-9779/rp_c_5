@@ -5,6 +5,7 @@ corn,ds,Naive CP (primary residuals),2400,0.56,0.2,0.08,0.8154166666666667
 corn,ds,Naive CP on primary test spectra,2400,0.92,0.8,0.76,0.0941666666666666
 corn,ds,Target CP (k labelled),2400,0.96,0.68,0.56,0.1883333333333333
 corn,ds,Target CP+ (k labelled),2400,0.96,0.76,0.68,0.1054166666666666
+corn,ds,Target t-interval (k labelled),2400,0.96,0.68,0.6,0.1925
 corn,ds,TD-CP signed (pre-specified),2400,0.92,0.68,0.6,0.2
 corn,ds,TD-CP+ (jackknife+),2400,0.96,0.8,0.68,0.0958333333333333
 corn,pds,Gaussian TD (parametric),2400,0.92,0.76,0.68,0.13125
@@ -13,6 +14,7 @@ corn,pds,Naive CP (primary residuals),2400,0.4,0.08,0.04,0.81875
 corn,pds,Naive CP on primary test spectra,2400,0.92,0.8,0.76,0.0941666666666666
 corn,pds,Target CP (k labelled),2400,0.96,0.76,0.68,0.1158333333333333
 corn,pds,Target CP+ (k labelled),2400,0.96,0.84,0.76,0.0591666666666666
+corn,pds,Target t-interval (k labelled),2400,0.96,0.76,0.72,0.1025
 corn,pds,TD-CP signed (pre-specified),2400,0.92,0.76,0.68,0.1379166666666666
 corn,pds,TD-CP+ (jackknife+),2400,0.96,0.84,0.8,0.0470833333333333
 tablets,ds,Gaussian TD (parametric),600,0.93,0.8495,0.8047500000000001,0.0466666666666666
@@ -21,6 +23,7 @@ tablets,ds,Naive CP (primary residuals),600,0.78,0.425,0.375,0.54
 tablets,ds,Naive CP on primary test spectra,600,0.905,0.87,0.86,0.0016666666666666
 tablets,ds,Target CP (k labelled),600,0.95,0.795,0.7395,0.105
 tablets,ds,Target CP+ (k labelled),600,0.955,0.8095000000000001,0.75,0.0916666666666666
+tablets,ds,Target t-interval (k labelled),600,0.9425,0.8,0.74975,0.095
 tablets,ds,TD-CP signed (pre-specified),600,0.9175,0.8245,0.775,0.0683333333333333
 tablets,ds,TD-CP+ (jackknife+),600,0.93,0.84,0.7897500000000001,0.0616666666666666
 tablets,pds,Gaussian TD (parametric),600,0.93,0.85,0.795,0.0516666666666666
@@ -29,5 +32,6 @@ tablets,pds,Naive CP (primary residuals),600,0.575,0.415,0.36975,0.6816666666666
 tablets,pds,Naive CP on primary test spectra,600,0.905,0.87,0.86,0.0016666666666666
 tablets,pds,Target CP (k labelled),600,0.96,0.81,0.77475,0.0833333333333333
 tablets,pds,Target CP+ (k labelled),600,0.97,0.8695,0.81,0.0433333333333333
+tablets,pds,Target t-interval (k labelled),600,0.95,0.82,0.77475,0.0633333333333333
 tablets,pds,TD-CP signed (pre-specified),600,0.91,0.815,0.75,0.0733333333333333
 tablets,pds,TD-CP+ (jackknife+),600,0.945,0.88,0.855,0.0083333333333333

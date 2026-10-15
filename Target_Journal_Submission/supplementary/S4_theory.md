@@ -35,12 +35,13 @@ Condition on the δ's. By (A1)–(A2), the vector (r_0,…,r_n) is exchangeable 
 
   P(rank > m) ≤ ((n+1)k − m)/((n+1)k) ≤ α/2.
 
-The lower tail is symmetric. A union bound over the two tails completes (a).
+The lower tail is symmetric. A union bound over the two tails completes (a). The same argument applied to the single upper tail of |r_i + δ_j| at level α, with m = ⌈(1 − α)(n + 1)k⌉, proves (a) for the absolute-score interval of Eq. (4) in the main text. Part (b) carries over with one D_k term in place of two.
 
 (b) Condition on δ_{1:k} and on the r's. The probability that r + δ > U is 1 − F_δ(U − r). The corresponding probability for δ_J is 1 − F̂_k(U − r). These differ by at most D_k. Taking expectations over r and applying (a) to each tail gives miscoverage ≤ α + 2D_k. ∎
 
 ## Remarks (stated honestly in the manuscript)
-1. **(A2) is an assumption, not a theorem.** It can fail when large residuals and large discrepancies occur in the same samples, for example at extreme compositions. The benchmark reports the held-out Spearman correlation between r and δ as a diagnostic (Table S1, Fig. 8). This diagnostic uses reference values of test samples. It is not available in deployment and is never used by the method.
+0. **TD-CP+ (Eq. 6) is not covered by Proposition 1.** Its validity is established empirically. The jackknife+ worst-case bound of 1 − 2α (Barber et al., 2021) would require exchangeable leave-one-out scores, and these hold for our combined radii only under (A1)–(A3).
+1. **(A2) is an assumption, not a theorem.** It can fail when large residuals and large discrepancies occur in the same samples, for example at extreme compositions. The benchmark reports the held-out Spearman correlation between r and δ as a diagnostic (Table S1, Fig. 7 of the main text). This diagnostic uses reference values of test samples. It is not available in deployment and is never used by the method.
 2. **Cross-fitting.** δ_j uses T_{−j}, which is fitted on k − 1 pairs, while the deployed map uses all k pairs. The cross-fitted discrepancies are therefore slightly pessimistic. This is the same price the jackknife+ pays (Barber et al., 2021). In-sample discrepancies are optimistic. For DS with k < p, the pseudo-inverse reproduces the transfer spectra exactly, so in-sample δ ≡ 0 and TD-CP would collapse to the naive interval. Ablation A1 tests this.
 3. **Out-of-fold residuals.** (A1) holds exactly for split-conformal residuals. The study uses 10-fold out-of-fold residuals so that no calibration sample is lost. The naive interval evaluated on primary-instrument test spectra checks empirically that this choice is close to valid (method `naive_cp_primary_test`).
 4. **Small k.** The bound in (b) becomes loose as k gets small: E[D_k] ≈ 0.87/√k. The k-sensitivity experiment shows how much of this gap appears in practice.

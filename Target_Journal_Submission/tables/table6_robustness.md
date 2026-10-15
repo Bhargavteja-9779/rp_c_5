@@ -1,4 +1,4 @@
-**Table 6. Robustness and generalisation experiments (alpha = 0.10)**
+**Table S9. Robustness and generalisation experiments, all methods (alpha = 0.10)**
 
 | experiment | condition | transfer | method | scenarios | mean_coverage | pct_valid | median_IS_sd |
 |---|---|---|---|---|---|---|---|

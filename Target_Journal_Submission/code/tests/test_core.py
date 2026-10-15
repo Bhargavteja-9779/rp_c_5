@@ -149,3 +149,11 @@ def test_target_cp_plus_valid_on_exchangeable_data():
         lo, hi = M.target_cp_plus(e, loo, np.zeros(100), 0.1)
         covs.append(np.mean((y >= lo) & (y <= hi)))
     assert np.mean(covs) >= 0.88
+
+
+def test_target_t_matches_formula():
+    from scipy import stats
+    e = np.array([1.0, 2.0, 3.0, 4.0])
+    lo, hi = M.target_t(e, 1, 0.1)
+    half = stats.t.ppf(0.95, 3) * e.std(ddof=1) * np.sqrt(1.25)
+    assert hi[0] == pytest.approx(2.5 + half) and lo[0] == pytest.approx(2.5 - half)

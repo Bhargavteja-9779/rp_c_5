@@ -1,5 +1,5 @@
 {
-  "n_raw_rows": 821400,
+  "n_raw_rows": 854400,
   "n_scenarios_main_alpha0.1": 60,
   "main_alpha0.1": {
     "gauss_td": {
@@ -49,6 +49,13 @@
       "frac_scenarios_valid": 1.0,
       "median_is_norm": 5.069492806527791,
       "median_width_norm": 4.381526960998819,
+      "mean_frac_infinite": 0.0
+    },
+    "target_t": {
+      "mean_coverage": 0.905215,
+      "frac_scenarios_valid": 0.9,
+      "median_is_norm": 5.072733029072341,
+      "median_width_norm": 3.7659506069164057,
       "mean_frac_infinite": 0.0
     },
     "td_cp": {

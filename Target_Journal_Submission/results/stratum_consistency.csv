@@ -23,3 +23,7 @@ corn,ds,target_cp_plus,24,0.5,1.0
 corn,pds,target_cp_plus,24,0.625,1.0
 tablets,ds,target_cp_plus,6,0.5,1.0
 tablets,pds,target_cp_plus,6,1.0,1.0
+corn,ds,target_t,24,0.20833333333333334,0.9166666666666666
+corn,pds,target_t,24,0.0,0.375
+tablets,ds,target_t,6,0.3333333333333333,0.6666666666666666
+tablets,pds,target_t,6,0.0,1.0

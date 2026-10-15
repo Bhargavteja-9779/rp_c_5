@@ -17,6 +17,7 @@ METHOD_LABELS = {
     "td_cp_abs": "TD-CP absolute scores",
     "td_cp_plus": "TD-CP+ (jackknife+)",
     "target_cp_plus": "Target CP+ (k labelled)",
+    "target_t": "Target t-interval (k labelled)",
     "target_cp": "Target CP (k labelled)",
     "pooled_cp": "Pooled CP (k labelled)",
     "td_cp_insample": "TD-CP w/o cross-fitting",
@@ -24,7 +25,7 @@ METHOD_LABELS = {
     "naive_cp_primary_test": "Naive CP on primary test spectra",
 }
 LABEL_FREE_ORDER = ["naive_cp", "leverage", "weighted_cp", "gauss_td", "td_cp", "td_cp_abs", "td_cp_plus"]
-LABELLED_ORDER = ["target_cp", "target_cp_plus", "pooled_cp"]
+LABELLED_ORDER = ["target_cp", "target_cp_plus", "target_t", "pooled_cp"]
 ABLATION_ORDER = ["td_cp_plus", "td_cp_abs", "td_cp", "td_cp_insample", "td_sum", "gauss_td", "naive_cp"]
 
 
@@ -87,7 +88,7 @@ def make_tables(results: Path, tables: Path, log) -> None:
     t = pd.read_csv(results / "statistical_tests.csv")
     if not t.empty:
         t = t.assign(comparator=t.comparator.map(METHOD_LABELS))
-        cols = ["metric", "comparator", "n_scenarios", "median_ref", "median_comp", "median_diff", "ci95_low",
+        cols = ["reference", "metric", "comparator", "n_scenarios", "median_ref", "median_comp", "median_diff", "ci95_low",
                 "ci95_high", "rank_biserial", "p_value", "p_holm", "ref_better_fraction"]
         _save(t[cols], tables / "table3_statistical_tests",
               "Table 3. TD-CP vs comparators: paired Wilcoxon over scenarios (Holm-adjusted)")
@@ -114,7 +115,15 @@ def make_tables(results: Path, tables: Path, log) -> None:
         r["pct_valid"] *= 100
         r["method"] = r["method"].map(METHOD_LABELS)
         r = r.drop(columns="mean_rmsep_ratio")
-        _save(r, tables / "table6_robustness", "Table 6. Robustness and generalisation experiments (alpha = 0.10)")
+        _save(r, tables / "table6_robustness", "Table S9. Robustness and generalisation experiments, all methods (alpha = 0.10)")
+        rc = rob.pivot_table(index=["experiment", "condition", "transfer"], columns="method", values="coverage", aggfunc="mean")
+        rv = rob[rob.method == "td_cp_plus"].groupby(["experiment", "condition", "transfer"]).valid.mean()
+        comp = pd.DataFrame({
+            "naive_cov": rc.get("naive_cp"), "gauss_cov": rc.get("gauss_td"), "tdcp_signed_cov": rc.get("td_cp"),
+            "tdcp_plus_cov": rc.get("td_cp_plus"), "tdcp_plus_pct_valid": 100 * rv, "target_cp_plus_cov": rc.get("target_cp_plus"),
+        }).reset_index()
+        comp = comp[comp.experiment != "k_sensitivity"]
+        _save(comp, tables / "table6_robustness_compact", "Table 6. Robustness and generalisation (alpha = 0.10): mean coverage")
 
     sl = pd.read_csv(results / "split_level_coverage.csv")
     sl["method"] = sl["method"].map(METHOD_LABELS)

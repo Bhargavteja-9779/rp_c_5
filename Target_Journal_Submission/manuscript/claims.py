@@ -35,7 +35,7 @@ def check_claims(V: dict) -> list[str]:
     claim("cross-fitted discrepancy SD close to held-out", 0.8 <= R["dsd_ratio_median"] <= 1.3)
     claim("weak r-delta dependence on average", abs(R["spearman_mean"]) < 0.2)
     g = R["t_td_cp_plus_gauss_td_IS"]
-    claim("Gaussian TD has significantly lower IS than TD-CP+ (stated as such)", g["p_holm"] < 0.05 and g["rank_biserial"] > 0)
+    claim("Gaussian TD tends to lower IS than TD-CP+ (CI excludes 0; both p values reported)", g["rank_biserial"] > 0 and g["ci95_low"] > 0)
     tp = R["t_td_cp_plus_target_cp_plus_IS"]
     claim("TD-CP+ IS significantly lower than Target CP+", tp["p_holm"] < 0.05 and tp["rank_biserial"] < 0)
     for c in ("naive_cp", "leverage", "weighted_cp"):
@@ -65,6 +65,17 @@ def check_claims(V: dict) -> list[str]:
     for comp in ("naive_cp", "weighted_cp"):
         claim(f"stratum consistency vs {comp}", (st[st.comparator == comp].frac_smaller_gap >= 0.8).all())
     claim("TD-CP+ valid at zero tolerance in >=95% of scenarios", R["tol0_td_cp_plus_pds"] >= 0.95 and R["tol0_td_cp_plus_ds"] >= 0.95)
+    claim("biased standards + DS: TD-CP+ not reliably valid (stated)", R["biased_td_cp_plus_ds"]["valid"] < 0.8)
+    claim("biased standards + DS: labelled target CP+ equally affected (stated)", R["biased_target_cp_plus_ds"]["valid"] <= R["biased_td_cp_plus_ds"]["valid"] + 0.1)
+    claim("biased standards + PDS: TD-CP+ valid everywhere", R["biased_td_cp_plus_pds"]["valid"] == 1.0)
+    x = R["t_td_cp_plus_target_t_IS"]
+    claim("TD-CP+ slightly lower IS than target t (stated with p)", x["rank_biserial"] < 0 and x["p_holm"] < 0.05)
+    x = R["t_td_cp_plus_target_t_gap"]
+    claim("TD-CP+ larger |gap| than target t (stated)", x["rank_biserial"] > 0)
+    claim("target t valid 100% PDS", R["target_t_pds_a10"]["valid"] == 1.0)
+    claim("TD-CP+ higher validity than target t under DS", R["td_cp_plus_ds_a10"]["valid"] > R["target_t_ds_a10"]["valid"])
+    claim("as efficient as target t under PDS (tie: |median diff| < 0.05 SD)", abs(R["pair_t_pds"]["med"]) < 0.05)
+    claim("more efficient than target t under DS", R["pair_t_ds"]["frac"] > 0.7 and R["pair_t_ds"]["med"] < 0)
     claim("no-standardisation: TD-CP+ much less efficient than signed", R["nostd_td_cp_plus_none"]["IS"] > 1.5 * R["nostd_td_cp_none"]["IS"])
     bad = [t for t, ok in checks if not ok]
     for t, ok in checks:

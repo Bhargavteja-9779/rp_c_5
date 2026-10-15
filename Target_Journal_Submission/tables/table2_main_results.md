@@ -11,6 +11,7 @@
 | corn + tablets | DS | TD-CP+ (jackknife+) | 30 | 0.927 | 0.899 | 100.000 | 3.980 | 4.621 | 0.000 |
 | corn + tablets | DS | Target CP (k labelled) | 30 | 0.895 | 0.856 | 80.000 | 3.674 | 4.922 | 0.000 |
 | corn + tablets | DS | Target CP+ (k labelled) | 30 | 0.926 | 0.910 | 100.000 | 4.255 | 4.972 | 0.000 |
+| corn + tablets | DS | Target t-interval (k labelled) | 30 | 0.892 | 0.849 | 80.000 | 3.521 | 4.809 | 0.000 |
 | corn + tablets | DS | Pooled CP (k labelled) | 30 | 0.706 | 0.506 | 3.333 | 1.782 | 5.043 | 0.000 |
 | corn + tablets | PDS | Naive CP (primary residuals) | 30 | 0.483 | 0.044 | 0.000 | 1.363 | 14.290 | 0.000 |
 | corn + tablets | PDS | Leverage PI (classical) | 30 | 0.574 | 0.085 | 0.000 | 2.181 | 10.594 | 0.000 |
@@ -21,4 +22,5 @@
 | corn + tablets | PDS | TD-CP+ (jackknife+) | 30 | 0.939 | 0.916 | 100.000 | 7.066 | 7.974 | 0.000 |
 | corn + tablets | PDS | Target CP (k labelled) | 30 | 0.921 | 0.904 | 100.000 | 6.632 | 8.362 | 0.000 |
 | corn + tablets | PDS | Target CP+ (k labelled) | 30 | 0.942 | 0.917 | 100.000 | 7.286 | 8.291 | 0.000 |
+| corn + tablets | PDS | Target t-interval (k labelled) | 30 | 0.919 | 0.904 | 100.000 | 6.048 | 7.815 | 0.000 |
 | corn + tablets | PDS | Pooled CP (k labelled) | 30 | 0.653 | 0.499 | 0.000 | 2.535 | 10.730 | 0.000 |

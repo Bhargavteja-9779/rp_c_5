@@ -39,9 +39,9 @@ ABSTRACT = {
         "scenarios, and had a lower interval score than a comparator requiring reference values for all ten standards. "
         "The pre-specified signed TD-CP fell short of its validity criterion with DS."),
     "Significance": (
-        "Transferred calibrations can be accompanied by sample-wise intervals with near-nominal coverage at "
-        "no extra reference-analysis cost, whereas the common practice of reusing primary-instrument intervals "
-        "is markedly over-confident. The method is model-agnostic, computationally negligible and openly released."),
+        "Transferred calibrations can carry sample-wise intervals with near-nominal coverage without reference values for "
+        "the standards, as efficient as or more efficient than intervals built from them; reusing primary-instrument intervals is markedly "
+        "over-confident. Code is openly released."),
 }
 
 INTRO = [
@@ -75,7 +75,9 @@ INTRO = [
           "residual plus a *transfer discrepancy*, the difference between the primary-model prediction from the "
           "primary spectrum and from the transferred secondary spectrum. The discrepancy needs no reference value and "
           "can be measured on the transfer standards that DS/PDS already require, provided that the transfer map is "
-          "cross-fitted. The contributions are: (i) transfer-discrepancy conformal prediction (TD-CP), which combines "
+          "cross-fitted. This matters when standards lack valid reference values (surrogate or stable check materials, or "
+          "calibration samples whose composition has changed or that were consumed); when reference values are available, the "
+          "comparison with intervals built from them is part of the evaluation. The contributions are: (i) transfer-discrepancy conformal prediction (TD-CP), which combines "
           "out-of-fold calibration residuals with cross-fitted discrepancies, together with a conditional finite-sample "
           "coverage statement; (ii) a jackknife+ variant (TD-CP+) that remains reliable when the transfer map is "
           "unstable, as DS is when k ≪ p; and (iii) a benchmark of interval validity after transfer on two public "
@@ -123,7 +125,10 @@ THEORY = [
           "|*r*_{i} + δ_{j}| to the leave-one-out prediction of its own map:"),
     ("eq", r"C^{+}(x^{S})=\left[\hat{q}^{-}_{\alpha}\{f(T_{-j}(x^{S}))-|r_{i}+\delta_{j}|\},\ \hat{q}^{+}_{1-\alpha}\{f(T_{-j}(x^{S}))+|r_{i}+\delta_{j}|\}\right]", 6),
     ("p", "where q̂^{+}_{1−α} is the ⌈(1 − α)(*n* + 1)*k*⌉-th smallest of the *nk* values and q̂^{−}_{α} the mirrored order "
-          "statistic. If the transfer map does not depend on which standard is left out, Eq. (6) reduces to Eq. (4). TD-CP+ "
+          "statistic. If the transfer map does not depend on which standard is left out, Eq. (6) reduces to Eq. (4). We do not "
+          "prove a finite-sample guarantee for TD-CP+: Eq. (5) covers Eq. (4), and the jackknife+ guarantee of 1 − 2α "
+          "[@barber2021] assumes exchangeable leave-one-out residuals, which the combination of primary residuals and "
+          "discrepancies satisfies only under (A1)–(A3). Its validity is therefore established empirically below. TD-CP+ "
           "was added after inspection of the pre-specified main experiment (Supplementary S2) and is therefore evaluated "
           "on confirmatory experiments that had not been examined when it was introduced."),
     ("h2", "2.5. Comparison methods"),
@@ -135,7 +140,8 @@ THEORY = [
           "used by TD-CP, ŷ + mean(*r*) + mean(δ) ± *z*_{1−α/2}(RMSECV^{2} + s_{δ}^{2})^{1/2}. Methods that additionally require "
           "reference values for the *k* standards (an advantaged reference rather than a competitor): (M5) target split CP "
           "on leave-one-out target residuals *e*_{j} = *y*_{j} − *f*(*T*_{−*j*}(*x*_{j}^{S})); (M5+) its jackknife+ version; and "
-          "(M6) pooled CP on {|*r*_{i}|} ∪ {|*e*_{j}|}. Ablations: TD-CP without cross-fitting (in-sample δ), signed versus "
+          "(M6) pooled CP on {|*r*_{i}|} ∪ {|*e*_{j}|}; and (M7) the classical bias-corrected validation interval "
+          "mean(*e*) ± *t*_{1−α/2, k−1}·s_{e}(1 + 1/*k*)^{1/2} (added during internal review). Ablations: TD-CP without cross-fitting (in-sample δ), signed versus "
           "absolute scores, and a union-bound sum q̂_{1−α/2}(|*r*|) + Q_{1−α/2}(|δ|)."),
 ]
 

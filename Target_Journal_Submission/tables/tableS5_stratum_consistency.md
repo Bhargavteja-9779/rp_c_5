@@ -26,3 +26,7 @@
 | corn | pds | Target CP+ (k labelled) | 24 | 0.625 | 1.000 |
 | tablets | ds | Target CP+ (k labelled) | 6 | 0.500 | 1.000 |
 | tablets | pds | Target CP+ (k labelled) | 6 | 1.000 | 1.000 |
+| corn | ds | Target t-interval (k labelled) | 24 | 0.208 | 0.917 |
+| corn | pds | Target t-interval (k labelled) | 24 | 0.000 | 0.375 |
+| tablets | ds | Target t-interval (k labelled) | 6 | 0.333 | 0.667 |
+| tablets | pds | Target t-interval (k labelled) | 6 | 0.000 | 1.000 |

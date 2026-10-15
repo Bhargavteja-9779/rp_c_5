@@ -28,6 +28,8 @@ python run_all.py --mode quick    # ~3 min: every experiment with 2–5 repetiti
 python run_all.py --mode full     # pre-registered study: 100 (or 50) repetitions per scenario
 python run_all.py --mode full --skip-experiments   # rebuild statistics/tables/figures from saved raw results
 python -m pytest -q tests         # unit tests
+python ../manuscript/build_supplementary.py         # Supplementary_Material.docx
+python ../manuscript/cover_letter.py                # cover_letter.docx
 python ../manuscript/build_manuscript.py           # manuscript (Markdown + DOCX) with numbers read from ../results
 ```
 Outputs:
@@ -47,7 +49,10 @@ Quick-mode outputs go to `quick/` subfolders, so they never overwrite the full r
   - **TD-CP (proposed)**: signed convolution of the r_i with the cross-fitted transfer discrepancies δ_j = f(x_j^P) − f(T_{−j}(x_j^S)). This needs **no reference values** on the secondary instrument.
   - Baselines: naive CP, the classical leverage interval, weighted CP (covariate shift) and Gaussian TD.
   - Methods that need labelled transfer standards: target CP and pooled CP.
+  - Methods that need labelled standards also include the classical bias-corrected t-interval (M7).
   - Ablations: TD-CP without cross-fitting, with absolute scores, and the union-bound sum.
+- Experiments (`config/default.yaml`): main, k_sensitivity, kennard_stone, biased_standards, preprocessing,
+  parsimonious_pls, pds_window, ridge_model, noise, no_standardisation, official_split, simulated.
 - `src/tdcp/experiments/`: the job plan (`plan.py`) and one split (`runner.py`). In each split, the test samples, the transfer standards and the master samples are disjoint physical samples. The primary-instrument spectra of test samples are used only for the diagnostics columns, never by any method.
 - `src/tdcp/statistics/analysis.py`: scenario-level aggregation, two-sided Wilcoxon signed-rank tests across scenarios, Holm adjustment, rank-biserial effect sizes and bootstrap confidence intervals.
 

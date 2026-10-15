@@ -41,3 +41,8 @@ Every entry lists the observation, the hypothesis, the change, and how the chang
 - Weighted CP (baseline M3) now uses 5-fold cross-fitted classifier probabilities instead of in-sample probabilities, to avoid weakening the baseline.
 - Added the `biased_standards` experiment: transfer standards drawn only from samples with reference values below the median. This is an external-validity stress test of unrepresentative standards.
 - All experiments were re-run with identical seeds. The previous raw files are archived in `results/pre_review4/`. All other methods are deterministic given the seed, so only M3 changes.
+
+## Iteration 4 (internal review rounds 7–10)
+- Added labelled baseline M7 (classical bias-corrected t-interval from the k standards). Only `main` and `k_sensitivity` were re-run, because the other methods are deterministic and their 234,000 rows proved bit-identical. The robustness experiments therefore do not contain M7.
+- Because the test family grew from 42 to 46 tests, the Holm-adjusted p for TD-CP+ vs the Gaussian IS rose from 0.047 to 0.063. The wording was changed to "tended to" with both p-values reported.
+- Reframing (round 10): when standards have known reference values, TD-CP+ is presented as competitive with labelled intervals, not only as label-free.

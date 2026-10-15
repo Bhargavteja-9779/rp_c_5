@@ -100,6 +100,11 @@ def main(argv=None):
     dataset_table(HERE / cfg["raw_dir"], tables)
     make_tables(results, tables, log)
     make_figures(results, figures, cfg, HERE / cfg["raw_dir"], log)
+    if args.mode == "full":
+        import runpy
+
+        runpy.run_path(str(HERE / "scripts" / "benchmark_scaling.py"), run_name="__main__")
+        log.info("scaling benchmark written")
     log.info("done")
 
 

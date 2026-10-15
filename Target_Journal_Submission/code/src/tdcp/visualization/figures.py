@@ -268,6 +268,26 @@ def fig_compute(scen: pd.DataFrame, out: Path):
     _save(fig, out, "fig10_compute")
 
 
+def graphical_abstract(scen: pd.DataFrame, out: Path):
+    """Elsevier graphical abstract (13 x 5 cm), built from the main-experiment results."""
+    main = scen[(scen.experiment == "main") & (scen.alpha == 0.1)]
+    fig, ax = plt.subplots(figsize=(13 / 2.54, 5 / 2.54))
+    methods = ["naive_cp", "leverage", "weighted_cp", "gauss_td", "td_cp_plus", "target_cp_plus"]
+    x = np.arange(len(methods)); w = 0.38
+    for i, (tr, hatch) in enumerate([("pds", None), ("ds", "//")]):
+        vals = [main[(main.transfer == tr) & (main.method == m)].coverage.mean() for m in methods]
+        ax.bar(x + (i - 0.5) * w, vals, width=w * 0.92, color=[COLORS[m] for m in methods], hatch=hatch, edgecolor="white", lw=0.4,
+               label=tr.upper())
+    ax.axhline(0.9, color=INK, lw=0.8, ls="--"); ax.text(len(methods) - 0.45, 0.915, "nominal 0.90", fontsize=6, ha="right")
+    ax.set_xticks(x, [SHORT[m].replace("\n", " ") for m in methods], fontsize=6)
+    ax.set_ylabel("Coverage on secondary\ninstrument (30 scenarios)", fontsize=6.5); ax.set_ylim(0, 1.05)
+    ax.legend(fontsize=6, ncol=2, loc="upper left", title="plain: PDS, hatched: DS", title_fontsize=5.5)
+    ax.set_title("Primary-instrument intervals under-cover after calibration transfer; TD-CP+ restores coverage "
+                 "without reference values", fontsize=6.5)
+    fig.tight_layout()
+    fig.savefig(out / "graphical_abstract.png", dpi=600); fig.savefig(out / "graphical_abstract.pdf"); plt.close(fig)
+
+
 def make_figures(results: Path, figures: Path, cfg: dict, raw_dir: Path, log) -> None:
     _style()
     scen = pd.read_csv(results / "scenario_results.csv")
@@ -280,6 +300,7 @@ def make_figures(results: Path, figures: Path, cfg: dict, raw_dir: Path, log) ->
     fig_error(scen, raw, figures)
     fig_example(raw_dir, cfg, figures)
     fig_compute(scen, figures)
+    graphical_abstract(scen, figures)
     if (scen.experiment == "k_sensitivity").any():
         fig_k(scen, figures)
     if (scen.experiment == "simulated").any():

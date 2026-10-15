@@ -30,10 +30,25 @@ def build_jobs(cfg: dict, mode: str) -> dict[str, list[Job]]:
         Job("kennard_stone", ds, p, s, prop, tr, seed, n_test=nt, selection="kennard_stone")
         for ds, p, s, prop, nt in _scenarios(cfg) for tr in e["transfers"] for seed in range(e["reps"][mode])
     ]
+    e = E["biased_standards"]
+    jobs["biased_standards"] = [
+        Job("biased_standards", ds, p, s, prop, tr, seed, n_test=nt, selection="low_y")
+        for ds, p, s, prop, nt in _scenarios(cfg) for tr in e["transfers"] for seed in range(e["reps"][mode])
+    ]
     e = E["preprocessing"]
     jobs["preprocessing"] = [
         Job("preprocessing", ds, p, s, prop, tr, seed, n_test=nt, preprocess=e["preprocess"])
         for ds, p, s, prop, nt in _scenarios(cfg) for tr in e["transfers"] for seed in range(e["reps"][mode])
+    ]
+    e = E["parsimonious_pls"]
+    jobs["parsimonious_pls"] = [
+        Job("parsimonious_pls", ds, p, s, prop, tr, seed, n_test=nt, model=e["model"])
+        for ds, p, s, prop, nt in _scenarios(cfg) for tr in e["transfers"] for seed in range(e["reps"][mode])
+    ]
+    e = E["pds_window"]
+    jobs["pds_window"] = [
+        Job("pds_window", ds, p, s, prop, tr, seed, n_test=nt, pds_half_window=w)
+        for w in e["half_windows"] for ds, p, s, prop, nt in _scenarios(cfg) for tr in e["transfers"] for seed in range(e["reps"][mode])
     ]
     e = E["ridge_model"]
     jobs["ridge_model"] = [

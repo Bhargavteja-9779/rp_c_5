@@ -2,7 +2,7 @@
 
 | dataset | transfer | t_calibration_s | t_transfer_s | t_crossfit_s | t_interval_s |
 |---|---|---|---|---|---|
-| corn | ds | 0.041 | 0.006 | 0.045 | 0.001 |
-| corn | pds | 0.041 | 0.003 | 0.024 | 0.001 |
-| tablets | ds | 0.366 | 0.012 | 0.092 | 0.002 |
-| tablets | pds | 0.358 | 0.010 | 0.064 | 0.002 |
+| corn | ds | 0.045 | 0.007 | 0.050 | 0.002 |
+| corn | pds | 0.045 | 0.003 | 0.027 | 0.002 |
+| tablets | ds | 0.404 | 0.012 | 0.104 | 0.004 |
+| tablets | pds | 0.402 | 0.010 | 0.073 | 0.004 |

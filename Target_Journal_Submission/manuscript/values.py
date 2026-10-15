@@ -45,6 +45,7 @@ def compute_values(root: Path):
         V[key + "_valid"] = _pct(raw[key]["valid"])
         V[key + "_IS"] = _f(raw[key]["IS"], 2)
         V[key + "_W"] = _f(raw[key]["W"], 2)
+        V[key + "_inf"] = f"{100 * raw[key]['inf']:.0f}%"
     for (ds, tr, m), g in main[main.alpha == 0.1].groupby(["dataset", "transfer", "method"]):
         key = f"{m}_{ds}_{tr}"
         raw[key] = dict(cov=g.coverage.mean(), valid=g.valid.mean(), IS=g.is_norm.median())
@@ -74,6 +75,9 @@ def compute_values(root: Path):
     raw["primary_cov"] = prim.coverage.mean(); V["primary_cov"] = _f(prim.coverage.mean())
     V["primary_cov_min"] = _f(prim.coverage.min()); V["primary_cov_max"] = _f(prim.coverage.max())
     V["ncomp_corn"] = f"{int(main[(main.dataset == 'corn')].n_components.min())}–{int(main[(main.dataset == 'corn')].n_components.max())}"
+    p1 = scen[(scen.experiment == "parsimonious_pls") & (scen.alpha == 0.1) & (scen.method == "td_cp_plus")]
+    V["ncomp1se_corn"] = f"{int(p1[p1.dataset == 'corn'].n_components.median())}"
+    V["ncomp_corn_med"] = f"{int(main[(main.dataset == 'corn') & (main.method == 'td_cp_plus')].n_components.median())}"
     V["ncomp_tab"] = f"{int(main[(main.dataset == 'tablets')].n_components.min())}–{int(main[(main.dataset == 'tablets')].n_components.max())}"
 
     # tests
@@ -96,7 +100,10 @@ def compute_values(root: Path):
     specs = {
         "ks": ("kennard_stone", None), "snv": ("preprocessing", None), "ridge": ("ridge_model", None),
         "nostd": ("no_standardisation", None), "official": ("official_split", None),
+        "pls1se": ("parsimonious_pls", None), "biased": ("biased_standards", None),
     }
+    for w in (1, 3, 5):
+        specs[f"pdsw{2 * w + 1}"] = ("pds_window", lambda g, w=w: g.pds_half_window == w)
     for lvl in (0.005, 0.01, 0.02):
         specs[f"noise{int(lvl * 1000)}"] = ("noise", lambda g, l=lvl: np.isclose(g.noise, l))
     for sev in (1, 2, 3):
@@ -122,6 +129,19 @@ def compute_values(root: Path):
         V[f"t_cal_{ds}_{tr}"] = f"{1000 * g.t_calibration.mean():.0f}"
         V[f"t_cf_{ds}_{tr}"] = f"{1000 * g.t_crossfit.mean():.0f}"
         V[f"t_int_{ds}_{tr}"] = f"{1000 * g.t_interval.mean():.1f}"
+    sl = pd.read_csv(res / "split_level_coverage.csv")
+    for _, r in sl.iterrows():
+        key = f"sl_{r.method}_{r.dataset}_{r.transfer}"
+        raw[key] = r.to_dict()
+        V[key + "_below"] = f"{100 * r.frac_below_080:.0f}%"
+        V[key + "_p10"] = _f(r.p10_cov, 2)
+    tv = pd.read_csv(res / "validity_tolerance.csv")
+    for _, r in tv.iterrows():
+        key = f"tol{int(round(r.tolerance * 100))}_{r.method}_{r.transfer}"
+        raw[key] = r.frac_valid
+        V[key + "_a"] = f"{100 * r.frac_valid:.0f}%"
+    st = pd.read_csv(res / "stratum_consistency.csv")
+    raw["strata"] = st
     metrics = json.loads((res / "metrics.json").read_text())
     V["n_raw_rows"] = f"{metrics['n_raw_rows']:,}"
     V["_raw"] = raw

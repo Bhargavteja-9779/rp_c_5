@@ -1,0 +1,25 @@
+dataset,transfer,comparator,scenarios,frac_smaller_gap,frac_lower_IS
+corn,ds,Naive CP (primary residuals),24,1.0,1.0
+corn,pds,Naive CP (primary residuals),24,1.0,1.0
+tablets,ds,Naive CP (primary residuals),6,0.8333333333333334,1.0
+tablets,pds,Naive CP (primary residuals),6,1.0,1.0
+corn,ds,Leverage PI (classical),24,1.0,0.75
+corn,pds,Leverage PI (classical),24,1.0,0.7916666666666666
+tablets,ds,Leverage PI (classical),6,0.6666666666666666,0.6666666666666666
+tablets,pds,Leverage PI (classical),6,1.0,0.8333333333333334
+corn,ds,Weighted CP (covariate shift),24,1.0,1.0
+corn,pds,Weighted CP (covariate shift),24,1.0,1.0
+tablets,ds,Weighted CP (covariate shift),6,1.0,1.0
+tablets,pds,Weighted CP (covariate shift),6,1.0,1.0
+corn,ds,Gaussian TD (parametric),24,0.4583333333333333,0.6666666666666666
+corn,pds,Gaussian TD (parametric),24,0.0,0.0833333333333333
+tablets,ds,Gaussian TD (parametric),6,0.5,0.6666666666666666
+tablets,pds,Gaussian TD (parametric),6,0.1666666666666666,0.0
+corn,ds,TD-CP signed (pre-specified),24,0.4166666666666667,0.7916666666666666
+corn,pds,TD-CP signed (pre-specified),24,0.0416666666666666,0.6666666666666666
+tablets,ds,TD-CP signed (pre-specified),6,0.1666666666666666,0.6666666666666666
+tablets,pds,TD-CP signed (pre-specified),6,0.0,0.5
+corn,ds,Target CP+ (k labelled),24,0.5,1.0
+corn,pds,Target CP+ (k labelled),24,0.625,1.0
+tablets,ds,Target CP+ (k labelled),6,0.5,1.0
+tablets,pds,Target CP+ (k labelled),6,1.0,1.0

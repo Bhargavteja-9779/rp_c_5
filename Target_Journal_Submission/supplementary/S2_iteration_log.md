@@ -31,3 +31,13 @@ Every entry lists the observation, the hypothesis, the change, and how the chang
 - Therefore TD-CP+ is the **recommended** variant. The pre-registered signed TD-CP is still reported in full, as is the failure of its pre-registered criterion in the main experiment.
 - Negative finding, reported in the manuscript: without any standardisation (transfer = identity), all leave-one-out maps are identical, so TD-CP+ reduces to the symmetric absolute-score interval. It then stays valid but is much less efficient than the signed TD-CP or the Gaussian combination, because the discrepancies carry a large systematic bias.
 - Jackknife+ index detail: the first implementation used ⌊α(n+1)k⌋ for the lower order statistic, which is not the mirror of the upper index when the number of values is nk rather than (n+1)k − 1. A unit test caught this *before* any full run. The lower index is now the exact mirror (nk + 1 − upper index), which equals Barber et al.'s definition when k = 1.
+
+## Iteration 2 (internal review round 1)
+- Added the `parsimonious_pls` experiment (PLS complexity by the one-standard-error rule) to test whether the collapse of naive coverage comes from over-complex corn models. Result: naive coverage was still 0.576 (PDS) and 0.621 (DS), so it does not.
+- Added the `pds_window` experiment (windows of 3, 7 and 11 channels).
+- Both are new, non-pre-registered experiments. They are reported as such in Section 3.5.
+
+## Iteration 3 (internal review rounds 4–5)
+- Weighted CP (baseline M3) now uses 5-fold cross-fitted classifier probabilities instead of in-sample probabilities, to avoid weakening the baseline.
+- Added the `biased_standards` experiment: transfer standards drawn only from samples with reference values below the median. This is an external-validity stress test of unrepresentative standards.
+- All experiments were re-run with identical seeds. The previous raw files are archived in `results/pre_review4/`. All other methods are deterministic given the seed, so only M3 changes.

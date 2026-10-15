@@ -24,8 +24,8 @@ def check_claims(V: dict) -> list[str]:
         claim(f"union-bound sum over-covers ({tr})", R[f"td_sum_{tr}_a10"]["cov"] > 0.95)
         claim(f"k=8 TD-CP+ valid everywhere ({tr})", R[f"k8_td_cp_plus_{tr}"]["valid"] == 1.0)
         claim(f"Target CP infinite for k=5 and 8 ({tr})", R[f"k5_target_cp_{tr}"]["inf"] == 1.0 and R[f"k8_target_cp_{tr}"]["inf"] == 1.0)
-    claim("pre-registered signed TD-CP misses criterion for DS", R["td_cp_ds_a10"]["valid"] < 0.8)
-    claim("pre-registered signed TD-CP misses criterion for PDS", R["td_cp_pds_a10"]["valid"] < 0.8)
+    claim("pre-specified signed TD-CP misses criterion for DS", R["td_cp_ds_a10"]["valid"] < 0.8)
+    claim("pre-specified signed TD-CP misses criterion for PDS", R["td_cp_pds_a10"]["valid"] < 0.8)
     claim("Gaussian TD misses criterion for DS", R["gauss_td_ds_a10"]["valid"] < 0.8)
     claim("Gaussian TD meets criterion for PDS", R["gauss_td_pds_a10"]["valid"] >= 0.8)
     claim("TD-CP+ k=5 DS not valid everywhere", R["k5_td_cp_plus_ds"]["valid"] < 1.0)
@@ -45,11 +45,26 @@ def check_claims(V: dict) -> list[str]:
     claim("TD-CP+ lower IS than naive", x["p_holm"] < 0.05 and x["rank_biserial"] < 0)
     x = R["t_td_cp_plus_gauss_td_gap"]
     claim("TD-CP+ larger |gap| than Gaussian (over-coverage)", x["rank_biserial"] > 0)
-    for k in ("ks", "snv", "ridge", "noise5", "noise10", "noise20", "nostd", "official", "sim1", "sim2", "sim3", "k5", "k8", "k15", "k20", "k30"):
+    for k in ("pls1se", "pdsw3", "pdsw7", "pdsw11", "ks", "snv", "ridge", "noise5", "noise10", "noise20", "nostd", "official", "sim1", "sim2", "sim3", "k5", "k8", "k15", "k20", "k30"):
         for tr in ("pds", "ds", "none"):
             a, b = R.get(f"{k}_td_cp_plus_{tr}"), R.get(f"{k}_td_cp_{tr}")
             if a and b:
                 claim(f"confirmatory: TD-CP+ validity >= signed TD-CP ({k},{tr})", a["valid"] >= b["valid"])
+    for tr in ("pds", "ds"):
+        claim(f"parsimonious PLS: naive still under-covers ({tr})", R[f"pls1se_naive_cp_{tr}"]["cov"] < 0.7)
+        claim(f"parsimonious PLS: TD-CP+ valid everywhere ({tr})", R[f"pls1se_td_cp_plus_{tr}"]["valid"] == 1.0)
+    for w in (3, 7, 11):
+        claim(f"PDS window {w}: TD-CP+ valid everywhere", R[f"pdsw{w}_td_cp_plus_pds"]["valid"] == 1.0)
+        claim(f"PDS window {w}: naive under-covers", R[f"pdsw{w}_naive_cp_pds"]["cov"] < 0.6)
+    for ds in ("corn", "tablets"):
+        for tr in ("pds", "ds"):
+            a = R[f"sl_td_cp_plus_{ds}_{tr}"]["frac_below_080"]; b = R[f"sl_naive_cp_primary_test_{ds}_{tr}"]["frac_below_080"]
+            claim(f"split-level: TD-CP+ tail close to in-domain CP ({ds},{tr})", a <= b + 0.07)
+            claim(f"split-level: naive mostly below 0.8 ({ds},{tr})", R[f"sl_naive_cp_{ds}_{tr}"]["frac_below_080"] > 0.5)
+    st = R["strata"]
+    for comp in ("naive_cp", "weighted_cp"):
+        claim(f"stratum consistency vs {comp}", (st[st.comparator == comp].frac_smaller_gap >= 0.8).all())
+    claim("TD-CP+ valid at zero tolerance in >=95% of scenarios", R["tol0_td_cp_plus_pds"] >= 0.95 and R["tol0_td_cp_plus_ds"] >= 0.95)
     claim("no-standardisation: TD-CP+ much less efficient than signed", R["nostd_td_cp_plus_none"]["IS"] > 1.5 * R["nostd_td_cp_none"]["IS"])
     bad = [t for t, ok in checks if not ok]
     for t, ok in checks:

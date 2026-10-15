@@ -18,9 +18,9 @@ Author One^{a,*}, Author Two^{b} [author names withheld — placeholder]
 
 ## Abstract
 
-**Background:** Calibration transfer (e.g., piecewise direct standardisation, PDS) lets a multivariate calibration built on a primary spectrometer be used on a secondary one, but transfer methods are judged almost exclusively by point accuracy. Prediction intervals inherited from the primary instrument implicitly assume that the transfer is perfect, and no distribution-free method exists to attach sample-wise uncertainty to a transferred calibration without new reference analyses on the secondary instrument.
+**Background:** Calibration transfer (e.g., piecewise direct standardisation, PDS) lets a multivariate calibration built on a primary spectrometer be used on a secondary one, but transfer methods are judged almost exclusively by point accuracy. Prediction intervals inherited from the primary instrument implicitly assume that the transfer is perfect, and no distribution-free method has been established to attach sample-wise uncertainty to a transferred calibration without new reference analyses on the secondary instrument.
 
-**Results:** We decompose the secondary-instrument prediction error exactly into the primary calibration residual and a transfer discrepancy that can be measured, without reference values, on the transfer standards already used to fit PDS or direct standardisation (DS). Combining out-of-fold calibration residuals with cross-fitted discrepancies yields transfer-discrepancy conformal prediction (TD-CP) and a jackknife+ variant (TD-CP+). On two public NIR benchmarks (corn, three instruments; pharmaceutical tablets, two instruments; 30 directed instrument-pair × property scenarios, 100 random splits each, k = 10 standards), intervals calibrated on the primary instrument covered only 0.483 (PDS) and 0.587 (DS) of secondary-instrument samples at a nominal 0.90. TD-CP+ reached 0.939 and 0.927, was within 0.02 of nominal or above in 100% and 100% of scenarios, and had a lower interval score than a comparator requiring reference values for all ten standards. The pre-registered signed TD-CP fell short of its validity criterion with DS.
+**Results:** We decompose the secondary-instrument prediction error exactly into the primary calibration residual and a transfer discrepancy that can be measured, without reference values, on the transfer standards already used to fit PDS or direct standardisation (DS). Combining out-of-fold calibration residuals with cross-fitted discrepancies yields transfer-discrepancy conformal prediction (TD-CP) and a jackknife+ variant (TD-CP+). On two public NIR benchmarks (corn, three instruments; pharmaceutical tablets, two instruments; 30 directed instrument-pair × property scenarios, 100 random splits each, k = 10 standards), intervals calibrated on the primary instrument covered only 0.483 (PDS) and 0.587 (DS) of secondary-instrument samples at a nominal 0.90. TD-CP+ reached 0.939 and 0.927, was within 0.02 of nominal or above in 100% and 100% of scenarios, and had a lower interval score than a comparator requiring reference values for all ten standards. The pre-specified signed TD-CP fell short of its validity criterion with DS.
 
 **Significance:** Transferred calibrations can be accompanied by sample-wise intervals with near-nominal coverage at no extra reference-analysis cost, whereas the common practice of reusing primary-instrument intervals is markedly over-confident. The method is model-agnostic, computationally negligible and openly released.
 
@@ -35,7 +35,7 @@ These methods are almost invariably evaluated by point-prediction accuracy (RMSE
 
 Two generic remedies are available but unattractive. Re-calibrating the interval on the secondary instrument requires reference analyses for a sufficiently large labelled set: with k labelled standards, split CP cannot produce a finite 95% interval unless k ≥ 19. Weighted CP for covariate shift [24] requires overlapping supports and estimable likelihood ratios, which are fragile for high-dimensional transferred spectra. A concurrent machine-learning paper transports a labelled source calibration set through unlabelled paired observations for set-valued classification [25]; it does not address regression intervals after chemometric standardisation.
 
-Here we exploit a simple identity: the error of a transferred prediction equals the primary calibration residual plus a *transfer discrepancy*, the difference between the primary-model prediction from the primary spectrum and from the transferred secondary spectrum. The discrepancy needs no reference value and can be measured on the transfer standards that DS/PDS already require, provided that the transfer map is cross-fitted. The contributions are: (i) transfer-discrepancy conformal prediction (TD-CP), which combines out-of-fold calibration residuals with cross-fitted discrepancies, together with a conditional finite-sample coverage statement; (ii) a jackknife+ variant (TD-CP+) that remains reliable when the transfer map is unstable, as DS is when k ≪ p; and (iii) a benchmark of interval validity after transfer on two public multi-instrument datasets, with pre-registered analysis, ablations, robustness tests and open code. We report all pre-registered outcomes, including the one that the pre-registered signed TD-CP did not meet.
+Here we exploit a simple identity: the error of a transferred prediction equals the primary calibration residual plus a *transfer discrepancy*, the difference between the primary-model prediction from the primary spectrum and from the transferred secondary spectrum. The discrepancy needs no reference value and can be measured on the transfer standards that DS/PDS already require, provided that the transfer map is cross-fitted. The contributions are: (i) transfer-discrepancy conformal prediction (TD-CP), which combines out-of-fold calibration residuals with cross-fitted discrepancies, together with a conditional finite-sample coverage statement; (ii) a jackknife+ variant (TD-CP+) that remains reliable when the transfer map is unstable, as DS is when k ≪ p; and (iii) a benchmark of interval validity after transfer on two public multi-instrument datasets, with an analysis protocol fixed and time-stamped in version control before the experiments, ablations, robustness tests and open code. We report all pre-specified outcomes, including the one that the pre-specified signed TD-CP did not meet.
 
 ![**Fig. 1.** TD-CP workflow. Residuals of](figures/fig1_workflow.png)
 
@@ -69,7 +69,7 @@ where *T*_{−*j*} is fitted on the other *k* − 1 pairs.
 
 ### 2.3. Transfer-discrepancy conformal prediction (TD-CP)
 
-TD-CP combines the two empirical distributions through the *nk* sums *r*_{i} + δ_{j}. The pre-registered signed version sets *U* to the ⌈(1 − α/2)(*n* + 1)*k*⌉-th smallest sum and *L* to the mirrored order statistic, so that systematic transfer bias shifts the interval. The absolute-score version uses the *m*-th smallest of the *nk* values |*r*_{i} + δ_{j}|, denoted |*r* + δ|_{(m)}:
+TD-CP combines the two empirical distributions through the *nk* sums *r*_{i} + δ_{j}. The pre-specified signed version sets *U* to the ⌈(1 − α/2)(*n* + 1)*k*⌉-th smallest sum and *L* to the mirrored order statistic, so that systematic transfer bias shifts the interval. The absolute-score version uses the *m*-th smallest of the *nk* values |*r*_{i} + δ_{j}|, denoted |*r* + δ|_{(m)}:
 
 $$ \hat{q}=|r+\delta|_{(m)},\ \ m=\lceil(1-\alpha)(n+1)k\rceil,\qquad C(x^{S})=[\hat{y}-\hat{q},\ \hat{y}+\hat{q}] \qquad (4) $$
 
@@ -86,12 +86,12 @@ Cross-fitted discrepancies describe maps fitted on *k* − 1 standards, whereas 
 
 $$ C^{+}(x^{S})=\left[\hat{q}^{-}_{\alpha}\{f(T_{-j}(x^{S}))-|r_{i}+\delta_{j}|\},\ \hat{q}^{+}_{1-\alpha}\{f(T_{-j}(x^{S}))+|r_{i}+\delta_{j}|\}\right] \qquad (6) $$
 
-where q̂^{+}_{1−α} is the ⌈(1 − α)(*n* + 1)*k*⌉-th smallest of the *nk* values and q̂^{−}_{α} the mirrored order statistic. If the transfer map does not depend on which standard is left out, Eq. (6) reduces to Eq. (4). TD-CP+ was added after inspection of the pre-registered main experiment (Supplementary S2) and is therefore evaluated on confirmatory experiments that had not been examined when it was introduced.
+where q̂^{+}_{1−α} is the ⌈(1 − α)(*n* + 1)*k*⌉-th smallest of the *nk* values and q̂^{−}_{α} the mirrored order statistic. If the transfer map does not depend on which standard is left out, Eq. (6) reduces to Eq. (4). TD-CP+ was added after inspection of the pre-specified main experiment (Supplementary S2) and is therefore evaluated on confirmatory experiments that had not been examined when it was introduced.
 
 
 ### 2.5. Comparison methods
 
-All interval methods share the same point prediction ŷ. Label-free comparators: (M1) naive split CP with the primary residuals, ±q̂_{1−α}(|*r*|); (M2) the classical leverage-corrected PLS interval, ±*t*_{1−α/2, n−A−1}·RMSECV·(1 + 1/*n* + *h*)^{1/2} with *h* the leverage of the transferred spectrum [12,15]; (M3) weighted CP under covariate shift [24] with likelihood ratios from a logistic-regression classifier on PLS scores of master versus transferred test spectra; and (M4) a Gaussian combination of the same information used by TD-CP, ŷ + mean(*r*) + mean(δ) ± *z*_{1−α/2}(RMSECV^{2} + s_{δ}^{2})^{1/2}. Methods that additionally require reference values for the *k* standards (an advantaged reference rather than a competitor): (M5) target split CP on leave-one-out target residuals *e*_{j} = *y*_{j} − *f*(*T*_{−*j*}(*x*_{j}^{S})); (M5+) its jackknife+ version; and (M6) pooled CP on {|*r*_{i}|} ∪ {|*e*_{j}|}. Ablations: TD-CP without cross-fitting (in-sample δ), signed versus absolute scores, and a union-bound sum q̂_{1−α/2}(|*r*|) + Q_{1−α/2}(|δ|).
+All interval methods share the same point prediction ŷ. Label-free comparators: (M1) naive split CP with the primary residuals, ±q̂_{1−α}(|*r*|); (M2) the classical leverage-corrected PLS interval, ±*t*_{1−α/2, n−A−1}·RMSECV·(1 + 1/*n* + *h*)^{1/2} with *h* the leverage of the transferred spectrum [12,15]; (M3) weighted CP under covariate shift [24] with likelihood ratios from 5-fold cross-fitted probabilities of a logistic-regression classifier on standardised PLS scores of master versus transferred test spectra; and (M4) a Gaussian combination of the same information used by TD-CP, ŷ + mean(*r*) + mean(δ) ± *z*_{1−α/2}(RMSECV^{2} + s_{δ}^{2})^{1/2}. Methods that additionally require reference values for the *k* standards (an advantaged reference rather than a competitor): (M5) target split CP on leave-one-out target residuals *e*_{j} = *y*_{j} − *f*(*T*_{−*j*}(*x*_{j}^{S})); (M5+) its jackknife+ version; and (M6) pooled CP on {|*r*_{i}|} ∪ {|*e*_{j}|}. Ablations: TD-CP without cross-fitting (in-sample δ), signed versus absolute scores, and a union-bound sum q̂_{1−α/2}(|*r*|) + Q_{1−α/2}(|δ|).
 
 
 ## 3. Experimental
@@ -104,7 +104,7 @@ Two public multi-instrument NIR benchmarks distributed by Eigenvector Research w
 
 ### 3.2. Calibration and transfer
 
-PLS1 models (NIPALS, mean-centred raw spectra) were fitted on the primary spectra of the master set, with the number of latent variables chosen by minimum 10-fold RMSECV (maximum 15 for corn, 20 for tablets); the out-of-fold residuals at that complexity served as calibration scores. PDS used a five-channel window with local ridge regression (λ = 10^{−6} × trace of the local Gram matrix) and inward-shifted windows at the spectral edges; DS used the Moore–Penrose pseudo-inverse of the centred secondary standards (rcond = 10^{−6}). These hyperparameters were fixed in advance and not tuned.
+PLS1 models (NIPALS, mean-centred raw spectra) were fitted on the primary spectra of the master set, with the number of latent variables chosen by minimum 10-fold RMSECV (maximum 15 for corn, 20 for tablets); the out-of-fold residuals at that complexity served as calibration scores (selecting the complexity on the same folds makes these residuals marginally optimistic; the in-domain check in Section 4.1 quantifies the effect). PDS used a five-channel window with local ridge regression (λ = 10^{−6} × trace of the local Gram matrix) and inward-shifted windows at the spectral edges; DS used the Moore–Penrose pseudo-inverse of the centred secondary standards (rcond = 10^{−6}). These hyperparameters were fixed in advance and not tuned.
 
 
 ### 3.3. Splitting protocol and leakage control
@@ -118,12 +118,12 @@ For every split we computed empirical coverage, mean interval width and the inte
 
 $$ \mathrm{IS}_{\alpha}=(u-l)+\frac{2}{\alpha}(l-y)\,\mathbf{1}\{y<l\}+\frac{2}{\alpha}(y-u)\,\mathbf{1}\{y>u\} \qquad (7) $$
 
-which rewards narrow intervals and penalises misses (lower is better). Width and IS were divided by the standard deviation of the property to pool scenarios. Because repetitions within a scenario share samples, the scenario mean was the unit of analysis. A scenario was called *valid* if its mean coverage was at least 1 − α − 0.02; the pre-registered success criterion was validity in ≥80% of scenarios for each transfer method. Methods were compared with two-sided Wilcoxon signed-rank tests over the paired scenario means [31] of the absolute coverage gap and of the normalised IS, with Holm adjustment across all 42 comparisons [32], matched-pairs rank-biserial correlations as effect sizes [33] and percentile bootstrap 95% confidence intervals of the median paired difference (10,000 resamples). Infinite intervals were ranked as worst.
+which rewards narrow intervals and penalises misses (lower is better). Width and IS were divided by the standard deviation of the property to pool scenarios. Because repetitions within a scenario share samples, the scenario mean was the unit of analysis. A scenario was called *valid* if its mean coverage was at least 1 − α − 0.02; the pre-specified success criterion was validity in ≥80% of scenarios for each transfer method. Methods were compared with two-sided Wilcoxon signed-rank tests over the paired scenario means [31] of the absolute coverage gap and of the normalised IS, with Holm adjustment across all 42 comparisons [32], matched-pairs rank-biserial correlations as effect sizes [33] and percentile bootstrap 95% confidence intervals of the median paired difference (10,000 resamples). Infinite intervals were ranked as worst.
 
 
 ### 3.5. Robustness and generalisation experiments
 
-Additional experiments (50 repetitions unless noted) varied one factor at a time: the number of standards *k* ∈ {5, 8, 10, 15, 20, 30}; Kennard–Stone instead of random selection of standards [34] (100 repetitions); SNV followed by a Savitzky–Golay first derivative (11 points, second order) [35,36]; ridge regression instead of PLS; Gaussian noise added to secondary spectra (0.5, 1 and 2% of the mean channel standard deviation); no standardisation at all; the official IDRC calibration/validation/test partition of the tablets (100 repetitions over random standard selection); and virtual secondary instruments obtained by perturbing the primary spectra with wavelength shifts (0.5–2 channels), band broadening (Gaussian σ = 1–3 channels), gain (2–10%), sloped baselines and noise at three severity levels. Nominal levels 0.80, 0.90 and 0.95 were analysed for the main experiment.
+Additional experiments (50 repetitions unless noted) varied one factor at a time: the number of standards *k* ∈ {5, 8, 10, 15, 20, 30}; Kennard–Stone selection of the standards on their primary spectra [34] (100 repetitions); standards drawn only from samples with reference values below the median (unrepresentative standards, added during internal review); SNV followed by a Savitzky–Golay first derivative (11 points, second order) [35,36]; ridge regression instead of PLS; PLS complexity chosen by the one-standard-error rule and PDS windows of 3, 7 and 11 channels (both added during internal review; Supplementary S2); Gaussian noise added to all secondary spectra, standards included (0.5, 1 and 2% of the mean channel standard deviation); no standardisation at all; the official IDRC calibration/validation/test partition of the tablets (100 repetitions over random standard selection); and virtual secondary instruments obtained by perturbing the primary spectra with wavelength shifts (0.5–2 channels), band broadening (Gaussian σ = 1–3 channels), gain (2–10%), sloped baselines and noise at three severity levels. Nominal levels 0.80, 0.90 and 0.95 were analysed for the main experiment.
 
 
 ### 3.6. Software and reproducibility
@@ -152,57 +152,37 @@ All computations were run in Python 3.13 (NumPy, SciPy, scikit-learn) on a 4-cor
 
 ### 4.1. Calibration and transfer quality
 
-The selected PLS models used 8–15 latent variables for corn and 3–20 for tablets. Transfer was imperfect: the median ratio of the secondary-instrument RMSEP after transfer to the RMSEP obtained from the primary spectra of the same test samples was 2.2 (range 1.1–52.6; Table S1), i.e., the transferred predictions carried an error component absent on the primary instrument. As an in-domain check of the out-of-fold residual scores, the naive interval applied to the *primary* spectra of the test samples covered 0.900 on average at the nominal 0.90 (scenario range 0.872–0.932).
+The selected PLS models used 8–15 latent variables for corn and 3–20 for tablets. Transfer was imperfect: the median ratio of the secondary-instrument RMSEP after transfer to the RMSEP obtained from the primary spectra of the same test samples was 2.2 (range 1.1–52.6; Table S1), i.e., the transferred predictions carried an error component absent on the primary instrument. The largest ratios occur for corn moisture with m5 as primary, which is predicted almost perfectly from m5 spectra, so that any transfer error dominates. As an in-domain check of the out-of-fold residual scores, the naive interval applied to the *primary* spectra of the test samples covered 0.900 on average at the nominal 0.90 (scenario range 0.872–0.932).
 
 
 ### 4.2. Intervals inherited from the primary instrument are over-confident
 
-Reusing the primary-instrument interval after transfer (naive CP) gave mean coverages of 0.483 after PDS and 0.587 after DS at a nominal 0.90, with individual scenarios as low as 0.044 (Table 2, Fig. 3). The classical leverage-corrected interval was only marginally better (0.574 and 0.656), because leverage measures distance within the calibration space but not the transfer error. Weighted CP for covariate shift raised coverage to 0.713 and 0.739, yet produced unbounded intervals for a sizeable fraction of test samples (Table 2): the classifier separates transferred from primary spectra almost perfectly, so the likelihood ratios degenerate. Pooling the labelled transfer residuals with the primary residuals (pooled CP) also under-covered (0.653, 0.706) because the *k* target residuals are swamped by the *n* primary residuals.
+Reusing the primary-instrument interval after transfer (naive CP) gave mean coverages of 0.483 after PDS and 0.587 after DS at a nominal 0.90, with individual scenarios as low as 0.044 (Table 2, Fig. 3). The classical leverage-corrected interval was only marginally better (0.574 and 0.656), because leverage measures distance within the calibration space but not the transfer error. Weighted CP for covariate shift raised coverage to 0.612 and 0.634, yet produced unbounded intervals for 18% (PDS) and 11% (DS) of test samples (Table 2), a symptom of degenerate likelihood-ratio weights when transferred and primary spectra are easily distinguished. Pooling the labelled transfer residuals with the primary residuals (pooled CP) also under-covered (0.653, 0.706) because the *k* target residuals are swamped by the *n* primary residuals.
 
-**Table 2.** Interval performance at nominal coverage 0.90 (α = 0.10), k = 10 transfer standards. Scenario means over 100 random splits; ‘Valid’ = percentage of scenarios with mean coverage ≥ 0.88; width and interval score (IS) are divided by SD(y) and summarised by their median over scenarios. Methods marked ‘k labelled’ require reference values for the transfer standards.
+**Table 2.** Interval performance at nominal coverage 0.90 (α = 0.10), k = 10 transfer standards, 30 scenarios per transfer method (24 corn, 6 tablets). Scenario means over 100 random splits; ‘Valid’ = percentage of scenarios with mean coverage ≥ 0.88; width and interval score (IS) are divided by SD(y) and summarised by their median over scenarios; ∞ = unbounded intervals occurred. Methods marked ‘k labelled’ require reference values for the transfer standards. Per-dataset results: Table S2.
 
 | Dataset | Transfer | Method | Mean cov. | Min cov. | Valid (%) | Width/SD | IS/SD |
 |---|---|---|---|---|---|---|---|
-| corn | DS | Naive CP (primary residuals) | 0.554 | 0.055 | 0 | 1.30 | 6.61 |
-| corn | DS | Leverage PI (classical) | 0.627 | 0.071 | 0 | 1.66 | 5.44 |
-| corn | DS | Weighted CP (covariate shift) | 0.743 | 0.520 | 0 | ∞ | ∞ |
-| corn | DS | Gaussian TD (parametric) | 0.870 | 0.816 | 33 | 3.23 | 4.73 |
-| corn | DS | TD-CP signed (pre-registered) | 0.877 | 0.793 | 50 | 3.35 | 4.81 |
-| corn | DS | TD-CP absolute scores | 0.886 | 0.847 | 58 | 3.51 | 4.84 |
-| corn | DS | TD-CP+ (jackknife+) | 0.929 | 0.909 | 100 | 4.05 | 4.74 |
-| corn | DS | Target CP (k labelled) | 0.889 | 0.856 | 75 | 3.71 | 4.93 |
-| corn | DS | Target CP+ (k labelled) | 0.926 | 0.910 | 100 | 4.29 | 4.99 |
-| corn | DS | Pooled CP (k labelled) | 0.702 | 0.543 | 0 | 1.77 | 5.25 |
-| corn | PDS | Naive CP (primary residuals) | 0.445 | 0.044 | 0 | 1.30 | 18.76 |
-| corn | PDS | Leverage PI (classical) | 0.541 | 0.085 | 0 | 2.09 | 12.84 |
-| corn | PDS | Weighted CP (covariate shift) | 0.708 | 0.560 | 0 | ∞ | ∞ |
-| corn | PDS | Gaussian TD (parametric) | 0.896 | 0.881 | 100 | 5.42 | 7.90 |
-| corn | PDS | TD-CP signed (pre-registered) | 0.893 | 0.855 | 71 | 5.75 | 8.43 |
-| corn | PDS | TD-CP absolute scores | 0.916 | 0.897 | 100 | 6.58 | 8.53 |
-| corn | PDS | TD-CP+ (jackknife+) | 0.939 | 0.920 | 100 | 7.24 | 8.37 |
-| corn | PDS | Target CP (k labelled) | 0.918 | 0.904 | 100 | 6.75 | 8.58 |
-| corn | PDS | Target CP+ (k labelled) | 0.941 | 0.918 | 100 | 7.40 | 8.47 |
-| corn | PDS | Pooled CP (k labelled) | 0.655 | 0.551 | 0 | 2.57 | 11.10 |
-| tablets | DS | Naive CP (primary residuals) | 0.720 | 0.492 | 33 | 2.37 | 4.28 |
-| tablets | DS | Leverage PI (classical) | 0.773 | 0.616 | 33 | 2.49 | 3.85 |
-| tablets | DS | Weighted CP (covariate shift) | 0.723 | 0.511 | 17 | ∞ | ∞ |
-| tablets | DS | Gaussian TD (parametric) | 0.918 | 0.911 | 100 | 2.96 | 3.88 |
-| tablets | DS | TD-CP signed (pre-registered) | 0.905 | 0.887 | 100 | 2.92 | 3.87 |
-| tablets | DS | TD-CP absolute scores | 0.914 | 0.908 | 100 | 2.91 | 3.88 |
-| tablets | DS | TD-CP+ (jackknife+) | 0.918 | 0.899 | 100 | 2.96 | 3.86 |
-| tablets | DS | Target CP (k labelled) | 0.921 | 0.906 | 100 | 3.62 | 4.60 |
-| tablets | DS | Target CP+ (k labelled) | 0.924 | 0.914 | 100 | 3.67 | 4.58 |
-| tablets | DS | Pooled CP (k labelled) | 0.726 | 0.506 | 17 | 2.39 | 4.18 |
-| tablets | PDS | Naive CP (primary residuals) | 0.635 | 0.487 | 0 | 2.37 | 5.44 |
-| tablets | PDS | Leverage PI (classical) | 0.703 | 0.536 | 0 | 2.60 | 5.17 |
-| tablets | PDS | Weighted CP (covariate shift) | 0.734 | 0.653 | 0 | ∞ | ∞ |
-| tablets | PDS | Gaussian TD (parametric) | 0.920 | 0.912 | 100 | 3.78 | 4.79 |
-| tablets | PDS | TD-CP signed (pre-registered) | 0.900 | 0.892 | 100 | 3.75 | 4.86 |
-| tablets | PDS | TD-CP absolute scores | 0.920 | 0.912 | 100 | 3.86 | 4.89 |
-| tablets | PDS | TD-CP+ (jackknife+) | 0.940 | 0.916 | 100 | 4.10 | 4.98 |
-| tablets | PDS | Target CP (k labelled) | 0.930 | 0.912 | 100 | 4.75 | 5.74 |
-| tablets | PDS | Target CP+ (k labelled) | 0.947 | 0.917 | 100 | 5.02 | 5.88 |
-| tablets | PDS | Pooled CP (k labelled) | 0.645 | 0.499 | 0 | 2.45 | 5.38 |
+| corn + tablets | DS | Naive CP (primary residuals) | 0.587 | 0.055 | 7 | 1.36 | 5.55 |
+| corn + tablets | DS | Leverage PI (classical) | 0.656 | 0.071 | 7 | 1.71 | 4.71 |
+| corn + tablets | DS | Weighted CP (covariate shift) | 0.634 | 0.260 | 3 | ∞ | ∞ |
+| corn + tablets | DS | Gaussian TD (parametric) | 0.880 | 0.816 | 47 | 3.16 | 4.61 |
+| corn + tablets | DS | TD-CP signed (pre-specified) | 0.883 | 0.793 | 60 | 3.29 | 4.69 |
+| corn + tablets | DS | TD-CP absolute scores | 0.892 | 0.847 | 67 | 3.50 | 4.66 |
+| corn + tablets | DS | TD-CP+ (jackknife+) | 0.927 | 0.899 | 100 | 3.98 | 4.62 |
+| corn + tablets | DS | Target CP (k labelled) | 0.895 | 0.856 | 80 | 3.67 | 4.92 |
+| corn + tablets | DS | Target CP+ (k labelled) | 0.926 | 0.910 | 100 | 4.26 | 4.97 |
+| corn + tablets | DS | Pooled CP (k labelled) | 0.706 | 0.506 | 3 | 1.78 | 5.04 |
+| corn + tablets | PDS | Naive CP (primary residuals) | 0.483 | 0.044 | 0 | 1.36 | 14.29 |
+| corn + tablets | PDS | Leverage PI (classical) | 0.574 | 0.085 | 0 | 2.18 | 10.59 |
+| corn + tablets | PDS | Weighted CP (covariate shift) | 0.612 | 0.361 | 0 | ∞ | ∞ |
+| corn + tablets | PDS | Gaussian TD (parametric) | 0.901 | 0.881 | 100 | 5.31 | 7.65 |
+| corn + tablets | PDS | TD-CP signed (pre-specified) | 0.895 | 0.855 | 77 | 5.47 | 8.14 |
+| corn + tablets | PDS | TD-CP absolute scores | 0.917 | 0.897 | 100 | 6.36 | 8.01 |
+| corn + tablets | PDS | TD-CP+ (jackknife+) | 0.939 | 0.916 | 100 | 7.07 | 7.97 |
+| corn + tablets | PDS | Target CP (k labelled) | 0.921 | 0.904 | 100 | 6.63 | 8.36 |
+| corn + tablets | PDS | Target CP+ (k labelled) | 0.942 | 0.917 | 100 | 7.29 | 8.29 |
+| corn + tablets | PDS | Pooled CP (k labelled) | 0.653 | 0.499 | 0 | 2.54 | 10.73 |
 
 ![**Fig. 3.** Coverage (top) and interval ](figures/fig3_main_results.png)
 
@@ -211,19 +191,23 @@ Reusing the primary-instrument interval after transfer (naive CP) gave mean cove
 
 ### 4.3. Transfer-discrepancy intervals restore coverage without reference values
 
-Adding the cross-fitted transfer discrepancies restored coverage close to nominal for all TD-CP variants (Table 2). The pre-registered signed TD-CP reached mean coverages of 0.895 (PDS) and 0.883 (DS) but was valid in only 77% and 60% of scenarios, missing the pre-registered criterion of 80%. The shortfall was concentrated on corn with DS, where even the target CP using reference values of all ten standards was valid in only 75% of scenarios. TD-CP+ was valid in 100% (PDS) and 100% (DS) of scenarios, with mean coverage 0.939 and 0.927: slightly conservative, as expected for jackknife+-type intervals. Its median normalised interval score (7.97 PDS, 4.62 DS) was lower than that of the labelled target CP+ (8.29, 4.97), which needs ten reference analyses on the secondary instrument, and close to that of the parametric Gaussian combination (7.65, 4.61). The Gaussian combination, however, was valid in only 47% of DS scenarios (minimum coverage 0.816), whereas TD-CP+ never fell below 0.899.
+Adding the cross-fitted transfer discrepancies restored coverage close to nominal for all TD-CP variants (Table 2). The pre-specified signed TD-CP reached mean coverages of 0.895 (PDS) and 0.883 (DS) but was valid in only 77% and 60% of scenarios, missing the pre-specified criterion of 80%. The shortfall was concentrated on corn with DS, where even the target CP using reference values of all ten standards was valid in only 75% of scenarios. TD-CP+ was valid in 100% (PDS) and 100% (DS) of scenarios, with mean coverage 0.939 and 0.927: slightly conservative, as expected for jackknife+-type intervals. Its median normalised interval score (7.97 PDS, 4.62 DS) was lower than that of the labelled target CP+ (8.29, 4.97), which needs ten reference analyses on the secondary instrument, and close to that of the parametric Gaussian combination (7.65, 4.61). The Gaussian combination, however, was valid in only 47% of DS scenarios (minimum coverage 0.816), whereas TD-CP+ never fell below 0.899.
 
 Paired comparisons across the 60 scenarios (Table 3) confirmed that TD-CP+ had a smaller absolute coverage gap than naive CP (Holm-adjusted *p* = <0.001, rank-biserial *r* = -1.00), the leverage interval (*p* = <0.001) and weighted CP (*p* = <0.001), and a lower interval score than naive CP (*p* = <0.001, *r* = -1.00) and than the labelled target CP+ (*p* = <0.001, *r* = -1.00). The Gaussian combination, in contrast, had a slightly *lower* interval score than TD-CP+ (median paired difference 0.094 SD units, 95% CI [0.024, 0.148], *p* = 0.047, *r* = 0.39); the advantage of TD-CP+ over it lies in validity under DS, not in efficiency. Note that the absolute coverage gap penalises over-coverage too, so the slightly conservative TD-CP+ is not favoured by this metric relative to methods centred on nominal coverage (e.g., *p* = <0.001 against the Gaussian combination, *r* = 0.59).
 
-**Table 3.** TD-CP+ versus each comparator at α = 0.10: medians over scenarios of the absolute coverage gap |coverage − 0.90| and of IS/SD, bootstrap 95% CI of the median paired difference (TD-CP+ − comparator), matched-pairs rank-biserial correlation r_rb (negative: TD-CP+ smaller) and two-sided Wilcoxon signed-rank p-values, Holm-adjusted over all 42 tests (including those for the pre-registered TD-CP, Supplementary).
+Two caveats qualify these tests. First, scenarios are not independent: the 24 corn scenarios reuse the same 80 samples and the PDS and DS scenarios share splits, so the *p*-values are optimistic and the effect sizes and their consistency are more informative. Stratified by dataset and transfer method, TD-CP+ had a smaller absolute coverage gap than naive CP and weighted CP in at least 80% of the scenarios of every stratum (Table S5). Second, the 0.02 tolerance in the validity definition is a convention; with zero tolerance TD-CP+ was valid in 100% (PDS) and 97% (DS) of scenarios, versus 47% and 27% for the Gaussian combination (Table S6).
+
+Coverage averaged over splits is a marginal property; a laboratory deploys a single calibration and a single transfer. Split-level coverage (Table S4) shows how much an individual deployment can deviate. With only 25 test samples, binomial noise alone is substantial for corn: even the ideal in-domain conformal interval (naive CP on the primary spectra) fell below 0.80 coverage in 9% of corn splits. TD-CP+ was below 0.80 in 5% (PDS) and 10% (DS) of corn splits and 1% and 6% of tablet splits, whereas naive CP was below 0.80 in 82% and 82% of corn splits and 68% and 54% of tablet splits.
+
+**Table 3.** TD-CP+ versus each comparator at α = 0.10: medians over scenarios of the absolute coverage gap |coverage − 0.90| and of IS/SD, bootstrap 95% CI of the median paired difference (TD-CP+ − comparator), matched-pairs rank-biserial correlation r_rb (negative: TD-CP+ smaller) and two-sided Wilcoxon signed-rank p-values, Holm-adjusted over all 42 tests (including those for the pre-specified TD-CP, Supplementary).
 
 | Metric | Comparator | n | Median TD-CP+ | Median comp. | CI low | CI high | r_rb | p (Holm) |
 |---|---|---|---|---|---|---|---|---|
 | |coverage gap| | Naive CP (primary residuals) | 60 | 0.032 | 0.333 | -0.365 | -0.230 | -1.00 | <0.001 |
 | |coverage gap| | Leverage PI (classical) | 60 | 0.032 | 0.254 | -0.269 | -0.159 | -1.00 | <0.001 |
-| |coverage gap| | Weighted CP (covariate shift) | 60 | 0.032 | 0.171 | -0.156 | -0.113 | -1.00 | <0.001 |
+| |coverage gap| | Weighted CP (covariate shift) | 60 | 0.032 | 0.269 | -0.280 | -0.201 | -1.00 | <0.001 |
 | |coverage gap| | Gaussian TD (parametric) | 60 | 0.032 | 0.017 | 0.009 | 0.022 | 0.59 | 0.001 |
-| |coverage gap| | TD-CP signed (pre-registered) | 60 | 0.032 | 0.015 | 0.008 | 0.022 | 0.66 | <0.001 |
+| |coverage gap| | TD-CP signed (pre-specified) | 60 | 0.032 | 0.015 | 0.008 | 0.022 | 0.66 | <0.001 |
 | |coverage gap| | TD-CP absolute scores | 60 | 0.032 | 0.016 | 0.014 | 0.023 | 0.78 | <0.001 |
 | |coverage gap| | TD-CP w/o cross-fitting | 60 | 0.032 | 0.161 | -0.192 | -0.087 | -0.98 | <0.001 |
 | |coverage gap| | TD-sum (union bound) | 60 | 0.032 | 0.069 | -0.042 | -0.030 | -0.95 | <0.001 |
@@ -234,7 +218,7 @@ Paired comparisons across the 60 scenarios (Table 3) confirmed that TD-CP+ had a
 | IS/SD | Leverage PI (classical) | 60 | 4.864 | 5.586 | -1.264 | -0.280 | -0.80 | <0.001 |
 | IS/SD | Weighted CP (covariate shift) | 60 | 4.864 | ∞ | −∞ | −∞ | -1.00 | <0.001 |
 | IS/SD | Gaussian TD (parametric) | 60 | 4.864 | 4.773 | 0.024 | 0.148 | 0.39 | 0.047 |
-| IS/SD | TD-CP signed (pre-registered) | 60 | 4.864 | 4.965 | -0.198 | -0.034 | -0.63 | <0.001 |
+| IS/SD | TD-CP signed (pre-specified) | 60 | 4.864 | 4.965 | -0.198 | -0.034 | -0.63 | <0.001 |
 | IS/SD | TD-CP absolute scores | 60 | 4.864 | 5.027 | -0.213 | -0.073 | -0.72 | <0.001 |
 | IS/SD | TD-CP w/o cross-fitting | 60 | 4.864 | 6.516 | -0.866 | -0.353 | -0.80 | <0.001 |
 | IS/SD | TD-sum (union bound) | 60 | 4.864 | 5.911 | -1.113 | -0.953 | -1.00 | <0.001 |
@@ -243,7 +227,7 @@ Paired comparisons across the 60 scenarios (Table 3) confirmed that TD-CP+ had a
 | IS/SD | Pooled CP (k labelled) | 60 | 4.864 | 5.413 | -1.299 | -0.545 | -1.00 | <0.001 |
 | |coverage gap| | Naive CP (primary residuals) | 60 | 0.015 | 0.333 | -0.393 | -0.251 | -1.00 | <0.001 |
 | |coverage gap| | Leverage PI (classical) | 60 | 0.015 | 0.254 | -0.291 | -0.185 | -1.00 | <0.001 |
-| |coverage gap| | Weighted CP (covariate shift) | 60 | 0.015 | 0.171 | -0.186 | -0.129 | -1.00 | <0.001 |
+| |coverage gap| | Weighted CP (covariate shift) | 60 | 0.015 | 0.269 | -0.280 | -0.224 | -1.00 | <0.001 |
 | |coverage gap| | Gaussian TD (parametric) | 60 | 0.015 | 0.017 | -0.005 | 0.005 | 0.07 | 1.000 |
 | |coverage gap| | TD-CP absolute scores | 60 | 0.015 | 0.016 | -0.002 | 0.006 | 0.22 | 0.652 |
 | |coverage gap| | TD-CP w/o cross-fitting | 60 | 0.015 | 0.161 | -0.207 | -0.110 | -1.00 | <0.001 |
@@ -271,34 +255,20 @@ Cross-fitting is indispensable (Table 4, Fig. 4). With in-sample discrepancies, 
 
 | Dataset | Transfer | Method | Mean cov. | Min cov. | Valid (%) | Width/SD | IS/SD |
 |---|---|---|---|---|---|---|---|
-| corn | DS | TD-CP+ (jackknife+) | 0.929 | 0.909 | 100 | 4.05 | 4.74 |
-| corn | DS | TD-CP absolute scores | 0.886 | 0.847 | 58 | 3.51 | 4.84 |
-| corn | DS | TD-CP signed (pre-registered) | 0.877 | 0.793 | 50 | 3.35 | 4.81 |
-| corn | DS | TD-CP w/o cross-fitting | 0.566 | 0.056 | 0 | 1.35 | 6.52 |
-| corn | DS | TD-sum (union bound) | 0.957 | 0.870 | 92 | 5.06 | 5.57 |
-| corn | DS | Gaussian TD (parametric) | 0.870 | 0.816 | 33 | 3.23 | 4.73 |
-| corn | DS | Naive CP (primary residuals) | 0.554 | 0.055 | 0 | 1.30 | 6.61 |
-| corn | PDS | TD-CP+ (jackknife+) | 0.939 | 0.920 | 100 | 7.24 | 8.37 |
-| corn | PDS | TD-CP absolute scores | 0.916 | 0.897 | 100 | 6.58 | 8.53 |
-| corn | PDS | TD-CP signed (pre-registered) | 0.893 | 0.855 | 71 | 5.75 | 8.43 |
-| corn | PDS | TD-CP w/o cross-fitting | 0.805 | 0.726 | 0 | 4.02 | 8.56 |
-| corn | PDS | TD-sum (union bound) | 0.963 | 0.924 | 100 | 8.50 | 9.34 |
-| corn | PDS | Gaussian TD (parametric) | 0.896 | 0.881 | 100 | 5.42 | 7.90 |
-| corn | PDS | Naive CP (primary residuals) | 0.445 | 0.044 | 0 | 1.30 | 18.76 |
-| tablets | DS | TD-CP+ (jackknife+) | 0.918 | 0.899 | 100 | 2.96 | 3.86 |
-| tablets | DS | TD-CP absolute scores | 0.914 | 0.908 | 100 | 2.91 | 3.88 |
-| tablets | DS | TD-CP signed (pre-registered) | 0.905 | 0.887 | 100 | 2.92 | 3.87 |
-| tablets | DS | TD-CP w/o cross-fitting | 0.720 | 0.492 | 33 | 2.38 | 4.28 |
-| tablets | DS | TD-sum (union bound) | 0.978 | 0.971 | 100 | 4.62 | 4.92 |
-| tablets | DS | Gaussian TD (parametric) | 0.918 | 0.911 | 100 | 2.96 | 3.88 |
-| tablets | DS | Naive CP (primary residuals) | 0.720 | 0.492 | 33 | 2.37 | 4.28 |
-| tablets | PDS | TD-CP+ (jackknife+) | 0.940 | 0.916 | 100 | 4.10 | 4.98 |
-| tablets | PDS | TD-CP absolute scores | 0.920 | 0.912 | 100 | 3.86 | 4.89 |
-| tablets | PDS | TD-CP signed (pre-registered) | 0.900 | 0.892 | 100 | 3.75 | 4.86 |
-| tablets | PDS | TD-CP w/o cross-fitting | 0.725 | 0.627 | 0 | 2.75 | 5.00 |
-| tablets | PDS | TD-sum (union bound) | 0.978 | 0.976 | 100 | 5.78 | 6.11 |
-| tablets | PDS | Gaussian TD (parametric) | 0.920 | 0.912 | 100 | 3.78 | 4.79 |
-| tablets | PDS | Naive CP (primary residuals) | 0.635 | 0.487 | 0 | 2.37 | 5.44 |
+| corn + tablets | DS | TD-CP+ (jackknife+) | 0.927 | 0.899 | 100 | 3.98 | 4.62 |
+| corn + tablets | DS | TD-CP absolute scores | 0.892 | 0.847 | 67 | 3.50 | 4.66 |
+| corn + tablets | DS | TD-CP signed (pre-specified) | 0.883 | 0.793 | 60 | 3.29 | 4.69 |
+| corn + tablets | DS | TD-CP w/o cross-fitting | 0.597 | 0.056 | 7 | 1.40 | 5.48 |
+| corn + tablets | DS | TD-sum (union bound) | 0.961 | 0.870 | 93 | 4.93 | 5.55 |
+| corn + tablets | DS | Gaussian TD (parametric) | 0.880 | 0.816 | 47 | 3.16 | 4.61 |
+| corn + tablets | DS | Naive CP (primary residuals) | 0.587 | 0.055 | 7 | 1.36 | 5.55 |
+| corn + tablets | PDS | TD-CP+ (jackknife+) | 0.939 | 0.916 | 100 | 7.07 | 7.97 |
+| corn + tablets | PDS | TD-CP absolute scores | 0.917 | 0.897 | 100 | 6.36 | 8.01 |
+| corn + tablets | PDS | TD-CP signed (pre-specified) | 0.895 | 0.855 | 77 | 5.47 | 8.14 |
+| corn + tablets | PDS | TD-CP w/o cross-fitting | 0.789 | 0.627 | 0 | 3.52 | 8.16 |
+| corn + tablets | PDS | TD-sum (union bound) | 0.966 | 0.924 | 100 | 7.63 | 9.02 |
+| corn + tablets | PDS | Gaussian TD (parametric) | 0.901 | 0.881 | 100 | 5.31 | 7.65 |
+| corn + tablets | PDS | Naive CP (primary residuals) | 0.483 | 0.044 | 0 | 1.36 | 14.29 |
 
 ![**Fig. 4.** Ablation: coverage gap (left](figures/fig4_ablation.png)
 
@@ -316,12 +286,20 @@ With *k* = 5 and 8 labelled standards, target CP cannot produce finite 90% inter
 
 ### 4.6. Robustness and generalisation
 
-Table 6 and Fig. 6 summarise the confirmatory experiments, none of which had been inspected when TD-CP+ was introduced. With Kennard–Stone selection of the standards, which violates the exchangeability between standards and test samples, TD-CP+ covered 0.962 (PDS) and 0.950 (DS). With SNV + first-derivative preprocessing it covered 0.936 and 0.925; with a ridge-regression calibration 0.945 (PDS). Added secondary-instrument noise (2% of the channel SD) gave 0.953, versus 0.339 for naive CP. Without any standardisation, the transfer discrepancy dominates the error, and TD-CP+ still covered 0.921 (naive CP: 0.283). Here, however, the symmetric TD-CP+ interval was much less efficient (IS/SD 5.61) than the signed TD-CP (2.35, coverage 0.917) or the Gaussian combination (2.28), because an uncorrected instrument difference produces a large systematic bias that only the signed constructions can shift the interval to absorb. When the discrepancies are strongly one-sided, the signed TD-CP is preferable. On the official IDRC partition of the tablets it covered 0.924 (PDS) and 0.916 (DS). For virtual secondary instruments of increasing severity, naive coverage fell from 0.895 to 0.741 (PDS), while TD-CP+ covered 0.918–0.924.
+Table 6 and Fig. 6 summarise the confirmatory experiments, none of which had been inspected when TD-CP+ was introduced. With Kennard–Stone selection of the standards, which violates the exchangeability between standards and test samples, TD-CP+ covered 0.962 (PDS) and 0.950 (DS). A harsher violation, drawing all standards from samples with reference values below the median, degraded the transfer itself (naive coverage 0.461 and 0.529); TD-CP+ covered 0.939 (PDS, valid in 100% of scenarios) and 0.876 (DS, 60%), against 0.942 and 0.880 for the labelled target CP+. With SNV + first-derivative preprocessing it covered 0.936 and 0.925; with a ridge-regression calibration 0.945 (PDS). Because the corn models selected by minimum RMSECV were complex (median 10 latent variables for 45 samples) and complex models can be fragile to instrument differences, we repeated the study with the more parsimonious one-standard-error rule (median 8 latent variables for corn): naive CP still covered only 0.576 (PDS) and 0.621 (DS), while TD-CP+ covered 0.937 and 0.927. Varying the PDS window from 3 to 11 channels changed the transfer quality (naive coverage 0.536–0.404) but not the validity of TD-CP+ (0.942–0.946). Added secondary-instrument noise (2% of the channel SD) gave 0.953, versus 0.339 for naive CP. Without any standardisation, the transfer discrepancy dominates the error, and TD-CP+ still covered 0.921 (naive CP: 0.283). Here, however, the symmetric TD-CP+ interval was much less efficient (IS/SD 5.61) than the signed TD-CP (2.35, coverage 0.917) or the Gaussian combination (2.28), because an uncorrected instrument difference produces a large systematic bias that only the signed constructions can shift the interval to absorb. When the discrepancies are strongly one-sided, the signed TD-CP is preferable. On the official IDRC partition of the tablets it covered 0.924 (PDS) and 0.916 (DS). For virtual secondary instruments of increasing severity, naive coverage fell from 0.895 to 0.741 (PDS), while TD-CP+ covered 0.918–0.924.
 
 **Table 6.** Robustness and generalisation experiments at α = 0.10 (n = number of scenarios; other columns as in Table 2).
 
 | Experiment | Condition | Transfer | Method | n | Mean cov. | Valid (%) | IS/SD |
 |---|---|---|---|---|---|---|---|
+| biased_standards | standards from lower half of y | ds | Gaussian TD (parametric) | 30 | 0.824 | 20 | 5.15 |
+| biased_standards | standards from lower half of y | ds | Naive CP (primary residuals) | 30 | 0.529 | 7 | 6.87 |
+| biased_standards | standards from lower half of y | ds | Target CP+ (k labelled) | 30 | 0.880 | 60 | 5.16 |
+| biased_standards | standards from lower half of y | ds | TD-CP+ (jackknife+) | 30 | 0.876 | 60 | 5.00 |
+| biased_standards | standards from lower half of y | pds | Gaussian TD (parametric) | 30 | 0.894 | 80 | 7.79 |
+| biased_standards | standards from lower half of y | pds | Naive CP (primary residuals) | 30 | 0.461 | 0 | 14.13 |
+| biased_standards | standards from lower half of y | pds | Target CP+ (k labelled) | 30 | 0.942 | 100 | 8.13 |
+| biased_standards | standards from lower half of y | pds | TD-CP+ (jackknife+) | 30 | 0.939 | 100 | 7.77 |
 | kennard_stone | KS selection | ds | Gaussian TD (parametric) | 30 | 0.915 | 90 | 4.38 |
 | kennard_stone | KS selection | ds | Naive CP (primary residuals) | 30 | 0.573 | 3 | 5.52 |
 | kennard_stone | KS selection | ds | Target CP+ (k labelled) | 30 | 0.958 | 100 | 5.07 |
@@ -354,6 +332,26 @@ Table 6 and Fig. 6 summarise the confirmatory experiments, none of which had bee
 | official_split | IDRC official split | pds | Naive CP (primary residuals) | 6 | 0.826 | 33 | 3.53 |
 | official_split | IDRC official split | pds | Target CP+ (k labelled) | 6 | 0.929 | 100 | 5.13 |
 | official_split | IDRC official split | pds | TD-CP+ (jackknife+) | 6 | 0.924 | 83 | 3.58 |
+| parsimonious_pls | PLS, 1-SE rule | ds | Gaussian TD (parametric) | 30 | 0.888 | 57 | 4.24 |
+| parsimonious_pls | PLS, 1-SE rule | ds | Naive CP (primary residuals) | 30 | 0.621 | 7 | 4.70 |
+| parsimonious_pls | PLS, 1-SE rule | ds | Target CP+ (k labelled) | 30 | 0.927 | 100 | 4.62 |
+| parsimonious_pls | PLS, 1-SE rule | ds | TD-CP+ (jackknife+) | 30 | 0.927 | 100 | 4.27 |
+| parsimonious_pls | PLS, 1-SE rule | pds | Gaussian TD (parametric) | 30 | 0.907 | 93 | 6.03 |
+| parsimonious_pls | PLS, 1-SE rule | pds | Naive CP (primary residuals) | 30 | 0.576 | 7 | 9.92 |
+| parsimonious_pls | PLS, 1-SE rule | pds | Target CP+ (k labelled) | 30 | 0.938 | 100 | 6.64 |
+| parsimonious_pls | PLS, 1-SE rule | pds | TD-CP+ (jackknife+) | 30 | 0.937 | 100 | 6.30 |
+| pds_window | PDS window 11 | pds | Gaussian TD (parametric) | 30 | 0.891 | 67 | 10.57 |
+| pds_window | PDS window 11 | pds | Naive CP (primary residuals) | 30 | 0.404 | 0 | 24.51 |
+| pds_window | PDS window 11 | pds | Target CP+ (k labelled) | 30 | 0.950 | 100 | 11.22 |
+| pds_window | PDS window 11 | pds | TD-CP+ (jackknife+) | 30 | 0.946 | 100 | 10.52 |
+| pds_window | PDS window 3 | pds | Gaussian TD (parametric) | 30 | 0.906 | 93 | 6.14 |
+| pds_window | PDS window 3 | pds | Naive CP (primary residuals) | 30 | 0.536 | 0 | 9.82 |
+| pds_window | PDS window 3 | pds | Target CP+ (k labelled) | 30 | 0.944 | 100 | 6.71 |
+| pds_window | PDS window 3 | pds | TD-CP+ (jackknife+) | 30 | 0.942 | 100 | 6.43 |
+| pds_window | PDS window 7 | pds | Gaussian TD (parametric) | 30 | 0.907 | 100 | 9.37 |
+| pds_window | PDS window 7 | pds | Naive CP (primary residuals) | 30 | 0.437 | 0 | 18.94 |
+| pds_window | PDS window 7 | pds | Target CP+ (k labelled) | 30 | 0.952 | 100 | 9.93 |
+| pds_window | PDS window 7 | pds | TD-CP+ (jackknife+) | 30 | 0.950 | 100 | 9.65 |
 | preprocessing | snv_sg1 | ds | Gaussian TD (parametric) | 30 | 0.894 | 77 | 3.70 |
 | preprocessing | snv_sg1 | ds | Naive CP (primary residuals) | 30 | 0.684 | 0 | 4.21 |
 | preprocessing | snv_sg1 | ds | Target CP+ (k labelled) | 30 | 0.923 | 100 | 3.85 |
@@ -398,7 +396,7 @@ Table 6 and Fig. 6 summarise the confirmatory experiments, none of which had bee
 
 ### 4.7. Other nominal levels
 
-At α = 0.05, target CP with ten standards is necessarily unbounded, whereas TD-CP+ covered 0.963 (PDS) and 0.956 (DS), valid in 100% and 93% of scenarios. At α = 0.20 it covered 0.849 and 0.845 (Fig. 7, Table S2). The conservativeness of TD-CP+ is therefore modest and roughly constant (≈ 0.03–0.05) across levels.
+At α = 0.05, target CP with ten standards is necessarily unbounded, whereas TD-CP+ covered 0.963 (PDS) and 0.956 (DS), valid in 100% and 93% of scenarios. At α = 0.20 it covered 0.849 and 0.845 (Fig. 7, Table S3). The conservativeness of TD-CP+ is therefore modest and roughly constant (≈ 0.03–0.05) across levels.
 
 ![**Fig. 7.** Mean empirical versus nomina](figures/fig7_alpha_calibration.png)
 
@@ -420,25 +418,30 @@ Coverage is marginal, not conditional. Fig. 8 shows that all methods covered sam
 
 ### 4.9. Computational cost
 
-TD-CP+ needs *k* additional transfer fits for cross-fitting, which took on average 24 ms (corn, PDS) and 92 ms (tablets, DS) per split on one CPU core, against 41–358 ms for fitting and cross-validating the PLS model (Table 7, Fig. 10). The cost is negligible in practice.
+TD-CP+ needs *k* additional transfer fits for cross-fitting, which took on average 27 ms (corn, PDS) and 104 ms (tablets, DS) per split on one CPU core, against 45–402 ms for fitting and cross-validating the PLS model (Table 7, Fig. 10). The cost is negligible in practice.
 
 **Table 7.** Mean wall-clock time per split (single core).
 
 | Dataset | Transfer | PLS + CV (s) | Transfer (s) | Cross-fitting (s) | Interval (s) |
 |---|---|---|---|---|---|
-| corn | ds | 0.041 | 0.0062 | 0.0447 | 0.00060 |
-| corn | pds | 0.041 | 0.0026 | 0.0243 | 0.00061 |
-| tablets | ds | 0.366 | 0.0116 | 0.0924 | 0.00161 |
-| tablets | pds | 0.358 | 0.0096 | 0.0636 | 0.00157 |
+| corn | ds | 0.045 | 0.0067 | 0.0496 | 0.00235 |
+| corn | pds | 0.045 | 0.0028 | 0.0270 | 0.00237 |
+| tablets | ds | 0.404 | 0.0120 | 0.1041 | 0.00386 |
+| tablets | pds | 0.402 | 0.0097 | 0.0732 | 0.00386 |
 
 ![**Fig. 10.** Computation time per split ](figures/fig10_compute.png)
 
 **Fig. 10.** Computation time per split by stage.
 
 
-### 4.10. Practical recommendations and limitations
+### 4.10. Relation to existing approaches
 
-For a transferred calibration we recommend: (i) never reuse primary-instrument intervals; (ii) measure at least eight transfer standards and keep their primary spectra; (iii) compute cross-fitted discrepancies and report TD-CP+ intervals, which need no reference analyses on the secondary instrument; (iv) where reference values for the standards are available, use them to verify coverage rather than to build the interval. Limitations: the evidence comes from two benchmark datasets (five instruments, seven properties) and from simulated instruments; coverage is marginal over samples and conditionally lower at the extremes; the guarantee of Eq. (5) depends on assumptions (A1)–(A3), of which (A2) holds only approximately; TD-CP+ was introduced after the pre-registered main analysis, although its confirmatory evaluation used experiments that were not inspected beforehand; and process or temporal drift on a single instrument was not studied because no suitable public paired data with continuous reference values were found.
+TD-CP+ is not a new conformal principle: it applies the split-conformal finite-sample correction [17,18] and the jackknife+ construction [28] to an error decomposition that is specific to standardisation-based calibration transfer. Its novelty lies in (i) recognising that the transfer component of the error can be observed without reference values on the standards that DS/PDS already use, (ii) showing that cross-fitting is necessary for this observation to be informative (in-sample DS discrepancies are identically zero), and (iii) establishing, on public data, that the resulting intervals are valid where established alternatives are not. The Gaussian combination (M4) uses the same two ingredients and was slightly more efficient when valid, which indicates that most of the benefit comes from the discrepancy information itself; its validity, however, depended on the transfer method. The concurrent transported conformal calibration of Doula [25] also exploits unlabelled paired observations, but transports the labelled calibration set itself for set-valued classification and corrects residual mismatch with unlabelled target inputs; it was evaluated on image benchmarks. Weighted CP [24] targets covariate shift and, as shown above, is impractical for transferred spectra.
+
+
+### 4.11. Practical recommendations and limitations
+
+For a transferred calibration we recommend: (i) never reuse primary-instrument intervals; (ii) measure at least eight transfer standards and keep their primary spectra; (iii) compute cross-fitted discrepancies and report TD-CP+ intervals, which need no reference analyses on the secondary instrument; (iv) where reference values for the standards are available, use them to verify coverage rather than to build the interval. Limitations: the evidence comes from two benchmark datasets (five instruments, seven properties) and from simulated instruments; coverage is marginal over samples and conditionally lower at the extremes; the discrepancies are informative only if the standards resemble routine samples, so spectrally dissimilar artefacts such as the glass standards supplied with the corn data cannot be used for δ (the model prediction for a glass spectrum is meaningless); the guarantee of Eq. (5) depends on assumptions (A1)–(A3), of which (A2) holds only approximately; TD-CP+ was introduced after the pre-specified main analysis, although its confirmatory evaluation used experiments that were not inspected beforehand; the protocol was fixed in a time-stamped version-control commit rather than in a public registry; and process or temporal drift on a single instrument was not studied because no suitable public paired data with continuous reference values were found.
 
 
 ## 5. Conclusions
@@ -463,7 +466,7 @@ During the preparation of this work the authors used an AI system (Claude, Anthr
 
 ## Data availability
 
-Both datasets are publicly available from Eigenvector Research (corn; NIR shootout 2002). The code, configuration, pre-registered protocol, raw per-split results (684,900 rows), statistical outputs, and scripts that regenerate every table, figure and number of this article are provided in the accompanying repository [link to be inserted upon acceptance].
+Both datasets are publicly available from Eigenvector Research (corn; NIR shootout 2002). The code, configuration, pre-specified protocol, raw per-split results (821,400 rows), statistical outputs, and scripts that regenerate every table, figure and number of this article are provided in the accompanying repository [link to be inserted upon acceptance].
 
 
 ## Funding
@@ -473,7 +476,7 @@ Both datasets are publicly available from Eigenvector Research (corn; NIR shooto
 
 ## Appendix A. Supplementary data
 
-Supplementary material: S1 topic selection and pre-registered protocol; S2 iteration log; S3 literature matrix; S4 proof of Eq. (5); Table S1 per-scenario results; Table S2 coverage at all nominal levels; full statistical test output.
+Supplementary material: S1 topic selection and pre-specified protocol; S2 iteration log; S3 literature matrix; S4 proof of Eq. (5); Table S1 per-scenario results; Table S2 coverage at all nominal levels; full statistical test output.
 
 
 ## References

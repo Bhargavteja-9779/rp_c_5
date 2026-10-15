@@ -56,7 +56,9 @@ def results_blocks(V, T, root: Path):
     B += [("p", "The selected PLS models used {ncomp_corn} latent variables for corn and {ncomp_tab} for tablets. Transfer was imperfect: "
                 "the median ratio of the secondary-instrument RMSEP after transfer to the RMSEP obtained from the primary spectra "
                 "of the same test samples was {rmsep_ratio_median} (range {rmsep_ratio_min}–{rmsep_ratio_max}; Table S1), i.e., "
-                "the transferred predictions carried an error component absent on the primary instrument. As an in-domain "
+                "the transferred predictions carried an error component absent on the primary instrument. The largest ratios occur "
+                "for corn moisture with m5 as primary, which is predicted almost perfectly from m5 spectra, so that any transfer "
+                "error dominates. As an in-domain "
                 "check of the out-of-fold residual scores, the naive interval applied to the *primary* spectra of the test samples "
                 "covered {primary_cov} on average at the nominal 0.90 (scenario range {primary_cov_min}–{primary_cov_max}).")]
     B += [("h2", "4.2. Intervals inherited from the primary instrument are over-confident")]
@@ -65,22 +67,24 @@ def results_blocks(V, T, root: Path):
                 "{naive_cp_pds_a10_mincov} (Table 2, Fig. 3). The classical leverage-corrected interval was only marginally better "
                 "({leverage_pds_a10_cov} and {leverage_ds_a10_cov}), because leverage measures distance within the calibration "
                 "space but not the transfer error. Weighted CP for covariate shift raised coverage to {weighted_cp_pds_a10_cov} and "
-                "{weighted_cp_ds_a10_cov}, yet produced unbounded intervals for a sizeable fraction of test samples (Table 2): the "
-                "classifier separates transferred from primary spectra almost perfectly, so the likelihood ratios degenerate. "
+                "{weighted_cp_ds_a10_cov}, yet produced unbounded intervals for {weighted_cp_pds_a10_inf} (PDS) and "
+                "{weighted_cp_ds_a10_inf} (DS) of test samples (Table 2), a symptom of degenerate likelihood-ratio weights when "
+                "transferred and primary spectra are easily distinguished. "
                 "Pooling the labelled transfer residuals with the primary residuals (pooled CP) also under-covered "
                 "({pooled_cp_pds_a10_cov}, {pooled_cp_ds_a10_cov}) because the *k* target residuals are swamped by the *n* "
                 "primary residuals.")]
-    B += [("table", tab2, "**Table 2.** Interval performance at nominal coverage 0.90 (α = 0.10), k = 10 transfer standards. Scenario "
-                          "means over 100 random splits; ‘Valid’ = percentage of scenarios with mean coverage ≥ 0.88; width and interval "
-                          "score (IS) are divided by SD(y) and summarised by their median over scenarios. Methods marked ‘k labelled’ "
-                          "require reference values for the transfer standards.")]
+    B += [("table", tab2, "**Table 2.** Interval performance at nominal coverage 0.90 (α = 0.10), k = 10 transfer standards, 30 "
+                          "scenarios per transfer method (24 corn, 6 tablets). Scenario means over 100 random splits; ‘Valid’ = percentage "
+                          "of scenarios with mean coverage ≥ 0.88; width and interval score (IS) are divided by SD(y) and summarised by "
+                          "their median over scenarios; ∞ = unbounded intervals occurred. Methods marked ‘k labelled’ require reference "
+                          "values for the transfer standards. Per-dataset results: Table S2.")]
     B += [("fig", f / "fig3_main_results.png", "**Fig. 3.** Coverage (top) and interval score (bottom, log scale) per scenario for PDS (left) and DS "
                                                "(right) at α = 0.10. Dashed line: nominal 0.90. Each point is one directed instrument pair × property "
                                                "scenario (mean of 100 splits).")]
     B += [("h2", "4.3. Transfer-discrepancy intervals restore coverage without reference values")]
     B += [("p", "Adding the cross-fitted transfer discrepancies restored coverage close to nominal for all TD-CP variants (Table 2). "
-                "The pre-registered signed TD-CP reached mean coverages of {td_cp_pds_a10_cov} (PDS) and {td_cp_ds_a10_cov} (DS) but "
-                "was valid in only {td_cp_pds_a10_valid} and {td_cp_ds_a10_valid} of scenarios, missing the pre-registered criterion "
+                "The pre-specified signed TD-CP reached mean coverages of {td_cp_pds_a10_cov} (PDS) and {td_cp_ds_a10_cov} (DS) but "
+                "was valid in only {td_cp_pds_a10_valid} and {td_cp_ds_a10_valid} of scenarios, missing the pre-specified criterion "
                 "of 80%. The shortfall was concentrated on corn with DS, where even the target CP using reference values of all ten "
                 "standards was valid in only {target_cp_corn_ds_valid} of scenarios. TD-CP+ was valid in {td_cp_plus_pds_a10_valid} "
                 "(PDS) and {td_cp_plus_ds_a10_valid} (DS) of scenarios, with mean coverage {td_cp_plus_pds_a10_cov} and "
@@ -102,10 +106,25 @@ def results_blocks(V, T, root: Path):
                 "coverage gap penalises over-coverage too, so the slightly conservative TD-CP+ is not favoured by this metric "
                 "relative to methods centred on nominal coverage (e.g., *p* = {t_td_cp_plus_gauss_td_gap_p} against the Gaussian "
                 "combination, *r* = {t_td_cp_plus_gauss_td_gap_rb}).")]
+    B += [("p", "Two caveats qualify these tests. First, scenarios are not independent: the 24 corn scenarios reuse the same 80 "
+                "samples and the PDS and DS scenarios share splits, so the *p*-values are optimistic and the effect sizes and their "
+                "consistency are more informative. Stratified by dataset and transfer method, TD-CP+ had a smaller absolute coverage "
+                "gap than naive CP and weighted CP in at least 80% of the scenarios of every stratum (Table S5). Second, the 0.02 "
+                "tolerance in the validity definition is a convention; with zero tolerance TD-CP+ was valid in {tol0_td_cp_plus_pds_a} "
+                "(PDS) and {tol0_td_cp_plus_ds_a} (DS) of scenarios, versus {tol0_gauss_td_pds_a} and {tol0_gauss_td_ds_a} for the "
+                "Gaussian combination (Table S6).")]
+    B += [("p", "Coverage averaged over splits is a marginal property; a laboratory deploys a single calibration and a single "
+                "transfer. Split-level coverage (Table S4) shows how much an individual deployment can deviate. With only 25 test "
+                "samples, binomial noise alone is substantial for corn: even the ideal in-domain conformal interval (naive CP on the "
+                "primary spectra) fell below 0.80 coverage in {sl_naive_cp_primary_test_corn_pds_below} of corn splits. TD-CP+ was "
+                "below 0.80 in {sl_td_cp_plus_corn_pds_below} (PDS) and {sl_td_cp_plus_corn_ds_below} (DS) of corn splits and "
+                "{sl_td_cp_plus_tablets_pds_below} and {sl_td_cp_plus_tablets_ds_below} of tablet splits, whereas naive CP was below 0.80 "
+                "in {sl_naive_cp_corn_pds_below} and {sl_naive_cp_corn_ds_below} of corn splits and {sl_naive_cp_tablets_pds_below} and "
+                "{sl_naive_cp_tablets_ds_below} of tablet splits.")]
     B += [("table", tab3, "**Table 3.** TD-CP+ versus each comparator at α = 0.10: medians over scenarios of the absolute coverage gap "
                           "|coverage − 0.90| and of IS/SD, bootstrap 95% CI of the median paired difference (TD-CP+ − comparator), matched-pairs "
                           "rank-biserial correlation r_rb (negative: TD-CP+ smaller) and two-sided Wilcoxon signed-rank p-values, "
-                          "Holm-adjusted over all {n_tests} tests (including those for the pre-registered TD-CP, Supplementary).")]
+                          "Holm-adjusted over all {n_tests} tests (including those for the pre-specified TD-CP, Supplementary).")]
     B += [("h2", "4.4. Ablation: which components matter")]
     B += [("p", "Cross-fitting is indispensable (Table 4, Fig. 4). With in-sample discrepancies, the standard deviation of δ shrank to "
                 "a median of {dsd_in_ratio_pds} (PDS) and {dsd_in_ratio_ds} (DS) of its cross-fitted value. For DS the pseudo-inverse "
@@ -133,9 +152,19 @@ def results_blocks(V, T, root: Path):
     B += [("h2", "4.6. Robustness and generalisation")]
     B += [("p", "Table 6 and Fig. 6 summarise the confirmatory experiments, none of which had been inspected when TD-CP+ was "
                 "introduced. With Kennard–Stone selection of the standards, which violates the exchangeability between standards and "
-                "test samples, TD-CP+ covered {ks_td_cp_plus_pds_cov} (PDS) and {ks_td_cp_plus_ds_cov} (DS). With SNV + first-derivative "
+                "test samples, TD-CP+ covered {ks_td_cp_plus_pds_cov} (PDS) and {ks_td_cp_plus_ds_cov} (DS). A harsher violation, "
+                "drawing all standards from samples with reference values below the median, degraded the transfer itself (naive coverage "
+                "{biased_naive_cp_pds_cov} and {biased_naive_cp_ds_cov}); TD-CP+ covered {biased_td_cp_plus_pds_cov} (PDS, valid in "
+                "{biased_td_cp_plus_pds_valid} of scenarios) and {biased_td_cp_plus_ds_cov} (DS, {biased_td_cp_plus_ds_valid}), "
+                "against {biased_target_cp_plus_pds_cov} and {biased_target_cp_plus_ds_cov} for the labelled target CP+. With SNV + first-derivative "
                 "preprocessing it covered {snv_td_cp_plus_pds_cov} and {snv_td_cp_plus_ds_cov}; with a ridge-regression calibration "
-                "{ridge_td_cp_plus_pds_cov} (PDS). Added secondary-instrument noise (2% of the channel SD) gave {noise20_td_cp_plus_pds_cov}, "
+                "{ridge_td_cp_plus_pds_cov} (PDS). Because the corn models selected by minimum RMSECV were complex (median "
+                "{ncomp_corn_med} latent variables for 45 samples) and complex models can be fragile to instrument differences, we "
+                "repeated the study with the more parsimonious one-standard-error rule (median {ncomp1se_corn} latent variables for "
+                "corn): naive CP still covered only {pls1se_naive_cp_pds_cov} (PDS) and {pls1se_naive_cp_ds_cov} (DS), while TD-CP+ "
+                "covered {pls1se_td_cp_plus_pds_cov} and {pls1se_td_cp_plus_ds_cov}. Varying the PDS window from 3 to 11 channels "
+                "changed the transfer quality (naive coverage {pdsw3_naive_cp_pds_cov}–{pdsw11_naive_cp_pds_cov}) but not the validity "
+                "of TD-CP+ ({pdsw3_td_cp_plus_pds_cov}–{pdsw11_td_cp_plus_pds_cov}). Added secondary-instrument noise (2% of the channel SD) gave {noise20_td_cp_plus_pds_cov}, "
                 "versus {noise20_naive_cp_pds_cov} for naive CP. Without any standardisation, the transfer discrepancy dominates the "
                 "error, and TD-CP+ still covered {nostd_td_cp_plus_none_cov} (naive CP: {nostd_naive_cp_none_cov}). Here, however, the "
                 "symmetric TD-CP+ interval was much less efficient (IS/SD {nostd_td_cp_plus_none_IS}) than the signed TD-CP "
@@ -151,7 +180,7 @@ def results_blocks(V, T, root: Path):
     B += [("h2", "4.7. Other nominal levels")]
     B += [("p", "At α = 0.05, target CP with ten standards is necessarily unbounded, whereas TD-CP+ covered {td_cp_plus_pds_a5_cov} "
                 "(PDS) and {td_cp_plus_ds_a5_cov} (DS), valid in {td_cp_plus_pds_a5_valid} and {td_cp_plus_ds_a5_valid} of scenarios. "
-                "At α = 0.20 it covered {td_cp_plus_pds_a20_cov} and {td_cp_plus_ds_a20_cov} (Fig. 7, Table S2). The conservativeness "
+                "At α = 0.20 it covered {td_cp_plus_pds_a20_cov} and {td_cp_plus_ds_a20_cov} (Fig. 7, Table S3). The conservativeness "
                 "of TD-CP+ is therefore modest and roughly constant (≈ 0.03–0.05) across levels.")]
     B += [("fig", f / "fig7_alpha_calibration.png", "**Fig. 7.** Mean empirical versus nominal coverage (PDS and DS pooled); diagonal = perfect calibration.", 9.0)]
     B += [("h2", "4.8. Error analysis")]
@@ -174,15 +203,31 @@ def results_blocks(V, T, root: Path):
                 "fitting and cross-validating the PLS model (Table 7, Fig. 10). The cost is negligible in practice.")]
     B += [("table", tab7, "**Table 7.** Mean wall-clock time per split (single core).")]
     B += [("fig", f / "fig10_compute.png", "**Fig. 10.** Computation time per split by stage.", 9.0)]
-    B += [("h2", "4.10. Practical recommendations and limitations")]
+    B += [("h2", "4.10. Relation to existing approaches")]
+    B += [("p", "TD-CP+ is not a new conformal principle: it applies the split-conformal finite-sample correction "
+                "[@papadopoulos2002;@lei2018] and the jackknife+ construction [@barber2021] to an error decomposition that is specific "
+                "to standardisation-based calibration transfer. Its novelty lies in (i) recognising that the transfer component of the "
+                "error can be observed without reference values on the standards that DS/PDS already use, (ii) showing that cross-fitting "
+                "is necessary for this observation to be informative (in-sample DS discrepancies are identically zero), and (iii) "
+                "establishing, on public data, that the resulting intervals are valid where established alternatives are not. The Gaussian "
+                "combination (M4) uses the same two ingredients and was slightly more efficient when valid, which indicates that most of "
+                "the benefit comes from the discrepancy information itself; its validity, however, depended on the transfer method. The "
+                "concurrent transported conformal calibration of Doula [@doula2026] also exploits unlabelled paired observations, but "
+                "transports the labelled calibration set itself for set-valued classification and corrects residual mismatch with "
+                "unlabelled target inputs; it was evaluated on image benchmarks. Weighted CP [@tibshirani2019] targets covariate shift "
+                "and, as shown above, is impractical for transferred spectra.")]
+    B += [("h2", "4.11. Practical recommendations and limitations")]
     B += [("p", "For a transferred calibration we recommend: (i) never reuse primary-instrument intervals; (ii) measure at least eight "
                 "transfer standards and keep their primary spectra; (iii) compute cross-fitted discrepancies and report TD-CP+ "
                 "intervals, which need no reference analyses on the secondary instrument; (iv) where reference values for the "
                 "standards are available, use them to verify coverage rather than to build the interval. Limitations: the evidence "
                 "comes from two benchmark datasets (five instruments, seven properties) and from simulated instruments; coverage is "
-                "marginal over samples and conditionally lower at the extremes; the guarantee of Eq. (5) depends on assumptions "
-                "(A1)–(A3), of which (A2) holds only approximately; TD-CP+ was introduced after the pre-registered main analysis, "
-                "although its confirmatory evaluation used experiments that were not inspected beforehand; and process or temporal "
+                "marginal over samples and conditionally lower at the extremes; the discrepancies are informative only if the standards "
+                "resemble routine samples, so spectrally dissimilar artefacts such as the glass standards supplied with the corn data "
+                "cannot be used for δ (the model prediction for a glass spectrum is meaningless); the guarantee of Eq. (5) depends on assumptions "
+                "(A1)–(A3), of which (A2) holds only approximately; TD-CP+ was introduced after the pre-specified main analysis, "
+                "although its confirmatory evaluation used experiments that were not inspected beforehand; the protocol was fixed in a "
+                "time-stamped version-control commit rather than in a public registry; and process or temporal "
                 "drift on a single instrument was not studied because no suitable public paired data with continuous reference "
                 "values were found.")]
     return B
@@ -213,11 +258,11 @@ def declarations():
               "as needed and take full responsibility for the content of the published article."),
         ("h1", "Data availability"),
         ("p", "Both datasets are publicly available from Eigenvector Research (corn; NIR shootout 2002). The code, configuration, "
-              "pre-registered protocol, raw per-split results ({n_raw_rows} rows), statistical outputs, and scripts that regenerate "
+              "pre-specified protocol, raw per-split results ({n_raw_rows} rows), statistical outputs, and scripts that regenerate "
               "every table, figure and number of this article are provided in the accompanying repository [link to be inserted upon acceptance]."),
         ("h1", "Funding"),
         ("p", "[Placeholder — funding sources or ‘This research did not receive any specific grant from funding agencies in the public, commercial, or not-for-profit sectors.’]"),
         ("h1", "Appendix A. Supplementary data"),
-        ("p", "Supplementary material: S1 topic selection and pre-registered protocol; S2 iteration log; S3 literature matrix; S4 proof of Eq. (5); "
+        ("p", "Supplementary material: S1 topic selection and pre-specified protocol; S2 iteration log; S3 literature matrix; S4 proof of Eq. (5); "
               "Table S1 per-scenario results; Table S2 coverage at all nominal levels; full statistical test output."),
     ]

@@ -103,10 +103,12 @@ def _folds(n: int, n_folds: int, seed: int):
 
 def fit_calibration(X: np.ndarray, y: np.ndarray, kind: str, max_components: int, n_folds: int, seed: int) -> Calibration:
     n = X.shape[0]
-    if kind == "pls":
+    if kind in ("pls", "pls_1se"):
         A = min(max_components, n - n // n_folds - 2)
         oof = np.zeros((n, A))
-        for tr, te in _folds(n, n_folds, seed):
+        fold_id = np.zeros(n, dtype=int)
+        for fi, (tr, te) in enumerate(_folds(n, n_folds, seed)):
+            fold_id[te] = fi
             m = PLS1(A).fit(X[tr], y[tr])
             path = m.predict_path(X[te])
             oof[te, : path.shape[1]] = path
@@ -114,6 +116,10 @@ def fit_calibration(X: np.ndarray, y: np.ndarray, kind: str, max_components: int
                 oof[te, path.shape[1]:] = path[:, -1:]
         rmse = np.sqrt(((oof - y[:, None]) ** 2).mean(axis=0))
         a_best = int(np.argmin(rmse)) + 1
+        if kind == "pls_1se":  # one-standard-error rule on fold-wise MSE (more parsimonious model)
+            fm = np.array([((oof[fold_id == f] - y[fold_id == f, None]) ** 2).mean(axis=0) for f in np.unique(fold_id)])
+            se = fm[:, a_best - 1].std(ddof=1) / np.sqrt(fm.shape[0])
+            a_best = int(np.flatnonzero(fm.mean(axis=0) <= fm[:, a_best - 1].mean() + se)[0]) + 1
         model = PLS1(A).fit(X, y)
         a_best = min(a_best, model.n_components_)
         res = y - oof[:, a_best - 1]

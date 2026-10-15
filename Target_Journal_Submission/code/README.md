@@ -27,7 +27,7 @@ If you cannot reach the Internet, place `corn.mat_.zip` and `nir_shootout_2002.m
 python run_all.py --mode quick    # ~3 min: every experiment with 2–5 repetitions (pipeline check)
 python run_all.py --mode full     # pre-registered study: 100 (or 50) repetitions per scenario
 python run_all.py --mode full --skip-experiments   # rebuild statistics/tables/figures from saved raw results
-python -m pytest -q tests         # unit tests (15)
+python -m pytest -q tests         # unit tests
 python ../manuscript/build_manuscript.py           # manuscript (Markdown + DOCX) with numbers read from ../results
 ```
 Outputs:

@@ -1,190 +1,239 @@
 experiment,condition,transfer,method,scenarios,mean_coverage,pct_valid,median_IS_sd
+biased_standards,standards from lower half of y,ds,Gaussian TD (parametric),30,0.82434,20.0,5.154299369718887
+biased_standards,standards from lower half of y,ds,Naive CP (primary residuals),30,0.5287933333333333,6.666666666666667,6.872695775764974
+biased_standards,standards from lower half of y,ds,Target CP (k labelled),30,0.8431766666666667,26.666666666666668,5.2011374063184945
+biased_standards,standards from lower half of y,ds,Target CP+ (k labelled),30,0.87971,60.0,5.155885795484956
+biased_standards,standards from lower half of y,ds,TD-CP signed (pre-specified),30,0.82522,23.333333333333332,5.251572131085652
+biased_standards,standards from lower half of y,ds,TD-CP absolute scores,30,0.8387966666666666,30.0,5.154532374629296
+biased_standards,standards from lower half of y,ds,TD-CP+ (jackknife+),30,0.8762899999999999,60.0,5.003394369786854
+biased_standards,standards from lower half of y,pds,Gaussian TD (parametric),30,0.8939400000000001,80.0,7.790778377135666
+biased_standards,standards from lower half of y,pds,Naive CP (primary residuals),30,0.46096333333333334,0.0,14.126898639682377
+biased_standards,standards from lower half of y,pds,Target CP (k labelled),30,0.9177033333333333,96.66666666666667,8.16093508256353
+biased_standards,standards from lower half of y,pds,Target CP+ (k labelled),30,0.9418166666666666,100.0,8.133188156121705
+biased_standards,standards from lower half of y,pds,TD-CP signed (pre-specified),30,0.8873833333333334,60.0,8.379003181587844
+biased_standards,standards from lower half of y,pds,TD-CP absolute scores,30,0.9125566666666667,93.33333333333333,8.026729813720372
+biased_standards,standards from lower half of y,pds,TD-CP+ (jackknife+),30,0.9392133333333333,100.0,7.773015909183902
 k_sensitivity,k=15,ds,Gaussian TD (parametric),30,0.8926566666666667,66.66666666666666,3.740985797774313
 k_sensitivity,k=15,ds,Naive CP (primary residuals),30,0.6548133333333334,0.0,4.283119567835779
 k_sensitivity,k=15,ds,Target CP (k labelled),30,0.9288133333333334,96.66666666666667,4.09967527646508
 k_sensitivity,k=15,ds,Target CP+ (k labelled),30,0.95131,100.0,4.050167151860677
-k_sensitivity,k=15,ds,TD-CP signed (pre-registered),30,0.91278,90.0,3.7616267073026197
+k_sensitivity,k=15,ds,TD-CP signed (pre-specified),30,0.91278,90.0,3.7616267073026197
 k_sensitivity,k=15,ds,TD-CP absolute scores,30,0.9022366666666667,86.66666666666667,3.6810414891636944
 k_sensitivity,k=15,ds,TD-CP+ (jackknife+),30,0.9315533333333333,100.0,3.4565830499846424
 k_sensitivity,k=15,pds,Gaussian TD (parametric),30,0.9057366666666666,96.66666666666667,6.107888938723095
 k_sensitivity,k=15,pds,Naive CP (primary residuals),30,0.53171,0.0,10.711061782303084
 k_sensitivity,k=15,pds,Target CP (k labelled),30,0.9403166666666666,100.0,7.013183055628616
 k_sensitivity,k=15,pds,Target CP+ (k labelled),30,0.9514566666666667,100.0,6.945840980550077
-k_sensitivity,k=15,pds,TD-CP signed (pre-registered),30,0.9204866666666667,100.0,6.58495079715459
+k_sensitivity,k=15,pds,TD-CP signed (pre-specified),30,0.9204866666666667,100.0,6.58495079715459
 k_sensitivity,k=15,pds,TD-CP absolute scores,30,0.9130400000000001,100.0,6.105906215372054
 k_sensitivity,k=15,pds,TD-CP+ (jackknife+),30,0.9215466666666666,100.0,5.927059404384404
 k_sensitivity,k=20,ds,Gaussian TD (parametric),30,0.9009833333333332,86.66666666666667,3.2809332164447476
 k_sensitivity,k=20,ds,Naive CP (primary residuals),30,0.7118433333333333,6.666666666666667,3.7732777354893834
 k_sensitivity,k=20,ds,Target CP (k labelled),30,0.8969299999999999,86.66666666666667,3.3305681377336276
 k_sensitivity,k=20,ds,Target CP+ (k labelled),30,0.9204633333333334,100.0,3.212188333205726
-k_sensitivity,k=20,ds,TD-CP signed (pre-registered),30,0.92487,93.33333333333333,3.5025934867923527
+k_sensitivity,k=20,ds,TD-CP signed (pre-specified),30,0.92487,93.33333333333333,3.5025934867923527
 k_sensitivity,k=20,ds,TD-CP absolute scores,30,0.9109,93.33333333333333,3.3382512159309936
 k_sensitivity,k=20,ds,TD-CP+ (jackknife+),30,0.9369266666666667,100.0,3.2382125924475553
 k_sensitivity,k=20,pds,Gaussian TD (parametric),30,0.9189466666666667,100.0,4.838042571117872
 k_sensitivity,k=20,pds,Naive CP (primary residuals),30,0.6104299999999999,0.0,6.767215209366507
 k_sensitivity,k=20,pds,Target CP (k labelled),30,0.9143366666666667,100.0,4.942177730353093
 k_sensitivity,k=20,pds,Target CP+ (k labelled),30,0.91932,100.0,4.935820585627516
-k_sensitivity,k=20,pds,TD-CP signed (pre-registered),30,0.9395933333333333,100.0,5.35512266523257
+k_sensitivity,k=20,pds,TD-CP signed (pre-specified),30,0.9395933333333333,100.0,5.35512266523257
 k_sensitivity,k=20,pds,TD-CP absolute scores,30,0.9279533333333333,100.0,4.901066808085885
 k_sensitivity,k=20,pds,TD-CP+ (jackknife+),30,0.93186,100.0,4.889162470309655
 k_sensitivity,k=30,ds,Gaussian TD (parametric),30,0.9021466666666667,66.66666666666666,3.06237044386933
 k_sensitivity,k=30,ds,Naive CP (primary residuals),30,0.7517966666666667,3.3333333333333335,3.4620799822846795
 k_sensitivity,k=30,ds,Target CP (k labelled),30,0.90316,93.33333333333333,2.977261768957278
 k_sensitivity,k=30,ds,Target CP+ (k labelled),30,0.9158166666666666,100.0,2.909609691390428
-k_sensitivity,k=30,ds,TD-CP signed (pre-registered),30,0.94458,100.0,3.527376685607273
+k_sensitivity,k=30,ds,TD-CP signed (pre-specified),30,0.94458,100.0,3.527376685607273
 k_sensitivity,k=30,ds,TD-CP absolute scores,30,0.9224766666666666,100.0,3.174676174027674
 k_sensitivity,k=30,ds,TD-CP+ (jackknife+),30,0.93563,100.0,3.1245543127462065
 k_sensitivity,k=30,pds,Gaussian TD (parametric),30,0.9086700000000001,93.33333333333333,4.055094422464624
 k_sensitivity,k=30,pds,Naive CP (primary residuals),30,0.6719633333333334,0.0,6.366455824002027
 k_sensitivity,k=30,pds,Target CP (k labelled),30,0.9055833333333333,100.0,4.145414419022423
 k_sensitivity,k=30,pds,Target CP+ (k labelled),30,0.90849,100.0,4.141291858376318
-k_sensitivity,k=30,pds,TD-CP signed (pre-registered),30,0.9504266666666666,100.0,4.5267794281006095
+k_sensitivity,k=30,pds,TD-CP signed (pre-specified),30,0.9504266666666666,100.0,4.5267794281006095
 k_sensitivity,k=30,pds,TD-CP absolute scores,30,0.9293666666666667,100.0,4.250077655100226
 k_sensitivity,k=30,pds,TD-CP+ (jackknife+),30,0.93125,100.0,4.231148174042129
 k_sensitivity,k=5,ds,Gaussian TD (parametric),30,0.8141233333333333,13.333333333333334,8.384642887302816
 k_sensitivity,k=5,ds,Naive CP (primary residuals),30,0.41884,0.0,13.890811807498622
 k_sensitivity,k=5,ds,Target CP (k labelled),30,1.0,100.0,inf
 k_sensitivity,k=5,ds,Target CP+ (k labelled),30,1.0,100.0,inf
-k_sensitivity,k=5,ds,TD-CP signed (pre-registered),30,0.7838933333333333,6.666666666666667,8.317649983153837
+k_sensitivity,k=5,ds,TD-CP signed (pre-specified),30,0.7838933333333333,6.666666666666667,8.317649983153837
 k_sensitivity,k=5,ds,TD-CP absolute scores,30,0.81134,10.0,8.11938843256052
 k_sensitivity,k=5,ds,TD-CP+ (jackknife+),30,0.8752766666666666,46.666666666666664,7.430516217592356
 k_sensitivity,k=5,pds,Gaussian TD (parametric),30,0.84623,23.333333333333332,14.994160287820389
 k_sensitivity,k=5,pds,Naive CP (primary residuals),30,0.35729,0.0,28.823092347305543
 k_sensitivity,k=5,pds,Target CP (k labelled),30,1.0,100.0,inf
 k_sensitivity,k=5,pds,Target CP+ (k labelled),30,1.0,100.0,inf
-k_sensitivity,k=5,pds,TD-CP signed (pre-registered),30,0.7820866666666666,10.0,17.45859598360329
+k_sensitivity,k=5,pds,TD-CP signed (pre-specified),30,0.7820866666666666,10.0,17.45859598360329
 k_sensitivity,k=5,pds,TD-CP absolute scores,30,0.8680466666666666,50.0,14.953464628614938
 k_sensitivity,k=5,pds,TD-CP+ (jackknife+),30,0.9496033333333334,100.0,13.812938239657747
 k_sensitivity,k=8,ds,Gaussian TD (parametric),30,0.88445,53.333333333333336,5.439913028389238
 k_sensitivity,k=8,ds,Naive CP (primary residuals),30,0.5453466666666666,3.3333333333333335,6.840072396977428
 k_sensitivity,k=8,ds,Target CP (k labelled),30,1.0,100.0,inf
 k_sensitivity,k=8,ds,Target CP+ (k labelled),30,1.0,100.0,inf
-k_sensitivity,k=8,ds,TD-CP signed (pre-registered),30,0.8752866666666667,53.333333333333336,5.536038757982059
+k_sensitivity,k=8,ds,TD-CP signed (pre-specified),30,0.8752866666666667,53.333333333333336,5.536038757982059
 k_sensitivity,k=8,ds,TD-CP absolute scores,30,0.8933333333333333,66.66666666666666,5.622221255225106
 k_sensitivity,k=8,ds,TD-CP+ (jackknife+),30,0.9262033333333334,100.0,5.631282325357198
 k_sensitivity,k=8,pds,Gaussian TD (parametric),30,0.9039166666666667,86.66666666666667,8.832261629759355
 k_sensitivity,k=8,pds,Naive CP (primary residuals),30,0.43223,0.0,15.970910063630624
 k_sensitivity,k=8,pds,Target CP (k labelled),30,1.0,100.0,inf
 k_sensitivity,k=8,pds,Target CP+ (k labelled),30,1.0,100.0,inf
-k_sensitivity,k=8,pds,TD-CP signed (pre-registered),30,0.8868133333333332,60.0,9.252500643512606
+k_sensitivity,k=8,pds,TD-CP signed (pre-specified),30,0.8868133333333332,60.0,9.252500643512606
 k_sensitivity,k=8,pds,TD-CP absolute scores,30,0.9227933333333334,100.0,9.847107211289376
 k_sensitivity,k=8,pds,TD-CP+ (jackknife+),30,0.9523733333333334,100.0,9.926926972620155
 kennard_stone,KS selection,ds,Gaussian TD (parametric),30,0.9150866666666667,90.0,4.3789667102511185
 kennard_stone,KS selection,ds,Naive CP (primary residuals),30,0.573095,3.3333333333333335,5.515023712195941
 kennard_stone,KS selection,ds,Target CP (k labelled),30,0.9392466666666667,100.0,4.914630656715783
 kennard_stone,KS selection,ds,Target CP+ (k labelled),30,0.9578683333333333,100.0,5.0745207037897
-kennard_stone,KS selection,ds,TD-CP signed (pre-registered),30,0.917165,86.66666666666667,4.514992007086366
+kennard_stone,KS selection,ds,TD-CP signed (pre-specified),30,0.917165,86.66666666666667,4.514992007086366
 kennard_stone,KS selection,ds,TD-CP absolute scores,30,0.9246866666666667,100.0,4.514563657927583
 kennard_stone,KS selection,ds,TD-CP+ (jackknife+),30,0.9499866666666666,100.0,4.539343472625655
 kennard_stone,KS selection,pds,Gaussian TD (parametric),30,0.9407183333333333,100.0,6.515694111536874
 kennard_stone,KS selection,pds,Naive CP (primary residuals),30,0.48230166666666663,0.0,11.079596377623744
 kennard_stone,KS selection,pds,Target CP (k labelled),30,0.963195,100.0,8.163342815845168
 kennard_stone,KS selection,pds,Target CP+ (k labelled),30,0.9723116666666667,100.0,8.423411494536179
-kennard_stone,KS selection,pds,TD-CP signed (pre-registered),30,0.9359783333333334,100.0,6.879025391394977
+kennard_stone,KS selection,pds,TD-CP signed (pre-specified),30,0.9359783333333334,100.0,6.879025391394977
 kennard_stone,KS selection,pds,TD-CP absolute scores,30,0.9513766666666666,100.0,7.228178793232409
 kennard_stone,KS selection,pds,TD-CP+ (jackknife+),30,0.9620033333333333,100.0,7.581835389791127
 no_standardisation,no transfer,none,Gaussian TD (parametric),30,0.9029200000000001,80.0,2.283931425783887
 no_standardisation,no transfer,none,Naive CP (primary residuals),30,0.28293666666666667,0.0,26.110346264718782
 no_standardisation,no transfer,none,Target CP (k labelled),30,0.9120066666666666,100.0,5.685488231702401
 no_standardisation,no transfer,none,Target CP+ (k labelled),30,0.9120066666666666,100.0,5.685488231702401
-no_standardisation,no transfer,none,TD-CP signed (pre-registered),30,0.9173899999999999,90.0,2.3512669624487135
+no_standardisation,no transfer,none,TD-CP signed (pre-specified),30,0.9173899999999999,90.0,2.3512669624487135
 no_standardisation,no transfer,none,TD-CP absolute scores,30,0.9205266666666667,100.0,5.606119475334821
 no_standardisation,no transfer,none,TD-CP+ (jackknife+),30,0.9205266666666667,100.0,5.606119475334821
 noise,noise=0.005,pds,Gaussian TD (parametric),30,0.8991433333333333,73.33333333333333,9.426831999613485
 noise,noise=0.005,pds,Naive CP (primary residuals),30,0.40576333333333336,0.0,22.157351154349662
 noise,noise=0.005,pds,Target CP (k labelled),30,0.9195933333333334,100.0,10.114008747820094
 noise,noise=0.005,pds,Target CP+ (k labelled),30,0.9475133333333333,100.0,9.927521215916407
-noise,noise=0.005,pds,TD-CP signed (pre-registered),30,0.8875066666666667,56.666666666666664,9.874683168380223
+noise,noise=0.005,pds,TD-CP signed (pre-specified),30,0.8875066666666667,56.666666666666664,9.874683168380223
 noise,noise=0.005,pds,TD-CP absolute scores,30,0.9154433333333334,100.0,10.030681215392619
 noise,noise=0.005,pds,TD-CP+ (jackknife+),30,0.9446333333333333,100.0,9.517447980289859
 noise,noise=0.01,pds,Gaussian TD (parametric),30,0.8987533333333334,80.0,10.182997373428034
 noise,noise=0.01,pds,Naive CP (primary residuals),30,0.36519999999999997,0.0,26.64183457878789
 noise,noise=0.01,pds,Target CP (k labelled),30,0.9226333333333333,100.0,10.551782993062602
 noise,noise=0.01,pds,Target CP+ (k labelled),30,0.9523266666666667,100.0,10.502885687847535
-noise,noise=0.01,pds,TD-CP signed (pre-registered),30,0.8880766666666666,53.333333333333336,10.466997905160483
+noise,noise=0.01,pds,TD-CP signed (pre-specified),30,0.8880766666666666,53.333333333333336,10.466997905160483
 noise,noise=0.01,pds,TD-CP absolute scores,30,0.9179066666666666,100.0,10.235422564030728
 noise,noise=0.01,pds,TD-CP+ (jackknife+),30,0.9483766666666666,100.0,9.850790711936387
 noise,noise=0.02,pds,Gaussian TD (parametric),30,0.9069400000000001,93.33333333333333,10.306670553981274
 noise,noise=0.02,pds,Naive CP (primary residuals),30,0.33907333333333334,0.0,28.515211886474233
 noise,noise=0.02,pds,Target CP (k labelled),30,0.9305166666666668,100.0,10.692121630235672
 noise,noise=0.02,pds,Target CP+ (k labelled),30,0.95665,100.0,10.969333126921601
-noise,noise=0.02,pds,TD-CP signed (pre-registered),30,0.8954366666666667,73.33333333333333,10.5390983364227
+noise,noise=0.02,pds,TD-CP signed (pre-specified),30,0.8954366666666667,73.33333333333333,10.5390983364227
 noise,noise=0.02,pds,TD-CP absolute scores,30,0.9258133333333334,100.0,10.206317053461426
 noise,noise=0.02,pds,TD-CP+ (jackknife+),30,0.9533400000000001,100.0,10.140583162112307
 official_split,IDRC official split,ds,Gaussian TD (parametric),6,0.9177391304347826,66.66666666666666,3.6883692324608264
 official_split,IDRC official split,ds,Naive CP (primary residuals),6,0.7798260869565218,33.33333333333333,3.8554911014204207
 official_split,IDRC official split,ds,Target CP (k labelled),6,0.9210760869565218,66.66666666666666,4.988629657775558
 official_split,IDRC official split,ds,Target CP+ (k labelled),6,0.924018115942029,100.0,4.856000432421191
-official_split,IDRC official split,ds,TD-CP signed (pre-registered),6,0.9074673913043477,66.66666666666666,3.5899426492444624
+official_split,IDRC official split,ds,TD-CP signed (pre-specified),6,0.9074673913043477,66.66666666666666,3.5899426492444624
 official_split,IDRC official split,ds,TD-CP absolute scores,6,0.9131231884057972,66.66666666666666,3.5716860723540513
 official_split,IDRC official split,ds,TD-CP+ (jackknife+),6,0.9155000000000001,100.0,3.558003882843467
 official_split,IDRC official split,pds,Gaussian TD (parametric),6,0.9182971014492752,66.66666666666666,3.6855733084307496
 official_split,IDRC official split,pds,Naive CP (primary residuals),6,0.8261992753623187,33.33333333333333,3.526892659761245
 official_split,IDRC official split,pds,Target CP (k labelled),6,0.9186775362318841,83.33333333333334,5.123744971102016
 official_split,IDRC official split,pds,Target CP+ (k labelled),6,0.9293949275362318,100.0,5.130184109776065
-official_split,IDRC official split,pds,TD-CP signed (pre-registered),6,0.9079855072463768,66.66666666666666,3.587259059466467
+official_split,IDRC official split,pds,TD-CP signed (pre-specified),6,0.9079855072463768,66.66666666666666,3.587259059466467
 official_split,IDRC official split,pds,TD-CP absolute scores,6,0.9122898550724639,83.33333333333334,3.5768825552295773
 official_split,IDRC official split,pds,TD-CP+ (jackknife+),6,0.9237028985507246,83.33333333333334,3.581722557174399
+parsimonious_pls,"PLS, 1-SE rule",ds,Gaussian TD (parametric),30,0.8884733333333333,56.666666666666664,4.238045070107841
+parsimonious_pls,"PLS, 1-SE rule",ds,Naive CP (primary residuals),30,0.62149,6.666666666666667,4.701428673803441
+parsimonious_pls,"PLS, 1-SE rule",ds,Target CP (k labelled),30,0.90408,90.0,4.588595975762729
+parsimonious_pls,"PLS, 1-SE rule",ds,Target CP+ (k labelled),30,0.9273,100.0,4.6206716294176715
+parsimonious_pls,"PLS, 1-SE rule",ds,TD-CP signed (pre-specified),30,0.8920600000000001,76.66666666666667,4.268184766838353
+parsimonious_pls,"PLS, 1-SE rule",ds,TD-CP absolute scores,30,0.89964,90.0,4.260222557946914
+parsimonious_pls,"PLS, 1-SE rule",ds,TD-CP+ (jackknife+),30,0.9265500000000001,100.0,4.2698743392376395
+parsimonious_pls,"PLS, 1-SE rule",pds,Gaussian TD (parametric),30,0.9073100000000001,93.33333333333333,6.027133171459941
+parsimonious_pls,"PLS, 1-SE rule",pds,Naive CP (primary residuals),30,0.5755366666666667,6.666666666666667,9.916353366455606
+parsimonious_pls,"PLS, 1-SE rule",pds,Target CP (k labelled),30,0.9212733333333334,100.0,6.7518675971648685
+parsimonious_pls,"PLS, 1-SE rule",pds,Target CP+ (k labelled),30,0.9380900000000001,100.0,6.6402094598413415
+parsimonious_pls,"PLS, 1-SE rule",pds,TD-CP signed (pre-specified),30,0.9048499999999999,86.66666666666667,6.26535196152442
+parsimonious_pls,"PLS, 1-SE rule",pds,TD-CP absolute scores,30,0.9196666666666666,100.0,6.187729638239361
+parsimonious_pls,"PLS, 1-SE rule",pds,TD-CP+ (jackknife+),30,0.9365933333333333,100.0,6.302053545817772
+pds_window,PDS window 11,pds,Gaussian TD (parametric),30,0.8906799999999999,66.66666666666666,10.565892698333116
+pds_window,PDS window 11,pds,Naive CP (primary residuals),30,0.40435,0.0,24.507530345992315
+pds_window,PDS window 11,pds,Target CP (k labelled),30,0.9195166666666666,96.66666666666667,11.450827471335554
+pds_window,PDS window 11,pds,Target CP+ (k labelled),30,0.9504466666666667,100.0,11.219250450304802
+pds_window,PDS window 11,pds,TD-CP signed (pre-specified),30,0.8811533333333333,50.0,11.25314718696205
+pds_window,PDS window 11,pds,TD-CP absolute scores,30,0.9095533333333333,83.33333333333334,11.215137763379357
+pds_window,PDS window 11,pds,TD-CP+ (jackknife+),30,0.9461866666666666,100.0,10.519318040512829
+pds_window,PDS window 3,pds,Gaussian TD (parametric),30,0.9064733333333332,93.33333333333333,6.135497198343096
+pds_window,PDS window 3,pds,Naive CP (primary residuals),30,0.5364666666666668,0.0,9.823724496500297
+pds_window,PDS window 3,pds,Target CP (k labelled),30,0.9219933333333333,100.0,6.723171965131225
+pds_window,PDS window 3,pds,Target CP+ (k labelled),30,0.94364,100.0,6.708320889871229
+pds_window,PDS window 3,pds,TD-CP signed (pre-specified),30,0.9029966666666667,86.66666666666667,6.443848349541987
+pds_window,PDS window 3,pds,TD-CP absolute scores,30,0.9216233333333333,100.0,6.463154520414454
+pds_window,PDS window 3,pds,TD-CP+ (jackknife+),30,0.9423533333333334,100.0,6.42860841434582
+pds_window,PDS window 7,pds,Gaussian TD (parametric),30,0.9066833333333333,100.0,9.370056724480513
+pds_window,PDS window 7,pds,Naive CP (primary residuals),30,0.4374966666666667,0.0,18.936896799080706
+pds_window,PDS window 7,pds,Target CP (k labelled),30,0.9292933333333334,100.0,10.180132543887078
+pds_window,PDS window 7,pds,Target CP+ (k labelled),30,0.95243,100.0,9.93441489929122
+pds_window,PDS window 7,pds,TD-CP signed (pre-specified),30,0.8976299999999999,76.66666666666667,9.996723389111486
+pds_window,PDS window 7,pds,TD-CP absolute scores,30,0.9243433333333333,100.0,10.006608663840254
+pds_window,PDS window 7,pds,TD-CP+ (jackknife+),30,0.9499,100.0,9.647442478764557
 preprocessing,snv_sg1,ds,Gaussian TD (parametric),30,0.8943966666666667,76.66666666666667,3.7041622188343446
 preprocessing,snv_sg1,ds,Naive CP (primary residuals),30,0.6844166666666667,0.0,4.209026300024329
 preprocessing,snv_sg1,ds,Target CP (k labelled),30,0.9037966666666667,86.66666666666667,3.9259164457676192
 preprocessing,snv_sg1,ds,Target CP+ (k labelled),30,0.92328,100.0,3.848099521609951
-preprocessing,snv_sg1,ds,TD-CP signed (pre-registered),30,0.9024,80.0,3.8317119860285223
+preprocessing,snv_sg1,ds,TD-CP signed (pre-specified),30,0.9024,80.0,3.8317119860285223
 preprocessing,snv_sg1,ds,TD-CP absolute scores,30,0.9050600000000001,93.33333333333333,3.708979254932809
 preprocessing,snv_sg1,ds,TD-CP+ (jackknife+),30,0.9250633333333333,96.66666666666667,3.673713751794864
 preprocessing,snv_sg1,pds,Gaussian TD (parametric),30,0.9182366666666667,90.0,2.758285454026708
 preprocessing,snv_sg1,pds,Naive CP (primary residuals),30,0.7623933333333334,13.333333333333334,2.9665479230092
 preprocessing,snv_sg1,pds,Target CP (k labelled),30,0.9224133333333333,100.0,3.06181248275218
 preprocessing,snv_sg1,pds,Target CP+ (k labelled),30,0.93175,100.0,3.078290599433667
-preprocessing,snv_sg1,pds,TD-CP signed (pre-registered),30,0.93043,100.0,2.8771486701183795
+preprocessing,snv_sg1,pds,TD-CP signed (pre-specified),30,0.93043,100.0,2.8771486701183795
 preprocessing,snv_sg1,pds,TD-CP absolute scores,30,0.9270533333333333,100.0,2.814674709465003
 preprocessing,snv_sg1,pds,TD-CP+ (jackknife+),30,0.9357066666666667,100.0,2.837940155131401
 ridge_model,ridge,pds,Gaussian TD (parametric),30,0.90507,96.66666666666667,8.606308027660834
 ridge_model,ridge,pds,Naive CP (primary residuals),30,0.43844666666666665,0.0,21.25863270530229
 ridge_model,ridge,pds,Target CP (k labelled),30,0.9265166666666667,100.0,9.460648539125815
 ridge_model,ridge,pds,Target CP+ (k labelled),30,0.94609,100.0,9.203900404414798
-ridge_model,ridge,pds,TD-CP signed (pre-registered),30,0.8959466666666667,76.66666666666667,9.119668334579396
+ridge_model,ridge,pds,TD-CP signed (pre-specified),30,0.8959466666666667,76.66666666666667,9.119668334579396
 ridge_model,ridge,pds,TD-CP absolute scores,30,0.9238366666666666,100.0,9.44359023389693
 ridge_model,ridge,pds,TD-CP+ (jackknife+),30,0.9450333333333333,100.0,9.163216602370905
 simulated,severity=1,ds,Gaussian TD (parametric),7,0.8974142857142857,85.71428571428571,4.017065663766561
 simulated,severity=1,ds,Naive CP (primary residuals),7,0.5641285714285714,14.285714285714285,5.046764994817737
 simulated,severity=1,ds,Target CP (k labelled),7,0.91,85.71428571428571,4.61400348596588
 simulated,severity=1,ds,Target CP+ (k labelled),7,0.9218142857142857,100.0,4.619566489327947
-simulated,severity=1,ds,TD-CP signed (pre-registered),7,0.8863,71.42857142857143,4.073887649296504
+simulated,severity=1,ds,TD-CP signed (pre-specified),7,0.8863,71.42857142857143,4.073887649296504
 simulated,severity=1,ds,TD-CP absolute scores,7,0.9033857142857142,85.71428571428571,4.214266073496642
 simulated,severity=1,ds,TD-CP+ (jackknife+),7,0.9155428571428572,100.0,4.394856771636308
 simulated,severity=1,pds,Gaussian TD (parametric),7,0.9114142857142857,100.0,1.3469782134151378
 simulated,severity=1,pds,Naive CP (primary residuals),7,0.8949857142857143,100.0,1.3529445779727984
 simulated,severity=1,pds,Target CP (k labelled),7,0.9143,100.0,1.4315387947916898
 simulated,severity=1,pds,Target CP+ (k labelled),7,0.918142857142857,100.0,1.4397488481333005
-simulated,severity=1,pds,TD-CP signed (pre-registered),7,0.9221428571428572,100.0,1.4255878623860454
+simulated,severity=1,pds,TD-CP signed (pre-specified),7,0.9221428571428572,100.0,1.4255878623860454
 simulated,severity=1,pds,TD-CP absolute scores,7,0.9149428571428572,100.0,1.3619637562391
 simulated,severity=1,pds,TD-CP+ (jackknife+),7,0.9184,100.0,1.3614732737978932
 simulated,severity=2,ds,Gaussian TD (parametric),7,0.8963142857142857,85.71428571428571,3.937999750470076
 simulated,severity=2,ds,Naive CP (primary residuals),7,0.5636428571428571,14.285714285714285,5.35025145328076
 simulated,severity=2,ds,Target CP (k labelled),7,0.9109857142857143,85.71428571428571,4.688365241193873
 simulated,severity=2,ds,Target CP+ (k labelled),7,0.9188,100.0,4.691242972675608
-simulated,severity=2,ds,TD-CP signed (pre-registered),7,0.8867142857142857,71.42857142857143,3.9975487831025065
+simulated,severity=2,ds,TD-CP signed (pre-specified),7,0.8867142857142857,71.42857142857143,3.9975487831025065
 simulated,severity=2,ds,TD-CP absolute scores,7,0.9032571428571429,85.71428571428571,4.115191566328795
 simulated,severity=2,ds,TD-CP+ (jackknife+),7,0.9154571428571429,100.0,4.330270782285677
 simulated,severity=2,pds,Gaussian TD (parametric),7,0.9143857142857144,100.0,1.5810873905066407
 simulated,severity=2,pds,Naive CP (primary residuals),7,0.855642857142857,42.857142857142854,1.6273169496778337
 simulated,severity=2,pds,Target CP (k labelled),7,0.9203714285714285,100.0,1.680950381709545
 simulated,severity=2,pds,Target CP+ (k labelled),7,0.9244428571428571,100.0,1.7107092941291038
-simulated,severity=2,pds,TD-CP signed (pre-registered),7,0.9250714285714287,100.0,1.656061169931212
+simulated,severity=2,pds,TD-CP signed (pre-specified),7,0.9250714285714287,100.0,1.656061169931212
 simulated,severity=2,pds,TD-CP absolute scores,7,0.9174857142857142,100.0,1.5925703713036763
 simulated,severity=2,pds,TD-CP+ (jackknife+),7,0.9209857142857143,100.0,1.5910385471306838
 simulated,severity=3,ds,Gaussian TD (parametric),7,0.8995571428571428,85.71428571428571,3.982347819430122
 simulated,severity=3,ds,Naive CP (primary residuals),7,0.5464285714285715,14.285714285714285,5.884299490863847
 simulated,severity=3,ds,Target CP (k labelled),7,0.9129428571428572,85.71428571428571,4.691906466708305
 simulated,severity=3,ds,Target CP+ (k labelled),7,0.9229714285714286,100.0,4.685279753239746
-simulated,severity=3,ds,TD-CP signed (pre-registered),7,0.8929,85.71428571428571,4.064066516309685
+simulated,severity=3,ds,TD-CP signed (pre-specified),7,0.8929,85.71428571428571,4.064066516309685
 simulated,severity=3,ds,TD-CP absolute scores,7,0.9036714285714286,85.71428571428571,4.138502991207349
 simulated,severity=3,ds,TD-CP+ (jackknife+),7,0.915,100.0,4.371143383330831
 simulated,severity=3,pds,Gaussian TD (parametric),7,0.9153142857142856,100.0,2.3333876838773677
 simulated,severity=3,pds,Naive CP (primary residuals),7,0.7407285714285715,28.57142857142857,2.884088568510886
 simulated,severity=3,pds,Target CP (k labelled),7,0.9209428571428572,100.0,2.5012823326847085
 simulated,severity=3,pds,Target CP+ (k labelled),7,0.9272714285714285,100.0,2.592899911217597
-simulated,severity=3,pds,TD-CP signed (pre-registered),7,0.9169857142857143,100.0,2.449249890451407
+simulated,severity=3,pds,TD-CP signed (pre-specified),7,0.9169857142857143,100.0,2.449249890451407
 simulated,severity=3,pds,TD-CP absolute scores,7,0.9202857142857143,100.0,2.3444232606580178
 simulated,severity=3,pds,TD-CP+ (jackknife+),7,0.9242,100.0,2.3909350396156794

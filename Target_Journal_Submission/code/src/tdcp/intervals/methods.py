@@ -17,6 +17,7 @@ import math
 import numpy as np
 from scipy import stats
 from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import StratifiedKFold, cross_val_predict
 from sklearn.preprocessing import StandardScaler
 
 
@@ -52,14 +53,17 @@ def weighted_cp(r, feat_cal, feat_test, alpha, seed=0):
     """M3: weighted split conformal under covariate shift (Tibshirani et al., 2019).
 
     Density ratio w(x) = p_test(x)/p_cal(x) estimated with logistic regression
-    on standardised low-dimensional features (PLS scores). The test point gets
+    on standardised low-dimensional features (PLS scores), using 5-fold
+    cross-fitted probabilities. The test point gets
     its own weight and an atom at +inf.
     """
     Z = np.vstack([feat_cal, feat_test])
     lab = np.r_[np.zeros(len(feat_cal)), np.ones(len(feat_test))]
     Zs = StandardScaler().fit_transform(Z)
-    clf = LogisticRegression(max_iter=2000, random_state=seed).fit(Zs, lab)
-    pr = np.clip(clf.predict_proba(Zs)[:, 1], 1e-6, 1 - 1e-6)
+    # 5-fold cross-fitted class probabilities (in-sample probabilities overstate separability)
+    folds = StratifiedKFold(n_splits=5, shuffle=True, random_state=seed)
+    pr = cross_val_predict(LogisticRegression(max_iter=2000), Zs, lab, cv=folds, method="predict_proba")[:, 1]
+    pr = np.clip(pr, 1e-6, 1 - 1e-6)
     odds = pr / (1 - pr) * (len(feat_cal) / len(feat_test))
     w_cal, w_test = odds[: len(feat_cal)], odds[len(feat_cal):]
     s = np.abs(r)
@@ -144,7 +148,7 @@ def _jackplus(centres: np.ndarray, radii: np.ndarray, n_plus_one_k: int, alpha: 
 
 
 def td_cp_plus(r, delta, yhat_loo, yhat, alpha):
-    """TD-CP+ (added after the pre-registered analysis, see S2): jackknife+-style TD-CP.
+    """TD-CP+ (added after the pre-specified analysis, see S2): jackknife+-style TD-CP.
 
     yhat_loo[t, j] = f(T_{-j}(x_t^S)). Radii |r_i + delta_j| are attached to the
     leave-one-out centre of their own map j. Upper bound: ceil((1-alpha)(n+1)k)-th

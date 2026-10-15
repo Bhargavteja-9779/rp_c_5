@@ -38,8 +38,8 @@ def main():
         "for quantifying uncertainty of transferred multivariate calibrations, with a quantifiable analytical benefit "
         "(valid uncertainty statements for method validation and release decisions on secondary instruments).",
         "We have tried to make the evidence easy to scrutinise. The analysis protocol was fixed before the experiments; one "
-        "method variant (TD-CP+) was added after the pre-registered main experiment and is reported as such, together "
-        "with the pre-registered method's shortfall. All code, configuration and result files are openly available, and a single "
+        "method variant (TD-CP+) was added after the pre-specified main experiment and is reported as such, together "
+        "with the pre-specified method's shortfall. All code, configuration and result files are openly available, and a single "
         "command regenerates every number, table and figure. Both datasets are public.",
         "Related work: we cite a concurrent machine-learning preprint (arXiv:2609.10737) that transports conformal "
         "calibration through unlabelled paired data for classification; our construction, target task (regression "

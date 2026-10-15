@@ -1,4 +1,4 @@
-"""Scenario-level aggregation and pre-registered statistical tests.
+"""Scenario-level aggregation and pre-specified statistical tests.
 
 Unit of analysis: a *scenario* = dataset x primary x secondary x property x
 transfer method (x experimental factor). Repetitions within a scenario share
@@ -14,7 +14,7 @@ import pandas as pd
 from scipy.stats import wilcoxon
 
 SCEN_KEYS = ["experiment", "dataset", "primary", "secondary", "prop", "transfer", "k", "selection",
-             "protocol", "preprocess", "model", "noise", "alpha", "method"]
+             "protocol", "preprocess", "model", "noise", "pds_half_window", "alpha", "method"]
 BIG = 1e6  # finite stand-in for +inf in rank-based tests (only ranks are used)
 
 
@@ -22,6 +22,9 @@ def load_raw(results: Path) -> pd.DataFrame:
     files = sorted(set(results.glob("raw_*.csv")) | set(results.glob("raw_*.csv.gz")))
     frames = [pd.read_csv(f) for f in files if f.name != "raw_results.csv.gz"]
     df = pd.concat(frames, ignore_index=True)
+    if "pds_half_window" not in df:
+        df["pds_half_window"] = 2
+    df["pds_half_window"] = df["pds_half_window"].fillna(2).astype(int)
     df["is_norm"] = df["interval_score"] / df["sd_y"]
     df["width_norm"] = df["width"] / df["sd_y"]
     return df
@@ -112,7 +115,7 @@ def analyse(results: Path, cfg: dict, log) -> None:
     comparators = ["naive_cp", "leverage", "weighted_cp", "gauss_td", "td_cp", "td_cp_abs", "td_cp_insample", "td_sum",
                    "target_cp", "target_cp_plus", "pooled_cp"]
     tests = []
-    for ref in ("td_cp_plus", "td_cp"):  # recommended (post hoc, see S2) and pre-registered TD-CP
+    for ref in ("td_cp_plus", "td_cp"):  # recommended (post hoc, see S2) and pre-specified TD-CP
         for metric in ("abs_gap", "is_norm"):
             tests += paired_tests(main, ref, [c for c in comparators if c != ref], metric,
                                   st["bootstrap_resamples"], st["bootstrap_seed"])
@@ -121,7 +124,7 @@ def analyse(results: Path, cfg: dict, log) -> None:
         tdf["p_holm"] = holm(tdf["p_value"].to_numpy())
     tdf.to_csv(results / "statistical_tests.csv", index=False)
 
-    # validity criterion (pre-registered): mean coverage >= 1 - alpha - 0.02 in >= 80% of scenarios
+    # validity criterion (pre-specified): mean coverage >= 1 - alpha - 0.02 in >= 80% of scenarios
     validity = (scen[scen.experiment == "main"].groupby(["alpha", "transfer", "method"])
                 .agg(n=("valid", "size"), frac_valid=("valid", "mean"), mean_cov=("coverage", "mean"),
                      min_cov=("coverage", "min"), median_is_norm=("is_norm", "median"),
@@ -144,6 +147,32 @@ def analyse(results: Path, cfg: dict, log) -> None:
         },
     }
     (results / "metrics.json").write_text(json.dumps(metrics, indent=2))
+
+    # --- added in internal review round 3 -------------------------------------------------
+    focus = ["naive_cp", "leverage", "gauss_td", "td_cp", "td_cp_plus", "target_cp", "target_cp_plus", "naive_cp_primary_test"]
+    sl = df[(df.experiment == "main") & (df.alpha == 0.1) & df.method.isin(focus)]
+    split_level = (sl.groupby(["dataset", "transfer", "method"])
+                   .agg(splits=("coverage", "size"), median_cov=("coverage", "median"),
+                        p10_cov=("coverage", lambda x: x.quantile(0.10)), p05_cov=("coverage", lambda x: x.quantile(0.05)),
+                        frac_below_080=("coverage", lambda x: (x < 0.80).mean()))
+                   .reset_index())
+    split_level.to_csv(results / "split_level_coverage.csv", index=False)
+    tol_rows = []
+    for tol in (0.0, 0.01, 0.02, 0.03):
+        for (tr, m), g in main.groupby(["transfer", "method"]):
+            tol_rows.append(dict(tolerance=tol, transfer=tr, method=m, frac_valid=float((g.gap >= -tol).mean())))
+    pd.DataFrame(tol_rows).to_csv(results / "validity_tolerance.csv", index=False)
+    keys = ["dataset", "primary", "secondary", "prop", "transfer"]
+    wide_gap = main.pivot_table(index=keys, columns="method", values="abs_gap").reset_index()
+    wide_is = main.pivot_table(index=keys, columns="method", values="is_norm").reset_index()
+    strata = []
+    for comp in ["naive_cp", "leverage", "weighted_cp", "gauss_td", "td_cp", "target_cp_plus"]:
+        for (ds, tr), g in wide_gap.groupby(["dataset", "transfer"]):
+            h = wide_is[(wide_is.dataset == ds) & (wide_is.transfer == tr)]
+            strata.append(dict(dataset=ds, transfer=tr, comparator=comp, scenarios=len(g),
+                               frac_smaller_gap=float((g["td_cp_plus"] < g[comp]).mean()),
+                               frac_lower_IS=float((h["td_cp_plus"].replace(np.inf, BIG) < h[comp].replace(np.inf, BIG)).mean())))
+    pd.DataFrame(strata).to_csv(results / "stratum_consistency.csv", index=False)
     statistics = {"tests": tdf.to_dict(orient="records"),
                   "test": "two-sided Wilcoxon signed-rank on scenario means, Holm-adjusted across all listed comparisons",
                   "effect_size": "matched-pairs rank-biserial correlation (negative => reference smaller)",

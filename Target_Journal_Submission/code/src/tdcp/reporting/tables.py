@@ -13,7 +13,7 @@ METHOD_LABELS = {
     "leverage": "Leverage PI (classical)",
     "weighted_cp": "Weighted CP (covariate shift)",
     "gauss_td": "Gaussian TD (parametric)",
-    "td_cp": "TD-CP signed (pre-registered)",
+    "td_cp": "TD-CP signed (pre-specified)",
     "td_cp_abs": "TD-CP absolute scores",
     "td_cp_plus": "TD-CP+ (jackknife+)",
     "target_cp_plus": "Target CP+ (k labelled)",
@@ -60,8 +60,9 @@ def dataset_table(raw_dir: Path, tables: Path) -> None:
     _save(pd.DataFrame(rows), tables / "table1_datasets", "Table 1. Datasets")
 
 
-def _summary(scen: pd.DataFrame, methods: list[str]) -> pd.DataFrame:
+def _summary(scen: pd.DataFrame, methods: list[str], pooled: bool = False) -> pd.DataFrame:
     rows = []
+    scen = scen.assign(dataset="corn + tablets") if pooled else scen
     for (ds, tr), g in scen.groupby(["dataset", "transfer"]):
         for m in methods:
             h = g[g.method == m]
@@ -77,9 +78,11 @@ def _summary(scen: pd.DataFrame, methods: list[str]) -> pd.DataFrame:
 def make_tables(results: Path, tables: Path, log) -> None:
     scen = pd.read_csv(results / "scenario_results.csv")
     main = scen[(scen.experiment == "main") & (scen.alpha == 0.1)]
-    _save(_summary(main, LABEL_FREE_ORDER + LABELLED_ORDER), tables / "table2_main_results",
-          "Table 2. Main results at alpha = 0.10 (scenario means over repetitions)")
-    _save(_summary(main, ABLATION_ORDER), tables / "table4_ablation", "Table 4. Ablation of TD-CP components (alpha = 0.10)")
+    _save(_summary(main, LABEL_FREE_ORDER + LABELLED_ORDER, pooled=True), tables / "table2_main_results",
+          "Table 2. Main results at alpha = 0.10, 30 scenarios per transfer method (scenario means over repetitions)")
+    _save(_summary(main, LABEL_FREE_ORDER + LABELLED_ORDER), tables / "tableS2_main_by_dataset",
+          "Table S2. Main results at alpha = 0.10 by dataset")
+    _save(_summary(main, ABLATION_ORDER, pooled=True), tables / "table4_ablation", "Table 4. Ablation of TD-CP components (alpha = 0.10)")
 
     t = pd.read_csv(results / "statistical_tests.csv")
     if not t.empty:
@@ -98,7 +101,7 @@ def make_tables(results: Path, tables: Path, log) -> None:
     a["nominal"] = 1 - a["alpha"]
     a["method"] = a["method"].map(METHOD_LABELS)
     _save(a[["alpha", "nominal", "transfer", "method", "mean_coverage", "pct_valid", "median_IS_sd"]],
-          tables / "table5_alpha_levels", "Table 5. Coverage at different nominal levels")
+          tables / "tableS3_alpha_levels", "Table S3. Coverage at different nominal levels")
 
     # robustness overview
     rob = scen[(scen.alpha == 0.1) & (scen.experiment != "main") & scen.method.isin(["naive_cp", "gauss_td", "td_cp", "td_cp_abs", "td_cp_plus", "target_cp", "target_cp_plus"])]
@@ -112,6 +115,19 @@ def make_tables(results: Path, tables: Path, log) -> None:
         r["method"] = r["method"].map(METHOD_LABELS)
         r = r.drop(columns="mean_rmsep_ratio")
         _save(r, tables / "table6_robustness", "Table 6. Robustness and generalisation experiments (alpha = 0.10)")
+
+    sl = pd.read_csv(results / "split_level_coverage.csv")
+    sl["method"] = sl["method"].map(METHOD_LABELS)
+    _save(sl, tables / "tableS4_split_level_coverage", "Table S4. Split-level (training-conditional) coverage at alpha = 0.10, main experiment")
+    st = pd.read_csv(results / "stratum_consistency.csv")
+    st["comparator"] = st["comparator"].map(METHOD_LABELS)
+    _save(st, tables / "tableS5_stratum_consistency", "Table S5. Fraction of scenarios in which TD-CP+ beats each comparator, per dataset x transfer stratum")
+    tv = pd.read_csv(results / "validity_tolerance.csv")
+    tv = tv[tv.method.isin(["naive_cp", "gauss_td", "td_cp", "td_cp_abs", "td_cp_plus", "target_cp", "target_cp_plus"])]
+    tv = tv.pivot_table(index=["transfer", "method"], columns="tolerance", values="frac_valid").reset_index()
+    tv.columns = ["transfer", "method"] + [f"valid_tol_{c}" for c in tv.columns[2:]]
+    tv["method"] = tv["method"].map(METHOD_LABELS)
+    _save(tv, tables / "tableS6_validity_tolerance", "Table S6. Fraction of valid scenarios for different tolerances (alpha = 0.10)")
 
     # computational cost (main experiment, per split)
     c = (main.groupby(["dataset", "transfer"]).agg(t_calibration_s=("t_calibration", "mean"), t_transfer_s=("t_transfer", "mean"),
@@ -138,8 +154,14 @@ def _condition(r) -> str:
         return f"severity={r['secondary'][3:]}"
     if e == "preprocessing":
         return r["preprocess"]
+    if e == "pds_window":
+        return f"PDS window {2 * int(r['pds_half_window']) + 1}"
+    if e == "parsimonious_pls":
+        return "PLS, 1-SE rule"
     if e == "ridge_model":
         return "ridge"
+    if e == "biased_standards":
+        return "standards from lower half of y"
     if e == "kennard_stone":
         return "KS selection"
     if e == "official_split":

@@ -27,11 +27,12 @@ class Job:
     seed: int
     k: int = 10
     n_test: int = 25
-    selection: str = "random"  # random | kennard_stone
+    selection: str = "random"  # random | kennard_stone | low_y
     protocol: str = "random"  # random | official
     preprocess: str = "none"
     model: str = "pls"
     noise: float = 0.0
+    pds_half_window: int = 2
     alphas: tuple = (0.1,)
 
 
@@ -59,6 +60,10 @@ def _split(job: Job, data: PairedSpectra, Xp: np.ndarray, valid: np.ndarray, rng
         test, pool = perm[: job.n_test], perm[job.n_test:]
     if job.selection == "kennard_stone":
         tr = pool[kennard_stone(Xp[pool], job.k)]
+    elif job.selection == "low_y":  # unrepresentative standards: only the lower half of the reference range
+        y = data.y[:, job.prop]
+        low = pool[y[pool] <= np.median(y[pool])]
+        tr = rng.choice(low, size=job.k, replace=False)
     else:
         tr = rng.choice(pool, size=job.k, replace=False)
     master = np.setdiff1d(pool, tr)
@@ -67,6 +72,7 @@ def _split(job: Job, data: PairedSpectra, Xp: np.ndarray, valid: np.ndarray, rng
 
 def run_job(job: Job, data: PairedSpectra, cfg: dict, details: bool = False):
     t0 = time.perf_counter()
+    cfg = dict(cfg, pds_half_window=job.pds_half_window)
     rng = np.random.default_rng(job.seed)
     pre = PREPROCESSORS[job.preprocess]
     y_all = data.y[:, job.prop]

@@ -1,0 +1,14 @@
+# Review round 2 — Reviewer #2 (novelty, prior art, differentiation)
+
+**Overall:** Major revision. The empirical message is valuable, but the novelty is narrower than the abstract implies. The manuscript must state precisely what is new.
+
+| # | Severity | Issue | Fix | Status |
+|---|---|---|---|---|
+| 1 | MAJOR | Is TD-CP more than "add a transfer variance to the calibration variance"? The authors' own Gaussian combination (M4) uses the same information and has a slightly lower IS. The conformal machinery may look like decoration. | Acknowledge this, and state what the conformal/jackknife+ construction adds. | **Fixed.** New Section 4.10 states plainly that most of the benefit comes from the discrepancy information, and that TD-CP+'s advantage is validity under DS (Gaussian: 47% of DS scenarios valid) plus a distribution-free statement. A literature search found no published root-sum-of-squares "transfer + calibration" error budget for standardised calibrations. The Gaussian method is therefore presented as our own counterpart, not as prior art. |
+| 2 | MAJOR | "No distribution-free method exists" is too strong given the concurrent TCC preprint (Doula, ICML 2026). | Soften and differentiate. | **Fixed.** Now reads "no distribution-free method has been established for transferred multivariate calibrations". Section 4.10 explains how TD-CP+ differs from TCC (transport of the calibration set vs score-level decomposition; classification/images vs regression/spectra). |
+| 3 | MAJOR | "Pre-registered" implies registration in a public registry. The protocol was only committed to the authors' own git history. | Use accurate wording. | **Fixed.** "Pre-specified (time-stamped in version control)" throughout the manuscript, tables and cover letter. The limitation is stated. |
+| 4 | MODERATE | TD-CP+ is the jackknife+ applied to an augmented residual set. The paper must not imply a new conformal principle. | State explicitly. | **Fixed** (Section 4.10, first sentence). |
+| 5 | MODERATE | Cross-fitting is the key enabling idea, but it is buried in the ablation. | Elevate it in the contribution statement. | Already contribution (i) in the Introduction. Section 4.10 restates it with the DS δ ≡ 0 result. |
+| 6 | MINOR | The abstract's claim about the "common practice of reusing primary-instrument intervals" is unsupported by a citation. | Rephrase as an implicit assumption. | Kept, because Background states that intervals "implicitly assume the transfer is perfect", which follows logically. No survey evidence exists, and none is claimed. |
+
+**Search performed for this round:** Web search "standard error of prediction after calibration transfer … uncertainty propagation". The results (Workman 2018; Anal. Chem. 2003 glucose standardisation; ABC 2024 optimal subsets) report SEP/RMSEP but give no interval construction.

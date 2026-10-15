@@ -1,0 +1,15 @@
+transfer,method,valid_tol_0.0,valid_tol_0.01,valid_tol_0.02,valid_tol_0.03
+ds,Gaussian TD (parametric),0.2666666666666666,0.3,0.4666666666666667,0.6333333333333333
+ds,Naive CP (primary residuals),0.0,0.0,0.0666666666666666,0.0666666666666666
+ds,Target CP (k labelled),0.4333333333333333,0.5333333333333333,0.8,0.9333333333333332
+ds,Target CP+ (k labelled),1.0,1.0,1.0,1.0
+ds,TD-CP signed (pre-specified),0.3,0.4666666666666667,0.6,0.7
+ds,TD-CP absolute scores,0.3666666666666666,0.5333333333333333,0.6666666666666666,0.8666666666666667
+ds,TD-CP+ (jackknife+),0.9666666666666668,1.0,1.0,1.0
+pds,Gaussian TD (parametric),0.4666666666666667,0.7666666666666667,1.0,1.0
+pds,Naive CP (primary residuals),0.0,0.0,0.0,0.0
+pds,Target CP (k labelled),1.0,1.0,1.0,1.0
+pds,Target CP+ (k labelled),1.0,1.0,1.0,1.0
+pds,TD-CP signed (pre-specified),0.3333333333333333,0.6666666666666666,0.7666666666666667,0.9
+pds,TD-CP absolute scores,0.9666666666666668,1.0,1.0,1.0
+pds,TD-CP+ (jackknife+),1.0,1.0,1.0,1.0

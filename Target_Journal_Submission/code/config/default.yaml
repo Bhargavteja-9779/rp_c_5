@@ -29,7 +29,10 @@ main:
 experiments:
   k_sensitivity: {k: [5, 8, 15, 20, 30], transfers: [pds, ds], reps: {quick: 2, full: 50}}
   kennard_stone: {transfers: [pds, ds], reps: {quick: 2, full: 100}}
+  biased_standards: {transfers: [pds, ds], reps: {quick: 2, full: 50}}
   preprocessing: {preprocess: snv_sg1, transfers: [pds, ds], reps: {quick: 2, full: 50}}
+  parsimonious_pls: {model: pls_1se, transfers: [pds, ds], reps: {quick: 2, full: 50}}
+  pds_window: {half_windows: [1, 3, 5], transfers: [pds], reps: {quick: 2, full: 50}}
   ridge_model: {model: ridge, transfers: [pds], reps: {quick: 2, full: 50}}
   noise: {levels: [0.005, 0.01, 0.02], transfers: [pds], reps: {quick: 2, full: 50}}
   no_standardisation: {transfers: [none], reps: {quick: 2, full: 50}}

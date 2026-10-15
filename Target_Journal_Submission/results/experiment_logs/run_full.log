@@ -19,3 +19,39 @@
 2026-10-13 13:01:00,417 tables written to /home/user/rp_c_5/Target_Journal_Submission/tables
 2026-10-13 13:01:23,398 figures written to /home/user/rp_c_5/Target_Journal_Submission/figures
 2026-10-13 13:01:23,399 done
+2026-10-13 13:05:53,568 mode=full hardware={"cpu_count": 4, "platform": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39", "python": "3.13.16", "numpy": "2.5.3", "cuda": false, "mps": false}
+2026-10-13 13:08:19,823 experiment parsimonious_pls     jobs= 3000 rows= 39000 time=145.8s -> raw_parsimonious_pls.csv.gz
+2026-10-13 13:11:52,536 experiment pds_window           jobs= 4500 rows= 58500 time=212.7s -> raw_pds_window.csv.gz
+2026-10-13 13:12:10,276 analysis: 12372 scenario rows, 42 tests
+2026-10-13 13:12:10,941 tables written to /home/user/rp_c_5/Target_Journal_Submission/tables
+2026-10-13 13:12:30,198 figures written to /home/user/rp_c_5/Target_Journal_Submission/figures
+2026-10-13 13:12:30,204 done
+2026-10-13 13:18:29,596 mode=full hardware={"cpu_count": 4, "platform": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39", "python": "3.13.16", "numpy": "2.5.3", "cuda": false, "mps": false}
+2026-10-13 13:18:45,641 analysis: 12372 scenario rows, 42 tests
+2026-10-13 13:18:46,261 tables written to /home/user/rp_c_5/Target_Journal_Submission/tables
+2026-10-13 13:19:08,132 figures written to /home/user/rp_c_5/Target_Journal_Submission/figures
+2026-10-13 13:19:08,133 done
+2026-10-13 13:20:04,281 mode=full hardware={"cpu_count": 4, "platform": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39", "python": "3.13.16", "numpy": "2.5.3", "cuda": false, "mps": false}
+2026-10-13 13:20:20,092 analysis: 12372 scenario rows, 42 tests
+2026-10-13 13:20:20,761 tables written to /home/user/rp_c_5/Target_Journal_Submission/tables
+2026-10-13 13:20:41,987 figures written to /home/user/rp_c_5/Target_Journal_Submission/figures
+2026-10-13 13:20:41,987 done
+2026-10-13 13:23:48,347 mode=full hardware={"cpu_count": 4, "platform": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39", "python": "3.13.16", "numpy": "2.5.3", "cuda": false, "mps": false}
+2026-10-13 13:31:41,914 experiment main                 jobs= 6000 rows=234000 time=473.3s -> raw_main.csv.gz
+2026-10-13 13:48:50,805 experiment k_sensitivity        jobs=15000 rows=195000 time=1028.9s -> raw_k_sensitivity.csv.gz
+2026-10-13 13:54:57,889 experiment kennard_stone        jobs= 6000 rows= 78000 time=367.1s -> raw_kennard_stone.csv.gz
+2026-10-13 13:57:54,078 experiment biased_standards     jobs= 3000 rows= 39000 time=176.2s -> raw_biased_standards.csv.gz
+2026-10-13 14:01:01,060 experiment preprocessing        jobs= 3000 rows= 39000 time=187.0s -> raw_preprocessing.csv.gz
+2026-10-13 14:04:07,299 experiment parsimonious_pls     jobs= 3000 rows= 39000 time=186.2s -> raw_parsimonious_pls.csv.gz
+2026-10-13 14:08:39,797 experiment pds_window           jobs= 4500 rows= 58500 time=272.5s -> raw_pds_window.csv.gz
+2026-10-13 14:14:37,443 experiment ridge_model          jobs= 1500 rows= 18000 time=357.6s -> raw_ridge_model.csv.gz
+2026-10-13 14:18:36,248 experiment noise                jobs= 4500 rows= 58500 time=238.8s -> raw_noise.csv.gz
+2026-10-13 14:19:49,461 experiment no_standardisation   jobs= 1500 rows= 19500 time=73.2s -> raw_no_standardisation.csv.gz
+2026-10-13 17:57:01,992 mode=full hardware={"cpu_count": 4, "platform": "Linux-6.18.44-fc-v114-x86_64-with-glibc2.39", "python": "3.13.16", "numpy": "2.5.3", "cuda": false, "mps": false}
+2026-10-13 17:58:31,346 experiment official_split       jobs= 1200 rows= 15600 time=88.4s -> raw_official_split.csv.gz
+2026-10-13 18:00:25,108 experiment simulated            jobs= 2100 rows= 27300 time=113.8s -> raw_simulated.csv.gz
+2026-10-13 18:00:39,424 analysis: 13152 scenario rows, 42 tests
+2026-10-13 18:00:39,900 tables written to /home/user/rp_c_5/Target_Journal_Submission/tables
+2026-10-13 18:00:55,226 figures written to /home/user/rp_c_5/Target_Journal_Submission/figures
+2026-10-13 18:00:56,713 scaling benchmark written
+2026-10-13 18:00:56,713 done
